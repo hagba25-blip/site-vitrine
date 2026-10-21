@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complexe Scolaire Les Lauriers — Lomé (démo)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #1d3f8f; --blue-dark: #142d68; --gold: #f2b705; --light: #f4f7fc;
+      --text: #24324d; --muted: #66728a; --border: #e1e7f2; --wa: #25d366;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Nunito Sans', sans-serif; color: var(--text); line-height: 1.65; font-size: 17px; }
+    a { color: inherit; text-decoration: none; }
+    h1, h2, h3 { font-family: 'Merriweather', serif; color: var(--blue-dark); line-height: 1.25; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+    /* Bandeau démo */
+    .demo-bar { background: #111; color: #fff; font-size: 14px; text-align: center; padding: 8px 12px; }
+    .demo-bar a { color: var(--gold); font-weight: 700; text-decoration: underline; }
+
+    /* En-tête */
+    header { background: #fff; position: sticky; top: 0; z-index: 50; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+    .head { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+    .brand__logo { width: 44px; height: 44px; border-radius: 50%; background: var(--blue); color: var(--gold); display: grid; place-items: center; font-family: 'Merriweather', serif; font-size: 20px; }
+    .brand small { display: block; font-size: 12px; color: var(--muted); font-weight: 600; }
+    nav { display: flex; gap: 24px; font-weight: 600; }
+    nav a:hover { color: var(--blue); }
+    .menu-btn { display: none; background: none; border: 0; font-size: 28px; cursor: pointer; color: var(--blue); }
+
+    /* Accueil */
+    .hero {
+      background: linear-gradient(rgba(20,45,104,.82), rgba(20,45,104,.82)), url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1600&q=70') center/cover;
+      color: #fff; padding: 110px 0 120px; text-align: center;
+    }
+    .hero h1 { color: #fff; font-size: clamp(32px, 5vw, 54px); margin-bottom: 18px; }
+    .hero p { font-size: 19px; max-width: 640px; margin: 0 auto 32px; opacity: .92; }
+    .badge { display: inline-block; background: var(--gold); color: var(--blue-dark); font-weight: 700; padding: 6px 16px; border-radius: 999px; margin-bottom: 20px; font-size: 14px; }
+    .btn { display: inline-block; padding: 14px 28px; border-radius: 8px; font-weight: 700; cursor: pointer; border: 0; font-family: inherit; font-size: 16px; transition: transform .2s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn--gold { background: var(--gold); color: var(--blue-dark); }
+    .btn--line { border: 2px solid #fff; color: #fff; margin-left: 10px; }
+    .btn--blue { background: var(--blue); color: #fff; width: 100%; }
+
+    /* Chiffres */
+    .stats { background: #fff; margin-top: -60px; position: relative; border-radius: 14px; box-shadow: 0 15px 40px rgba(20,45,104,.12); display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; padding: 30px 10px; }
+    .stats strong { display: block; font-size: 36px; color: var(--blue); font-family: 'Merriweather', serif; }
+    .stats span { color: var(--muted); font-size: 15px; }
+
+    section { padding: 90px 0; }
+    .alt { background: var(--light); }
+    .title { text-align: center; font-size: clamp(26px, 4vw, 38px); margin-bottom: 12px; }
+    .subtitle { text-align: center; color: var(--muted); max-width: 620px; margin: 0 auto 50px; }
+
+    /* Cycles */
+    .cycles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+    .cycle { background: #fff; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); transition: transform .25s; }
+    .cycle:hover { transform: translateY(-5px); }
+    .cycle__top { height: 8px; }
+    .cycle__body { padding: 26px; }
+    .cycle h3 { font-size: 20px; margin-bottom: 4px; }
+    .cycle .age { color: var(--gold); font-weight: 700; font-size: 14px; margin-bottom: 12px; display: block; }
+    .cycle p { color: var(--muted); font-size: 15.5px; }
+
+    /* Pourquoi nous */
+    .why { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+    .why img { border-radius: 16px; width: 100%; height: 420px; object-fit: cover; }
+    .why ul { list-style: none; margin-top: 24px; }
+    .why li { display: flex; gap: 14px; margin-bottom: 20px; }
+    .why li b { display: block; color: var(--blue-dark); }
+    .why .ico { flex: 0 0 46px; height: 46px; border-radius: 12px; background: var(--light); display: grid; place-items: center; font-size: 22px; }
+
+    /* Résultats */
+    .results { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .result { background: var(--blue); color: #fff; border-radius: 14px; padding: 32px; text-align: center; }
+    .result strong { font-size: 52px; font-family: 'Merriweather', serif; color: var(--gold); display: block; }
+    .result span { opacity: .9; }
+
+    /* Actualités */
+    .news { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .news article { background: #fff; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); }
+    .news img { width: 100%; height: 190px; object-fit: cover; }
+    .news div { padding: 22px; }
+    .news time { color: var(--gold); font-weight: 700; font-size: 14px; }
+    .news h3 { font-size: 18px; margin: 6px 0 8px; }
+    .news p { color: var(--muted); font-size: 15.5px; }
+
+    /* Inscription */
+    .inscription { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .infos { background: var(--blue); color: #fff; border-radius: 16px; padding: 36px; }
+    .infos h3 { color: #fff; margin-bottom: 16px; font-size: 24px; }
+    .infos ul { list-style: none; }
+    .infos li { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.15); }
+    .infos .hours { margin-top: 20px; background: rgba(255,255,255,.1); padding: 16px; border-radius: 10px; font-size: 15px; }
+    form { background: #fff; border-radius: 16px; padding: 36px; border: 1px solid var(--border); }
+    form label { display: block; font-weight: 700; font-size: 15px; margin-bottom: 14px; color: var(--blue-dark); }
+    form input, form select, form textarea { display: block; width: 100%; margin-top: 6px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 16px; background: var(--light); }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    .map iframe { width: 100%; height: 360px; border: 0; display: block; }
+
+    footer { background: var(--blue-dark); color: #c9d4ee; padding: 40px 0 24px; }
+    .foot { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 30px; margin-bottom: 24px; }
+    footer h4 { color: #fff; margin-bottom: 10px; }
+    footer li { list-style: none; padding: 3px 0; }
+    .copy { border-top: 1px solid rgba(255,255,255,.12); padding-top: 18px; font-size: 14px; text-align: center; }
+
+    .wa-float { position: fixed; right: 18px; bottom: 18px; width: 58px; height: 58px; border-radius: 50%; background: var(--wa); color: #fff; display: grid; place-items: center; font-size: 28px; box-shadow: 0 8px 22px rgba(37,211,102,.45); z-index: 60; }
+
+    @media (max-width: 900px) {
+      .cycles { grid-template-columns: repeat(2, 1fr); }
+      .news, .results { grid-template-columns: 1fr 1fr; }
+      .why, .inscription { grid-template-columns: 1fr; }
+      .why img { height: 280px; }
+      .foot { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 760px) {
+      .menu-btn { display: block; }
+      nav { position: absolute; top: 72px; left: 0; right: 0; background: #fff; flex-direction: column; gap: 0; padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height .3s, padding .3s; box-shadow: 0 10px 20px rgba(0,0,0,.08); }
+      nav.open { max-height: 400px; padding: 10px 20px 20px; }
+      nav a { padding: 12px 0; border-bottom: 1px solid var(--border); }
+      .stats { grid-template-columns: 1fr 1fr; gap: 20px; }
+      .btn--line { margin: 12px 0 0; }
+    }
+    @media (max-width: 560px) {
+      section { padding: 64px 0; }
+      .cycles, .news, .results, .row { grid-template-columns: 1fr; }
+      .hero { padding: 80px 0 100px; }
+      .hero .btn { display: block; margin: 10px 0 0; }
+      form, .infos { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="demo-bar">🎨 Site de démonstration. <a href="../index.html">Je veux un site comme celui-ci</a></div>
+
+<header>
+  <div class="container head">
+    <a href="#" class="brand">
+      <span class="brand__logo">L</span>
+      <span>Les Lauriers<small>Complexe Scolaire · Lomé</small></span>
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+    <nav id="nav">
+      <a href="#cycles">Nos cycles</a>
+      <a href="#pourquoi">L'école</a>
+      <a href="#resultats">Résultats</a>
+      <a href="#actualites">Actualités</a>
+      <a href="#inscription">Inscription</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <span class="badge">Inscriptions 2026-2027 ouvertes</span>
+    <h1>Former les leaders de demain, avec rigueur et bienveillance</h1>
+    <p>De la maternelle au lycée, le Complexe Scolaire Les Lauriers accompagne chaque élève vers la réussite à Lomé depuis 2008.</p>
+    <a href="#inscription" class="btn btn--gold">Pré-inscrire mon enfant</a>
+    <a href="#cycles" class="btn btn--line">Découvrir l'école</a>
+  </div>
+</section>
+
+<div class="container">
+  <div class="stats">
+    <div><strong data-count="850">0</strong><span>élèves</span></div>
+    <div><strong data-count="48">0</strong><span>enseignants</span></div>
+    <div><strong data-count="18">0</strong><span>ans d'expérience</span></div>
+    <div><strong data-count="96" data-suffix="%">0</strong><span>réussite au BAC</span></div>
+  </div>
+</div>
+
+<section id="cycles">
+  <div class="container">
+    <h2 class="title">Nos cycles d'enseignement</h2>
+    <p class="subtitle">Un parcours complet, avec des effectifs limités pour un suivi personnalisé de chaque élève.</p>
+    <div class="cycles">
+      <div class="cycle"><div class="cycle__top" style="background:#f2b705"></div><div class="cycle__body"><h3>Maternelle</h3><span class="age">3 à 5 ans</span><p>Éveil, jeux éducatifs, lecture et premiers pas en anglais dans un cadre sécurisé.</p></div></div>
+      <div class="cycle"><div class="cycle__top" style="background:#2fa36b"></div><div class="cycle__body"><h3>Primaire</h3><span class="age">CP1 au CM2</span><p>Bases solides en français, mathématiques et sciences. Préparation au CEPD.</p></div></div>
+      <div class="cycle"><div class="cycle__top" style="background:#e35d4a"></div><div class="cycle__body"><h3>Collège</h3><span class="age">6e à 3e</span><p>Méthodes de travail, informatique et soutien scolaire. Préparation au BEPC.</p></div></div>
+      <div class="cycle"><div class="cycle__top" style="background:#1d3f8f"></div><div class="cycle__body"><h3>Lycée</h3><span class="age">2nde à Terminale</span><p>Séries A4, C et D. Cours de renforcement et examens blancs avant le BAC.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="pourquoi">
+  <div class="container why">
+    <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=1000&q=70" alt="Élèves en classe" loading="lazy">
+    <div>
+      <h2>Pourquoi choisir Les Lauriers ?</h2>
+      <ul>
+        <li><span class="ico">👩‍🏫</span><div><b>Des enseignants qualifiés</b>Une équipe expérimentée et formée chaque année.</div></li>
+        <li><span class="ico">💻</span><div><b>Salle informatique</b>Initiation au numérique dès le primaire.</div></li>
+        <li><span class="ico">🚌</span><div><b>Transport scolaire</b>Ramassage dans les quartiers de Lomé.</div></li>
+        <li><span class="ico">🍽️</span><div><b>Cantine</b>Repas équilibrés préparés sur place chaque jour.</div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="resultats">
+  <div class="container">
+    <h2 class="title">Nos résultats aux examens 2026</h2>
+    <p class="subtitle">Des résultats qui reflètent le travail de nos élèves et de nos enseignants.</p>
+    <div class="results">
+      <div class="result"><strong>100%</strong><span>CEPD</span></div>
+      <div class="result"><strong>94%</strong><span>BEPC</span></div>
+      <div class="result"><strong>96%</strong><span>BAC II</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="actualites">
+  <div class="container">
+    <h2 class="title">Actualités</h2>
+    <p class="subtitle">La vie de l'école, nos événements et nos annonces.</p>
+    <div class="news">
+      <article><img src="https://images.unsplash.com/photo-1588072432836-e10032774350?w=800&q=70" alt="" loading="lazy"><div><time>15 octobre 2026</time><h3>Rentrée scolaire réussie</h3><p>Nous souhaitons la bienvenue à nos 120 nouveaux élèves pour cette année scolaire.</p></div></article>
+      <article><img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=70" alt="" loading="lazy"><div><time>2 octobre 2026</time><h3>Club de sciences</h3><p>Le nouveau club de sciences accueille les collégiens chaque mercredi après-midi.</p></div></article>
+      <article><img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=800&q=70" alt="" loading="lazy"><div><time>20 septembre 2026</time><h3>Réunion des parents</h3><p>Rencontre parents-enseignants le samedi 7 novembre à 9 h dans la grande salle.</p></div></article>
+    </div>
+  </div>
+</section>
+
+<section id="inscription">
+  <div class="container inscription">
+    <div class="infos">
+      <h3>Informations pratiques</h3>
+      <ul>
+        <li>📍 Quartier Agoè, Lomé, Togo</li>
+        <li>📞 +228 99 31 50 92</li>
+        <li>✉️ contact@leslauriers.tg</li>
+        <li>📄 Dossier : acte de naissance, 2 photos, bulletins de l'année précédente</li>
+      </ul>
+      <div class="hours"><b>Secrétariat :</b><br>Lundi au vendredi : 7 h 30 – 17 h<br>Samedi : 8 h – 12 h</div>
+    </div>
+    <form id="inscriptionForm">
+      <h3 style="margin-bottom:18px">Pré-inscription en ligne</h3>
+      <div class="row">
+        <label>Nom du parent<input name="parent" required></label>
+        <label>Téléphone<input name="tel" type="tel" required placeholder="+228…"></label>
+      </div>
+      <div class="row">
+        <label>Nom de l'élève<input name="eleve" required></label>
+        <label>Classe demandée
+          <select name="classe">
+            <option>Maternelle</option><option>CP1 – CP2</option><option>CE1 – CE2</option><option>CM1 – CM2</option>
+            <option>6e – 5e</option><option>4e – 3e</option><option>2nde</option><option>1ère</option><option>Terminale</option>
+          </select>
+        </label>
+      </div>
+      <label>Message (facultatif)<textarea name="message" rows="3"></textarea></label>
+      <button class="btn btn--blue" type="submit">Envoyer ma demande sur WhatsApp</button>
+    </form>
+  </div>
+</section>
+
+<div class="map"><iframe src="https://www.google.com/maps?q=Ago%C3%A8%20Lom%C3%A9%20Togo&output=embed" loading="lazy" title="Carte"></iframe></div>
+
+<footer>
+  <div class="container">
+    <div class="foot">
+      <div><h4>Complexe Scolaire Les Lauriers</h4><p>Maternelle, primaire, collège et lycée à Lomé. Une éducation de qualité pour tous.</p></div>
+      <div><h4>Liens</h4><ul><li><a href="#cycles">Nos cycles</a></li><li><a href="#resultats">Résultats</a></li><li><a href="#inscription">Inscription</a></li></ul></div>
+      <div><h4>Contact</h4><ul><li>+228 99 31 50 92</li><li>Agoè, Lomé</li></ul></div>
+    </div>
+    <p class="copy">© 2026 Complexe Scolaire Les Lauriers — Site réalisé par <a href="../index.html"><b>WebPro Lomé</b></a></p>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/22899315092?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20les%20inscriptions." target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+
+<script>
+  const WA = '22899315092';
+
+  // Menu mobile
+  const nav = document.getElementById('nav');
+  document.getElementById('menuBtn').onclick = () => nav.classList.toggle('open');
+  nav.querySelectorAll('a').forEach(a => a.onclick = () => nav.classList.remove('open'));
+
+  // Compteurs animés
+  const counters = document.querySelectorAll('[data-count]');
+  const animate = el => {
+    const end = +el.dataset.count, suffix = el.dataset.suffix || '';
+    let current = 0; const step = Math.max(1, Math.ceil(end / 60));
+    const timer = setInterval(() => {
+      current = Math.min(end, current + step);
+      el.textContent = current + suffix;
+      if (current === end) clearInterval(timer);
+    }, 25);
+  };
+  const obs = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) { animate(e.target); obs.unobserve(e.target); }
+  }));
+  counters.forEach(c => obs.observe(c));
+
+  // Pré-inscription → WhatsApp
+  document.getElementById('inscriptionForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const d = new FormData(e.target);
+    let msg = `📚 *Pré-inscription — Les Lauriers*\n\n`;
+    msg += `Parent : ${d.get('parent')}\nTéléphone : ${d.get('tel')}\n`;
+    msg += `Élève : ${d.get('eleve')}\nClasse : ${d.get('classe')}\n`;
+    if (d.get('message')) msg += `\nMessage : ${d.get('message')}`;
+    window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank');
+  });
+</script>
+</body>
+</html>

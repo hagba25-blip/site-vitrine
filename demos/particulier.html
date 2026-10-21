@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kossi Mensah — Photographe à Lomé (démo)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #0e0e10; --card: #18181c; --line: #2a2a30; --text: #e9e9ee; --muted: #9a9aa6; --accent: #e8b04a; --wa: #25d366; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 17px; line-height: 1.65; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+    h1, h2, h3 { font-family: 'Syne', sans-serif; line-height: 1.1; }
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
+
+    .demo-bar { background: var(--accent); color: #111; font-size: 14px; text-align: center; padding: 8px 12px; font-weight: 500; }
+    .demo-bar a { font-weight: 700; text-decoration: underline; }
+
+    header { position: sticky; top: 0; z-index: 50; background: rgba(14,14,16,.85); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+    .head { display: flex; justify-content: space-between; align-items: center; height: 68px; }
+    .logo { font-family: 'Syne'; font-weight: 800; font-size: 22px; }
+    .logo span { color: var(--accent); }
+    .head nav { display: flex; gap: 26px; color: var(--muted); font-weight: 500; }
+    .head nav a:hover { color: var(--text); }
+
+    .hero { padding: 90px 0 70px; }
+    .hero__in { display: grid; grid-template-columns: 1.2fr .8fr; gap: 50px; align-items: center; }
+    .hello { color: var(--accent); font-weight: 600; margin-bottom: 14px; }
+    .hero h1 { font-size: clamp(42px, 7vw, 84px); margin-bottom: 22px; }
+    .hero h1 em { font-style: normal; color: transparent; -webkit-text-stroke: 1.5px var(--text); }
+    .hero p { color: var(--muted); max-width: 520px; margin-bottom: 30px; font-size: 18px; }
+    .portrait { position: relative; }
+    .portrait img { width: 100%; height: 480px; object-fit: cover; border-radius: 20px; filter: grayscale(20%); }
+    .portrait__badge { position: absolute; left: -20px; bottom: 30px; background: var(--accent); color: #111; padding: 16px 20px; border-radius: 14px; font-weight: 700; }
+    .portrait__badge strong { font-family: 'Syne'; font-size: 30px; display: block; line-height: 1; }
+    .btn { display: inline-block; padding: 14px 28px; border-radius: 999px; font-weight: 600; border: 0; font-size: 16px; transition: transform .2s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn--accent { background: var(--accent); color: #111; }
+    .btn--line { border: 1px solid var(--line); color: var(--text); margin-left: 10px; }
+
+    section { padding: 90px 0; }
+    .label { color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; font-size: 13px; margin-bottom: 10px; display: block; }
+    .title { font-size: clamp(32px, 5vw, 52px); margin-bottom: 40px; }
+
+    .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
+    .filters button { background: transparent; border: 1px solid var(--line); color: var(--muted); padding: 8px 18px; border-radius: 999px; font-weight: 500; }
+    .filters button.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+    .gallery { columns: 3 280px; column-gap: 14px; }
+    .gallery figure { break-inside: avoid; margin-bottom: 14px; border-radius: 14px; overflow: hidden; cursor: zoom-in; position: relative; }
+    .gallery img { width: 100%; display: block; transition: transform .5s; }
+    .gallery figure:hover img { transform: scale(1.05); }
+    .gallery figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 30px 16px 12px; background: linear-gradient(transparent, rgba(0,0,0,.75)); font-size: 14px; opacity: 0; transition: opacity .3s; }
+    .gallery figure:hover figcaption { opacity: 1; }
+
+    .services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .service { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 32px; transition: border-color .3s; }
+    .service:hover { border-color: var(--accent); }
+    .service .num { font-family: 'Syne'; color: var(--accent); font-size: 14px; }
+    .service h3 { font-size: 24px; margin: 10px 0; }
+    .service p { color: var(--muted); font-size: 16px; margin-bottom: 18px; }
+    .service .price { font-weight: 600; }
+    .service .price b { color: var(--accent); font-size: 22px; }
+
+    .quote { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: center; }
+    .quote blockquote { font-family: 'Syne'; font-size: clamp(22px, 3.2vw, 34px); max-width: 820px; margin: 0 auto 18px; line-height: 1.35; }
+    .quote cite { color: var(--muted); font-style: normal; }
+
+    .contact { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+    .contact p { color: var(--muted); margin-bottom: 24px; }
+    .links a { display: flex; justify-content: space-between; padding: 18px 0; border-bottom: 1px solid var(--line); font-size: 18px; transition: color .2s, padding .2s; }
+    .links a:hover { color: var(--accent); padding-left: 8px; }
+    form { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 32px; }
+    form label { display: block; font-size: 14px; color: var(--muted); margin-bottom: 14px; font-weight: 500; }
+    form input, form select, form textarea { display: block; width: 100%; margin-top: 6px; padding: 13px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; color: var(--text); font-family: inherit; font-size: 16px; }
+    form input:focus, form select:focus, form textarea:focus { outline: none; border-color: var(--accent); }
+    form .btn { width: 100%; background: var(--wa); color: #fff; }
+
+    footer { text-align: center; padding: 30px 20px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); }
+    footer a { color: var(--text); font-weight: 600; }
+
+    /* Visionneuse d'images */
+    .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,.94); display: none; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
+    .lightbox.show { display: flex; }
+    .lightbox img { max-width: 100%; max-height: 85vh; border-radius: 10px; }
+    .lb-btn { position: absolute; background: rgba(255,255,255,.1); border: 0; color: #fff; width: 50px; height: 50px; border-radius: 50%; font-size: 24px; }
+    .lb-close { top: 20px; right: 20px; }
+    .lb-prev { left: 20px; top: 50%; transform: translateY(-50%); }
+    .lb-next { right: 20px; top: 50%; transform: translateY(-50%); }
+
+    @media (max-width: 860px) {
+      .hero__in, .contact { grid-template-columns: 1fr; }
+      .portrait img { height: 380px; }
+      .portrait__badge { left: 16px; }
+      .services { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 620px) {
+      .head nav { display: none; }
+      .hero { padding: 50px 0; }
+      .btn--line { margin: 12px 0 0; }
+      section { padding: 64px 0; }
+      form { padding: 22px; }
+      .lb-prev, .lb-next { top: auto; bottom: 24px; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="demo-bar">🎨 Site de démonstration. <a href="../index.html">Je veux mon site personnel</a></div>
+
+<header>
+  <div class="container head">
+    <a href="#" class="logo">KOSSI<span>.</span>MENSAH</a>
+    <nav><a href="#travaux">Travaux</a><a href="#services">Services</a><a href="#contact">Contact</a></nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero__in">
+    <div>
+      <p class="hello">👋 Bonjour, je suis Kossi</p>
+      <h1>Photographe <em>à Lomé</em></h1>
+      <p>Je capture vos moments importants : mariages, portraits, événements d'entreprise et photos de produits pour les commerçants.</p>
+      <a href="#contact" class="btn btn--accent">Réserver une séance</a>
+      <a href="#travaux" class="btn btn--line">Voir mes photos</a>
+    </div>
+    <div class="portrait">
+      <img src="https://images.unsplash.com/photo-1531384441138-2736e62e0919?w=800&q=70" alt="Portrait de Kossi">
+      <div class="portrait__badge"><strong>7 ans</strong>d'expérience</div>
+    </div>
+  </div>
+</section>
+
+<section id="travaux">
+  <div class="container">
+    <span class="label">Portfolio</span>
+    <h2 class="title">Quelques travaux récents</h2>
+    <div class="filters" id="filters">
+      <button class="active" data-cat="all">Tout</button>
+      <button data-cat="mariage">Mariages</button>
+      <button data-cat="portrait">Portraits</button>
+      <button data-cat="evenement">Événements</button>
+      <button data-cat="produit">Produits</button>
+    </div>
+    <div class="gallery" id="gallery"></div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="container">
+    <span class="label">Services</span>
+    <h2 class="title">Ce que je propose</h2>
+    <div class="services">
+      <div class="service"><span class="num">01</span><h3>Mariages</h3><p>Couverture complète de la dot, de la mairie, de l'église et de la réception. Album photo inclus.</p><p class="price">à partir de <b>150 000 F</b></p></div>
+      <div class="service"><span class="num">02</span><h3>Portraits</h3><p>Photos professionnelles pour CV, LinkedIn, anniversaires ou séances en famille. En studio ou en extérieur.</p><p class="price">à partir de <b>15 000 F</b></p></div>
+      <div class="service"><span class="num">03</span><h3>Produits</h3><p>Photos de vos articles pour votre boutique, vos réseaux sociaux ou votre catalogue WhatsApp.</p><p class="price">à partir de <b>2 000 F</b> / photo</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="quote">
+  <div class="container">
+    <blockquote>« Une photo, c'est un souvenir qu'on garde toute une vie. Mon travail, c'est de le rendre beau. »</blockquote>
+    <cite>— Kossi Mensah</cite>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container contact">
+    <div>
+      <span class="label">Contact</span>
+      <h2 class="title" style="margin-bottom:16px">Travaillons ensemble</h2>
+      <p>Disponible à Lomé et dans tout le Togo. Écrivez-moi pour connaître mes disponibilités.</p>
+      <div class="links">
+        <a href="https://wa.me/22899315092" target="_blank" rel="noopener">WhatsApp <span>+228 99 31 50 92 ↗</span></a>
+        <a href="tel:+22899315092">Téléphone <span>Appeler ↗</span></a>
+        <a href="#">Instagram <span>@kossi.photo ↗</span></a>
+        <a href="#">Facebook <span>Kossi Mensah Photo ↗</span></a>
+      </div>
+    </div>
+    <form id="contactForm">
+      <label>Votre nom<input name="nom" required></label>
+      <label>Type de prestation
+        <select name="type"><option>Mariage</option><option>Portrait</option><option>Événement</option><option>Photos de produits</option><option>Autre</option></select>
+      </label>
+      <label>Date souhaitée<input name="date" type="date"></label>
+      <label>Votre message<textarea name="message" rows="3"></textarea></label>
+      <button class="btn" type="submit">Envoyer sur WhatsApp</button>
+    </form>
+  </div>
+</section>
+
+<footer>© 2026 Kossi Mensah Photographie — Site réalisé par <a href="../index.html">WebPro Lomé</a></footer>
+
+<div class="lightbox" id="lightbox">
+  <button class="lb-btn lb-close" id="lbClose" aria-label="Fermer">×</button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="Précédente">‹</button>
+  <img id="lbImg" alt="">
+  <button class="lb-btn lb-next" id="lbNext" aria-label="Suivante">›</button>
+</div>
+
+<script>
+  const WA = '22899315092';
+
+  // ===== Photos : remplacez par vos propres images =====
+  const PHOTOS = [
+    { src: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=900&q=70', cat: 'mariage',   t: 'Mariage à Lomé' },
+    { src: 'https://images.unsplash.com/photo-1507152832244-10d45c7eda57?w=900&q=70', cat: 'portrait',  t: 'Portrait en extérieur' },
+    { src: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=900&q=70', cat: 'evenement', t: 'Soirée d\'entreprise' },
+    { src: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=900&q=70', cat: 'produit',   t: 'Photo de produit' },
+    { src: 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=900&q=70', cat: 'mariage',   t: 'Cérémonie' },
+    { src: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=900&q=70', cat: 'portrait',  t: 'Portrait studio' },
+    { src: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=900&q=70', cat: 'evenement', t: 'Concert' },
+    { src: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&q=70', cat: 'produit',   t: 'Chaussures' },
+    { src: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=900&q=70', cat: 'mariage',   t: 'Réception' },
+  ];
+
+  let visible = PHOTOS, current = 0;
+  const gallery = document.getElementById('gallery');
+
+  function renderGallery(cat) {
+    visible = cat === 'all' ? PHOTOS : PHOTOS.filter(p => p.cat === cat);
+    gallery.innerHTML = visible.map((p, i) => `
+      <figure data-i="${i}"><img src="${p.src}" alt="${p.t}" loading="lazy"><figcaption>${p.t}</figcaption></figure>`).join('');
+  }
+  document.getElementById('filters').addEventListener('click', e => {
+    if (e.target.tagName !== 'BUTTON') return;
+    document.querySelectorAll('#filters button').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    renderGallery(e.target.dataset.cat);
+  });
+  renderGallery('all');
+
+  // Visionneuse
+  const lb = document.getElementById('lightbox'), lbImg = document.getElementById('lbImg');
+  const show = i => { current = (i + visible.length) % visible.length; lbImg.src = visible[current].src; lbImg.alt = visible[current].t; };
+  gallery.addEventListener('click', e => {
+    const fig = e.target.closest('figure'); if (!fig) return;
+    show(+fig.dataset.i); lb.classList.add('show');
+  });
+  document.getElementById('lbClose').onclick = () => lb.classList.remove('show');
+  document.getElementById('lbPrev').onclick = e => { e.stopPropagation(); show(current - 1); };
+  document.getElementById('lbNext').onclick = e => { e.stopPropagation(); show(current + 1); };
+  lb.onclick = e => { if (e.target === lb) lb.classList.remove('show'); };
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('show')) return;
+    if (e.key === 'Escape') lb.classList.remove('show');
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+
+  // Contact → WhatsApp
+  document.getElementById('contactForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const d = new FormData(e.target);
+    let msg = `📸 *Demande de prestation*\n\nNom : ${d.get('nom')}\nPrestation : ${d.get('type')}`;
+    if (d.get('date')) msg += `\nDate : ${new Date(d.get('date') + 'T00:00').toLocaleDateString('fr-FR')}`;
+    if (d.get('message')) msg += `\n\n${d.get('message')}`;
+    window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank');
+  });
+</script>
+</body>
+</html>

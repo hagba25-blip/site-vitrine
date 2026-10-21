@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chez Mama Afi — Restaurant togolais à Lomé (démo)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #c8412b; --red-dark: #9f2f1c; --sand: #fbf3e6; --brown: #2e1d14;
+      --text: #3b2a20; --muted: #85715f; --border: #ecdcc6; --green: #2e8b57; --wa: #25d366;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--sand); font-size: 17px; line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+    h1, h2, h3 { font-family: 'Fraunces', serif; color: var(--brown); line-height: 1.15; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+    .demo-bar { background: #111; color: #fff; font-size: 14px; text-align: center; padding: 8px 12px; }
+    .demo-bar a { color: #ffc27a; font-weight: 700; text-decoration: underline; }
+
+    header { position: absolute; left: 0; right: 0; z-index: 20; }
+    .head { display: flex; justify-content: space-between; align-items: center; height: 80px; color: #fff; }
+    .logo { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 800; }
+    .head nav { display: flex; gap: 26px; font-weight: 500; }
+    .head nav a:hover { color: #ffc27a; }
+
+    .hero {
+      min-height: 92vh; display: flex; align-items: center; color: #fff; text-align: center;
+      background: linear-gradient(rgba(30,15,8,.62), rgba(30,15,8,.72)), url('https://images.unsplash.com/photo-1544025162-d76694265947?w=1600&q=70') center/cover;
+    }
+    .hero h1 { color: #fff; font-size: clamp(40px, 7vw, 76px); margin-bottom: 16px; }
+    .hero p { font-size: 20px; max-width: 600px; margin: 0 auto 30px; opacity: .92; }
+    .status { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,.15); backdrop-filter: blur(6px); padding: 8px 18px; border-radius: 999px; font-weight: 600; margin-bottom: 22px; font-size: 15px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #aaa; }
+    .dot.open { background: #3ee07a; box-shadow: 0 0 0 4px rgba(62,224,122,.25); }
+    .dot.closed { background: #ff6b5a; }
+    .btn { display: inline-block; padding: 15px 30px; border-radius: 999px; font-weight: 700; border: 0; font-size: 16px; transition: transform .2s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn--red { background: var(--red); color: #fff; }
+    .btn--white { background: #fff; color: var(--brown); margin-left: 10px; }
+
+    section { padding: 90px 0; }
+    .title { text-align: center; font-size: clamp(30px, 4.5vw, 46px); margin-bottom: 10px; }
+    .sub { text-align: center; color: var(--muted); max-width: 600px; margin: 0 auto 40px; }
+
+    .story { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+    .story img { width: 100%; height: 440px; object-fit: cover; border-radius: 20px; }
+    .story h2 { font-size: 40px; margin-bottom: 16px; }
+    .story p { color: var(--muted); margin-bottom: 14px; }
+    .sign { font-family: 'Fraunces', serif; font-size: 22px; color: var(--red); }
+
+    .menu-section { background: #fff; }
+    .tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; }
+    .tabs button { border: 2px solid var(--border); background: #fff; padding: 10px 22px; border-radius: 999px; font-weight: 700; color: var(--text); }
+    .tabs button.active { background: var(--red); border-color: var(--red); color: #fff; }
+    .menu { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 50px; }
+    .dish { display: flex; gap: 16px; align-items: center; padding: 12px 0; border-bottom: 1px dashed var(--border); }
+    .dish img { width: 76px; height: 76px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+    .dish__info { flex: 1; }
+    .dish__top { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+    .dish h3 { font-size: 20px; }
+    .dish .price { color: var(--red); font-weight: 700; white-space: nowrap; }
+    .dish p { color: var(--muted); font-size: 15px; }
+    .spicy { font-size: 12px; background: #fde4dc; color: var(--red-dark); padding: 2px 8px; border-radius: 999px; margin-left: 6px; font-family: 'DM Sans'; font-weight: 700; vertical-align: middle; }
+
+    .gallery { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 200px; gap: 12px; }
+    .gallery img { width: 100%; height: 100%; object-fit: cover; border-radius: 14px; }
+    .gallery img:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+
+    .booking { background: var(--brown); color: #f0e2d2; }
+    .booking__in { display: grid; grid-template-columns: 1fr 1.1fr; gap: 50px; }
+    .booking h2 { color: #fff; font-size: 40px; margin-bottom: 14px; }
+    .hours { margin-top: 26px; }
+    .hours div { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.12); }
+    .hours .today { color: #ffc27a; font-weight: 700; }
+    form { background: #fff; color: var(--text); border-radius: 20px; padding: 34px; }
+    form h3 { margin-bottom: 18px; font-size: 26px; }
+    form label { display: block; font-weight: 700; font-size: 15px; margin-bottom: 14px; }
+    form input, form select, form textarea { width: 100%; margin-top: 6px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 16px; background: var(--sand); display: block; }
+    .row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    form .btn { width: 100%; background: var(--wa); color: #fff; }
+
+    .map iframe { width: 100%; height: 340px; border: 0; display: block; }
+    footer { background: #1b110b; color: #b9a592; text-align: center; padding: 26px 20px; font-size: 14px; }
+    footer a { color: #fff; font-weight: 700; }
+
+    .wa-float { position: fixed; right: 18px; bottom: 18px; background: var(--wa); color: #fff; padding: 14px 20px; border-radius: 999px; font-weight: 700; box-shadow: 0 8px 22px rgba(37,211,102,.45); z-index: 60; }
+
+    @media (max-width: 860px) {
+      .story, .booking__in, .menu { grid-template-columns: 1fr; }
+      .story img { height: 300px; }
+      .gallery { grid-template-columns: 1fr 1fr; grid-auto-rows: 150px; }
+    }
+    @media (max-width: 680px) {
+      .head nav { display: none; }
+      .btn--white { margin: 12px 0 0; }
+      .hero .btn { display: block; max-width: 300px; margin-left: auto; margin-right: auto; }
+      section { padding: 64px 0; }
+      .row { grid-template-columns: 1fr; gap: 0; }
+      form { padding: 24px; }
+      .dish img { width: 62px; height: 62px; }
+      .dish h3 { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="demo-bar">🎨 Site de démonstration. <a href="../index.html">Je veux un site comme celui-ci</a></div>
+
+<header>
+  <div class="container head">
+    <a href="#" class="logo">Chez Mama Afi</a>
+    <nav><a href="#histoire">Notre histoire</a><a href="#menu">Menu</a><a href="#galerie">Galerie</a><a href="#reserver">Réserver</a></nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="status"><span class="dot" id="statusDot"></span><span id="statusText">…</span></div>
+    <h1>Le vrai goût du Togo</h1>
+    <p>Cuisine togolaise faite maison, préparée chaque jour avec des produits frais du marché de Lomé.</p>
+    <a href="#menu" class="btn btn--red">Voir le menu</a>
+    <a href="#reserver" class="btn btn--white">Réserver une table</a>
+  </div>
+</section>
+
+<section id="histoire">
+  <div class="container story">
+    <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=1000&q=70" alt="Cuisine du restaurant" loading="lazy">
+    <div>
+      <h2>Une cuisine de famille depuis 1998</h2>
+      <p>Tout a commencé avec un petit maquis à Bè. Les recettes de Mama Afi ont rapidement attiré les habitués de tout le quartier.</p>
+      <p>Aujourd'hui, nous vous accueillons dans un cadre chaleureux, mais la recette reste la même : des plats généreux, cuisinés comme à la maison.</p>
+      <p class="sign">— Mama Afi</p>
+    </div>
+  </div>
+</section>
+
+<section class="menu-section" id="menu">
+  <div class="container">
+    <h2 class="title">Notre menu</h2>
+    <p class="sub">Tous nos plats sont disponibles sur place, à emporter ou en livraison à Lomé.</p>
+    <div class="tabs" id="tabs">
+      <button class="active" data-cat="plats">Plats</button>
+      <button data-cat="grillades">Grillades</button>
+      <button data-cat="boissons">Boissons</button>
+      <button data-cat="desserts">Desserts</button>
+    </div>
+    <div class="menu" id="menuList"></div>
+  </div>
+</section>
+
+<section id="galerie">
+  <div class="container">
+    <h2 class="title">Galerie</h2>
+    <p class="sub">Un aperçu de nos plats et de notre salle.</p>
+    <div class="gallery">
+      <img src="https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?w=1000&q=70" alt="" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&q=70" alt="" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=70" alt="" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600&q=70" alt="" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=70" alt="" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<section class="booking" id="reserver">
+  <div class="container booking__in">
+    <div>
+      <h2>Réservez votre table</h2>
+      <p>Pour un déjeuner, un anniversaire ou un repas de famille, réservez en quelques secondes. Nous confirmons par WhatsApp.</p>
+      <div class="hours" id="hours"></div>
+      <p style="margin-top:20px">📍 Quartier Bè, Lomé · 📞 +228 99 31 50 92</p>
+    </div>
+    <form id="bookingForm">
+      <h3>Réservation</h3>
+      <label>Votre nom<input name="nom" required></label>
+      <div class="row">
+        <label>Date<input name="date" type="date" required id="dateInput"></label>
+        <label>Heure<input name="heure" type="time" required value="12:30"></label>
+        <label>Personnes
+          <select name="personnes"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7 ou plus</option></select>
+        </label>
+      </div>
+      <label>Demande particulière<textarea name="note" rows="2" placeholder="Anniversaire, chaise bébé…"></textarea></label>
+      <button class="btn" type="submit">Réserver sur WhatsApp</button>
+    </form>
+  </div>
+</section>
+
+<div class="map"><iframe src="https://www.google.com/maps?q=B%C3%A8%20Lom%C3%A9%20Togo&output=embed" loading="lazy" title="Carte"></iframe></div>
+<footer>© 2026 Chez Mama Afi — Site réalisé par <a href="../index.html">WebPro Lomé</a></footer>
+
+<a class="wa-float" href="https://wa.me/22899315092?text=Bonjour%20Mama%20Afi%2C%20je%20voudrais%20commander." target="_blank" rel="noopener">💬 Commander</a>
+
+<script>
+  const WA = '22899315092';
+
+  // ===== Menu : modifiez ici les plats et les prix =====
+  const MENU = {
+    plats: [
+      { n: 'Fufu sauce arachide', d: 'Igname pilée, sauce arachide au poulet ou au poisson.', p: 2500, img: 'https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?w=300&q=70' },
+      { n: 'Akoumé sauce gombo', d: 'Pâte de maïs, sauce gombo aux crabes et poisson fumé.', p: 2000, img: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300&q=70' },
+      { n: 'Ayimolou', d: 'Riz et haricots, sauce tomate pimentée, œuf et gari.', p: 1500, img: 'https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?w=300&q=70', spicy: true },
+      { n: 'Gboma dessi', d: 'Sauce aux épinards africains, viande de bœuf, accompagnement au choix.', p: 2500, img: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=300&q=70' },
+      { n: 'Riz au gras', d: 'Riz cuisiné à la tomate, légumes et poulet.', p: 2000, img: 'https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=300&q=70' },
+      { n: 'Ablo et poisson frit', d: 'Petits pains de maïs vapeur, poisson frit et piment.', p: 3000, img: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=300&q=70', spicy: true },
+    ],
+    grillades: [
+      { n: 'Poulet bicyclette braisé', d: 'Poulet local grillé, alloco et piment frais.', p: 5000, img: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=300&q=70', spicy: true },
+      { n: 'Poisson braisé (carpe)', d: 'Carpe entière grillée, attiéké ou frites.', p: 4500, img: 'https://images.unsplash.com/photo-1580959375944-abd7e991f971?w=300&q=70' },
+      { n: 'Brochettes de bœuf', d: '5 brochettes marinées aux épices, oignons.', p: 2500, img: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=300&q=70' },
+      { n: 'Côtelettes d\'agneau', d: 'Côtelettes grillées, sauce maison.', p: 6000, img: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=300&q=70' },
+    ],
+    boissons: [
+      { n: 'Bissap maison', d: 'Jus de fleurs d\'hibiscus, menthe et gingembre.', p: 500, img: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=300&q=70' },
+      { n: 'Jus de gingembre', d: 'Frais et bien relevé.', p: 500, img: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=300&q=70' },
+      { n: 'Tchoukoutou', d: 'Bière de mil traditionnelle.', p: 700, img: 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=300&q=70' },
+      { n: 'Eau minérale', d: 'Bouteille 1,5 L.', p: 500, img: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=300&q=70' },
+    ],
+    desserts: [
+      { n: 'Salade de fruits frais', d: 'Ananas, mangue, papaye selon la saison.', p: 1000, img: 'https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?w=300&q=70' },
+      { n: 'Beignets sucrés', d: 'Beignets de farine maison, sucre glace.', p: 500, img: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=300&q=70' },
+      { n: 'Dêguê', d: 'Mil au yaourt sucré, bien frais.', p: 800, img: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=300&q=70' },
+    ],
+  };
+
+  const fcfa = n => n.toLocaleString('fr-FR').replace(/ | /g, ' ') + ' F';
+
+  function renderMenu(cat) {
+    document.getElementById('menuList').innerHTML = MENU[cat].map(m => `
+      <div class="dish">
+        <img src="${m.img}" alt="${m.n}" loading="lazy">
+        <div class="dish__info">
+          <div class="dish__top"><h3>${m.n}${m.spicy ? '<span class="spicy">🌶️ pimenté</span>' : ''}</h3><span class="price">${fcfa(m.p)}</span></div>
+          <p>${m.d}</p>
+        </div>
+      </div>`).join('');
+  }
+  document.getElementById('tabs').addEventListener('click', e => {
+    if (e.target.tagName !== 'BUTTON') return;
+    document.querySelectorAll('#tabs button').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    renderMenu(e.target.dataset.cat);
+  });
+  renderMenu('plats');
+
+  // ===== Horaires : [ouverture, fermeture] en heures, null = fermé =====
+  const DAYS = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+  const HOURS = [[12, 22], null, [11, 22], [11, 22], [11, 22], [11, 23], [11, 23]];
+
+  const now = new Date(), today = now.getDay(), h = now.getHours() + now.getMinutes() / 60;
+  const fmt = x => `${Math.floor(x)} h${x % 1 ? '30' : ''}`;
+
+  // Tableau des horaires (on commence par lundi)
+  document.getElementById('hours').innerHTML = [1, 2, 3, 4, 5, 6, 0].map(i =>
+    `<div class="${i === today ? 'today' : ''}"><span>${DAYS[i]}${i === today ? " (aujourd'hui)" : ''}</span><span>${HOURS[i] ? fmt(HOURS[i][0]) + ' – ' + fmt(HOURS[i][1]) : 'Fermé'}</span></div>`
+  ).join('');
+
+  // Indicateur ouvert / fermé
+  const slot = HOURS[today];
+  const isOpen = slot && h >= slot[0] && h < slot[1];
+  document.getElementById('statusDot').classList.add(isOpen ? 'open' : 'closed');
+  document.getElementById('statusText').textContent = isOpen
+    ? `Ouvert maintenant · jusqu'à ${fmt(slot[1])}`
+    : 'Fermé pour le moment';
+
+  // Date minimale = aujourd'hui
+  const dateInput = document.getElementById('dateInput');
+  dateInput.min = now.toISOString().split('T')[0];
+  dateInput.value = dateInput.min;
+
+  // Réservation → WhatsApp
+  document.getElementById('bookingForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const d = new FormData(e.target);
+    const date = new Date(d.get('date') + 'T00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+    let msg = `🍽️ *Réservation — Chez Mama Afi*\n\nNom : ${d.get('nom')}\nDate : ${date}\nHeure : ${d.get('heure')}\nPersonnes : ${d.get('personnes')}`;
+    if (d.get('note')) msg += `\nNote : ${d.get('note')}`;
+    window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank');
+  });
+</script>
+</body>
+</html>

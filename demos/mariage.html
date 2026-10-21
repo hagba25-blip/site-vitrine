@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Esi &amp; Komla — Invitation de mariage (démo)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --gold: #b8913f; --gold-light: #e9d7a8; --ivory: #fbf8f1; --green: #2f4a3a; --text: #3c3a33; --muted: #857f70; --border: #e8dfcb; --wa: #25d366; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Cormorant Garamond', serif; background: var(--ivory); color: var(--text); font-size: 20px; line-height: 1.6; }
+    body.locked { overflow: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+    .script { font-family: 'Great Vibes', cursive; font-weight: 400; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+
+    .demo-bar { background: #111; color: #fff; font-family: system-ui, sans-serif; font-size: 14px; text-align: center; padding: 8px 12px; position: relative; z-index: 300; }
+    .demo-bar a { color: var(--gold-light); font-weight: 700; text-decoration: underline; }
+
+    /* Écran d'ouverture */
+    .intro { position: fixed; inset: 0; z-index: 200; background: var(--green); color: var(--ivory); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 30px; transition: opacity .8s, visibility .8s; }
+    .intro.hide { opacity: 0; visibility: hidden; }
+    .intro .seal { width: 110px; height: 110px; border-radius: 50%; background: var(--gold); display: grid; place-items: center; font-size: 42px; color: #fff; margin-bottom: 26px; box-shadow: 0 0 0 8px rgba(184,145,63,.25); animation: beat 2s infinite; }
+    .intro .script { font-size: 54px; color: var(--gold-light); }
+    .intro p { margin: 8px 0 28px; font-size: 22px; }
+    .intro .guest { font-size: 26px; font-weight: 600; color: #fff; }
+    @keyframes beat { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+
+    .btn { display: inline-block; padding: 14px 34px; border-radius: 999px; font-size: 18px; font-weight: 600; letter-spacing: 1px; border: 1px solid var(--gold); transition: .25s; }
+    .btn--gold { background: var(--gold); color: #fff; }
+    .btn--gold:hover { background: #9e7a2f; }
+    .btn--line { color: var(--gold); background: transparent; }
+    .btn--line:hover { background: var(--gold); color: #fff; }
+
+    /* Accueil */
+    .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; color: #fff; padding: 60px 20px;
+      background: linear-gradient(rgba(20,30,24,.45), rgba(20,30,24,.65)), url('https://images.unsplash.com/photo-1606800052052-a08af7148866?w=1600&q=70') center/cover; }
+    .hero small { letter-spacing: 6px; text-transform: uppercase; font-size: 15px; }
+    .hero h1 { font-size: clamp(64px, 13vw, 130px); line-height: 1; margin: 14px 0; color: #fff; }
+    .hero .date { font-size: 24px; letter-spacing: 3px; border-top: 1px solid rgba(255,255,255,.5); border-bottom: 1px solid rgba(255,255,255,.5); display: inline-block; padding: 8px 24px; margin-bottom: 36px; }
+
+    .countdown { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .countdown div { background: rgba(255,255,255,.12); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,.25); border-radius: 12px; width: 92px; padding: 14px 6px; }
+    .countdown strong { display: block; font-size: 38px; line-height: 1; font-weight: 600; }
+    .countdown span { font-size: 15px; text-transform: uppercase; letter-spacing: 2px; }
+
+    section { padding: 90px 0; text-align: center; }
+    .ornament { color: var(--gold); font-size: 26px; letter-spacing: 10px; margin-bottom: 8px; }
+    .title { font-size: clamp(48px, 8vw, 70px); color: var(--green); line-height: 1.1; margin-bottom: 18px; }
+    .lead { max-width: 640px; margin: 0 auto 40px; color: var(--muted); font-size: 21px; }
+
+    .couple { display: grid; grid-template-columns: 1fr auto 1fr; gap: 30px; align-items: center; }
+    .person img { width: 220px; height: 220px; border-radius: 50%; object-fit: cover; border: 6px solid #fff; box-shadow: 0 0 0 1px var(--gold); margin-bottom: 18px; }
+    .person h3 { font-size: 46px; color: var(--green); }
+    .person p { color: var(--muted); font-size: 18px; }
+    .amp { font-size: 90px; color: var(--gold); }
+
+    .story { background: #fff; }
+    .story p { max-width: 720px; margin: 0 auto; font-size: 22px; font-style: italic; }
+
+    .timeline { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; text-align: left; }
+    .event { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 30px; position: relative; overflow: hidden; }
+    .event::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--gold); }
+    .event .when { color: var(--gold); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; font-size: 16px; }
+    .event h3 { font-size: 30px; color: var(--green); margin: 4px 0 8px; }
+    .event p { color: var(--muted); font-size: 18px; margin-bottom: 14px; }
+    .event a { color: var(--green); font-weight: 700; font-size: 17px; border-bottom: 1px solid var(--gold); }
+
+    .dress { background: var(--green); color: var(--ivory); }
+    .dress .title { color: var(--gold-light); }
+    .dress .lead { color: #cfd9d2; }
+    .colors { display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; }
+    .colors div { text-align: center; font-size: 17px; }
+    .colors span { display: block; width: 70px; height: 70px; border-radius: 50%; margin: 0 auto 8px; border: 3px solid rgba(255,255,255,.4); }
+
+    .photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .photos img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; }
+
+    .rsvp { background: #fff; }
+    form { max-width: 560px; margin: 0 auto; text-align: left; }
+    form label { display: block; font-weight: 600; font-size: 19px; margin-bottom: 16px; color: var(--green); }
+    form input, form select, form textarea { display: block; width: 100%; margin-top: 6px; padding: 13px 14px; border: 1px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 19px; background: var(--ivory); }
+    .choice { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 6px 0 18px; }
+    .choice input { display: none; }
+    .choice label { margin: 0; text-align: center; border: 1px solid var(--border); border-radius: 10px; padding: 14px; cursor: pointer; font-weight: 600; transition: .2s; }
+    .choice input:checked + label { background: var(--green); border-color: var(--green); color: #fff; }
+    form .btn { width: 100%; background: var(--wa); border-color: var(--wa); color: #fff; }
+    .deadline { text-align: center; color: var(--muted); font-size: 17px; margin-top: 14px; }
+
+    footer { padding: 50px 20px; text-align: center; background: var(--ivory); }
+    footer .script { font-size: 48px; color: var(--gold); }
+    footer p { color: var(--muted); font-size: 17px; }
+    footer small { display: block; margin-top: 18px; font-family: system-ui, sans-serif; font-size: 13px; }
+    footer small a { font-weight: 700; color: var(--green); }
+
+    .music { position: fixed; left: 18px; bottom: 18px; width: 52px; height: 52px; border-radius: 50%; background: var(--gold); color: #fff; border: 0; font-size: 22px; z-index: 50; box-shadow: 0 6px 18px rgba(0,0,0,.2); }
+
+    @media (max-width: 760px) {
+      .couple { grid-template-columns: 1fr; gap: 10px; }
+      .amp { font-size: 64px; }
+      .person img { width: 180px; height: 180px; }
+      .timeline { grid-template-columns: 1fr; }
+      .photos { grid-template-columns: 1fr 1fr; }
+      section { padding: 64px 0; }
+      .countdown div { width: 74px; }
+      .countdown strong { font-size: 30px; }
+    }
+  </style>
+</head>
+<body class="locked">
+
+<div class="demo-bar">🎨 Invitation de démonstration. <a href="../index.html">Je veux une invitation comme celle-ci</a></div>
+
+<!-- Écran d'ouverture (le nom de l'invité vient du lien : mariage.html?invite=Ama%20Koffi) -->
+<div class="intro" id="intro">
+  <div class="seal">E&amp;K</div>
+  <p id="guestLine">Vous êtes invité(e) au mariage de</p>
+  <h2 class="script">Esi &amp; Komla</h2>
+  <p>Samedi 19 décembre 2026 · Lomé</p>
+  <button class="btn btn--gold" id="openBtn">Ouvrir l'invitation</button>
+</div>
+
+<section class="hero" id="accueil">
+  <div>
+    <small>Nous nous marions</small>
+    <h1 class="script">Esi &amp; Komla</h1>
+    <div class="date">19 · 12 · 2026</div>
+    <div class="countdown" id="countdown">
+      <div><strong id="cdD">0</strong><span>jours</span></div>
+      <div><strong id="cdH">0</strong><span>heures</span></div>
+      <div><strong id="cdM">0</strong><span>min</span></div>
+      <div><strong id="cdS">0</strong><span>sec</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="ornament">❦ ❦ ❦</div>
+    <h2 class="title script">Les mariés</h2>
+    <p class="lead">Avec la bénédiction de nos familles, nous avons la joie de vous inviter à célébrer notre union.</p>
+    <div class="couple">
+      <div class="person"><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=500&q=70" alt="Esi"><h3 class="script">Esi</h3><p>Fille de M. et Mme Amedokpo</p></div>
+      <div class="amp script">&amp;</div>
+      <div class="person"><img src="https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?w=500&q=70" alt="Komla"><h3 class="script">Komla</h3><p>Fils de M. et Mme Agbodjan</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="story">
+  <div class="container">
+    <div class="ornament">❦</div>
+    <h2 class="title script">Notre histoire</h2>
+    <p>« Nous nous sommes rencontrés en 2019 lors d'un mariage d'amis à Kpalimé. Une danse, une conversation, puis mille autres. Sept ans plus tard, nous voulons écrire le reste de notre histoire ensemble, entourés de ceux que nous aimons. »</p>
+  </div>
+</section>
+
+<section id="programme">
+  <div class="container">
+    <div class="ornament">❦ ❦ ❦</div>
+    <h2 class="title script">Le programme</h2>
+    <p class="lead">Nous serions honorés de votre présence à chacun de ces moments.</p>
+    <div class="timeline">
+      <div class="event"><span class="when">Vendredi 18 déc. · 15 h</span><h3>Cérémonie de la dot</h3><p>Domicile familial Amedokpo, quartier Bè-Kpota.</p><a href="https://maps.google.com/?q=B%C3%A8%20Kpota%20Lom%C3%A9" target="_blank" rel="noopener">📍 Voir l'itinéraire</a></div>
+      <div class="event"><span class="when">Samedi 19 déc. · 9 h</span><h3>Mariage civil</h3><p>Mairie de Lomé, commune Golfe 1.</p><a href="https://maps.google.com/?q=Mairie%20Lom%C3%A9" target="_blank" rel="noopener">📍 Voir l'itinéraire</a></div>
+      <div class="event"><span class="when">Samedi 19 déc. · 11 h</span><h3>Bénédiction nuptiale</h3><p>Cathédrale du Sacré-Cœur de Lomé.</p><a href="https://maps.google.com/?q=Cath%C3%A9drale%20Sacr%C3%A9-C%C5%93ur%20Lom%C3%A9" target="_blank" rel="noopener">📍 Voir l'itinéraire</a></div>
+      <div class="event"><span class="when">Samedi 19 déc. · 19 h</span><h3>Dîner et soirée dansante</h3><p>Salle des fêtes, boulevard du Mono, Lomé.</p><a href="https://maps.google.com/?q=Boulevard%20du%20Mono%20Lom%C3%A9" target="_blank" rel="noopener">📍 Voir l'itinéraire</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="dress">
+  <div class="container">
+    <div class="ornament">❦</div>
+    <h2 class="title script">Tenue souhaitée</h2>
+    <p class="lead">Pagne ou tenue de soirée, dans les couleurs du mariage.</p>
+    <div class="colors">
+      <div><span style="background:#2f4a3a"></span>Vert émeraude</div>
+      <div><span style="background:#b8913f"></span>Or</div>
+      <div><span style="background:#fbf8f1"></span>Ivoire</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="ornament">❦ ❦ ❦</div>
+    <h2 class="title script">Nos souvenirs</h2>
+    <div class="photos">
+      <img src="https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?w=600&q=70" alt="" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600&q=70" alt="" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600&q=70" alt="" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600&q=70" alt="" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600&q=70" alt="" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1460978812857-470ed1c77af0?w=600&q=70" alt="" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<section class="rsvp" id="rsvp">
+  <div class="container">
+    <div class="ornament">❦</div>
+    <h2 class="title script">Confirmez votre présence</h2>
+    <p class="lead">Merci de nous répondre pour nous aider à bien vous accueillir.</p>
+    <form id="rsvpForm">
+      <label>Votre nom complet<input name="nom" id="nomInput" required></label>
+      <span style="font-weight:600;color:var(--green)">Serez-vous présent(e) ?</span>
+      <div class="choice">
+        <input type="radio" name="presence" id="yes" value="Oui, avec joie" checked><label for="yes">✓ Oui, avec joie</label>
+        <input type="radio" name="presence" id="no" value="Non, malheureusement"><label for="no">✗ Je ne pourrai pas</label>
+      </div>
+      <label>Nombre de personnes<select name="nb"><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
+      <label>Un mot pour les mariés<textarea name="mot" rows="3" placeholder="Vos vœux…"></textarea></label>
+      <button class="btn" type="submit">Envoyer ma réponse</button>
+      <p class="deadline">Réponse souhaitée avant le 30 novembre 2026</p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="script">Esi &amp; Komla</div>
+  <p>Contact familles : +228 99 31 50 92 · +228 91 96 22 46</p>
+  <small>Invitation réalisée par <a href="../index.html">WebPro Lomé</a></small>
+</footer>
+
+<button class="music" id="musicBtn" aria-label="Musique" title="Musique">♪</button>
+
+<script>
+  const WA = '22899315092';
+  const WEDDING = new Date('2026-12-19T09:00:00');   // date et heure du mariage
+
+  // Nom de l'invité dans le lien : mariage.html?invite=Ama%20Koffi
+  const guest = new URLSearchParams(location.search).get('invite');
+  if (guest) {
+    document.getElementById('guestLine').innerHTML = `Cher(e) <span class="guest"></span>,<br>vous êtes invité(e) au mariage de`;
+    document.querySelector('#guestLine .guest').textContent = guest;
+    document.getElementById('nomInput').value = guest;
+  }
+
+  // Ouverture de l'invitation
+  document.getElementById('openBtn').onclick = () => {
+    document.getElementById('intro').classList.add('hide');
+    document.body.classList.remove('locked');
+  };
+
+  // Compte à rebours
+  const pad = n => String(n).padStart(2, '0');
+  function tick() {
+    let diff = Math.max(0, WEDDING - new Date()) / 1000;
+    const d = Math.floor(diff / 86400); diff %= 86400;
+    const h = Math.floor(diff / 3600); diff %= 3600;
+    const m = Math.floor(diff / 60), s = Math.floor(diff % 60);
+    document.getElementById('cdD').textContent = d;
+    document.getElementById('cdH').textContent = pad(h);
+    document.getElementById('cdM').textContent = pad(m);
+    document.getElementById('cdS').textContent = pad(s);
+  }
+  tick(); setInterval(tick, 1000);
+
+  // Petite mélodie générée par le navigateur (aucun fichier audio nécessaire)
+  let audioCtx = null, playing = false, loop = null;
+  const notes = [523.25, 659.25, 783.99, 659.25, 698.46, 880, 783.99, 659.25];
+  function playMelody() {
+    let t = audioCtx.currentTime;
+    notes.forEach(f => {
+      const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+      o.type = 'sine'; o.frequency.value = f;
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.08, t + .05); g.gain.exponentialRampToValueAtTime(.001, t + .6);
+      o.connect(g).connect(audioCtx.destination); o.start(t); o.stop(t + .65); t += .5;
+    });
+  }
+  document.getElementById('musicBtn').onclick = function () {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    playing = !playing;
+    this.textContent = playing ? '❚❚' : '♪';
+    if (playing) { playMelody(); loop = setInterval(playMelody, 4500); } else clearInterval(loop);
+  };
+
+  // Réponse RSVP → WhatsApp
+  document.getElementById('rsvpForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const d = new FormData(e.target);
+    let msg = `💍 *Réponse — Mariage Esi & Komla*\n\nNom : ${d.get('nom')}\nPrésence : ${d.get('presence')}`;
+    if (d.get('presence').startsWith('Oui')) msg += `\nNombre de personnes : ${d.get('nb')}`;
+    if (d.get('mot')) msg += `\n\nMessage : ${d.get('mot')}`;
+    window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank');
+  });
+</script>
+</body>
+</html>
