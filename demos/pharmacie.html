@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pharmacie de la Paix — Lomé (démo)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #0e9f6e; --green-dark: #077a54; --mint: #e8f8f1; --navy: #0f2a3a;
+      --text: #2a3b45; --muted: #6b7c86; --border: #dfece6; --red: #e0454f; --wa: #25d366;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text); font-size: 17px; line-height: 1.6; background: #fff; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+    h1, h2, h3 { color: var(--navy); line-height: 1.2; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+    .demo-bar { background: #111; color: #fff; font-size: 14px; text-align: center; padding: 8px 12px; }
+    .demo-bar a { color: #7ff0c0; font-weight: 700; text-decoration: underline; }
+
+    /* Bandeau de garde */
+    .garde { background: var(--red); color: #fff; text-align: center; padding: 10px 16px; font-weight: 600; font-size: 15px; }
+    .garde.off { background: var(--navy); }
+
+    header { background: #fff; position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--border); }
+    .head { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 19px; color: var(--navy); }
+    .cross { width: 42px; height: 42px; background: var(--green); border-radius: 10px; position: relative; }
+    .cross::before, .cross::after { content: ''; position: absolute; background: #fff; border-radius: 2px; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+    .cross::before { width: 24px; height: 8px; } .cross::after { width: 8px; height: 24px; }
+    header nav { display: flex; gap: 26px; font-weight: 600; font-size: 16px; }
+    header nav a:hover { color: var(--green); }
+    .call { white-space: nowrap; background: var(--green); color: #fff; padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: 15px; }
+
+    .hero { background: linear-gradient(135deg, var(--mint) 0%, #fff 70%); padding: 70px 0; }
+    .hero__in { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; }
+    .status { display: inline-flex; align-items: center; gap: 8px; background: #fff; border: 1px solid var(--border); padding: 7px 14px; border-radius: 999px; font-weight: 700; font-size: 14px; margin-bottom: 18px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #aaa; }
+    .dot.open { background: #22c55e; box-shadow: 0 0 0 4px rgba(34,197,94,.2); }
+    .dot.closed { background: var(--red); }
+    .hero h1 { font-size: clamp(34px, 5vw, 54px); font-weight: 800; margin-bottom: 18px; }
+    .hero h1 span { color: var(--green); }
+    .hero p { color: var(--muted); font-size: 19px; margin-bottom: 28px; max-width: 520px; }
+    .btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; border-radius: 12px; font-weight: 700; border: 0; font-size: 16px; transition: transform .2s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn--green { background: var(--green); color: #fff; }
+    .btn--wa { background: var(--wa); color: #fff; }
+    .btn--white { background: #fff; color: var(--navy); border: 1px solid var(--border); }
+    .hero img { width: 100%; height: 420px; object-fit: cover; border-radius: 24px; }
+
+    section { padding: 80px 0; }
+    .alt { background: var(--mint); }
+    .title { text-align: center; font-size: clamp(28px, 4vw, 40px); margin-bottom: 10px; font-weight: 800; }
+    .sub { text-align: center; color: var(--muted); max-width: 620px; margin: 0 auto 44px; }
+
+    .services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .service { background: #fff; border: 1px solid var(--border); border-radius: 18px; padding: 28px; }
+    .service .ico { width: 54px; height: 54px; border-radius: 14px; background: var(--mint); display: grid; place-items: center; font-size: 26px; margin-bottom: 16px; }
+    .service h3 { font-size: 20px; margin-bottom: 6px; }
+    .service p { color: var(--muted); font-size: 16px; }
+
+    /* Ordonnance */
+    .ordo { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+    .ordo h2 { font-size: clamp(28px, 4vw, 38px); margin-bottom: 14px; font-weight: 800; }
+    .ordo ol { list-style: none; counter-reset: s; margin-top: 20px; }
+    .ordo li { counter-increment: s; display: flex; gap: 14px; align-items: flex-start; margin-bottom: 16px; }
+    .ordo li::before { content: counter(s); flex: 0 0 36px; height: 36px; border-radius: 50%; background: var(--green); color: #fff; display: grid; place-items: center; font-weight: 800; }
+    form { background: #fff; border-radius: 20px; padding: 32px; box-shadow: 0 20px 50px rgba(15,42,58,.08); }
+    form h3 { margin-bottom: 16px; font-size: 22px; }
+    form label { display: block; font-weight: 600; font-size: 15px; margin-bottom: 14px; color: var(--navy); }
+    form input, form textarea, form select { display: block; width: 100%; margin-top: 6px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 16px; background: #f7fbf9; }
+    form .btn { width: 100%; justify-content: center; }
+    .note { font-size: 13px; color: var(--muted); margin-top: 12px; text-align: center; }
+
+    /* Parapharmacie */
+    .shelf { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .prod { background: #fff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+    .prod img { width: 100%; height: 170px; object-fit: cover; background: var(--mint); }
+    .prod div { padding: 16px; }
+    .prod small { color: var(--green); font-weight: 700; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; }
+    .prod h3 { font-size: 16px; margin: 4px 0 6px; }
+    .prod b { color: var(--navy); }
+
+    /* Infos */
+    .infos { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+    .card { background: #fff; border: 1px solid var(--border); border-radius: 18px; padding: 30px; }
+    .card h3 { margin-bottom: 14px; }
+    .hours div { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed var(--border); }
+    .hours .today { color: var(--green); font-weight: 800; }
+    .card li { list-style: none; padding: 8px 0; }
+    .map iframe { width: 100%; height: 340px; border: 0; display: block; }
+
+    footer { background: var(--navy); color: #b9c8d0; text-align: center; padding: 26px 20px; font-size: 14px; }
+    footer a { color: #fff; font-weight: 700; }
+    .wa-float { position: fixed; right: 18px; bottom: 18px; width: 58px; height: 58px; border-radius: 50%; background: var(--wa); color: #fff; display: grid; place-items: center; font-size: 28px; box-shadow: 0 8px 22px rgba(37,211,102,.45); z-index: 60; }
+
+    @media (max-width: 900px) {
+      .hero__in, .ordo, .infos { grid-template-columns: 1fr; }
+      .hero img { height: 280px; }
+      .services { grid-template-columns: 1fr 1fr; }
+      .shelf { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 680px) {
+      header nav { display: none; }
+      .brand { font-size: 16px; gap: 8px; }
+      .cross { width: 34px; height: 34px; flex-shrink: 0; }
+      section { padding: 60px 0; }
+      .hero { padding: 40px 0; }
+      .services { grid-template-columns: 1fr; }
+      .btns .btn { width: 100%; justify-content: center; }
+      form, .card { padding: 22px; }
+      .prod img { height: 130px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="demo-bar">🎨 Site de démonstration. <a href="../index.html">Je veux un site comme celui-ci</a></div>
+<div class="garde" id="garde">🚨 Pharmacie de garde cette semaine : ouverte 24 h/24</div>
+
+<header>
+  <div class="container head">
+    <a href="#" class="brand"><span class="cross"></span>Pharmacie de la Paix</a>
+    <nav><a href="#services">Services</a><a href="#ordonnance">Ordonnance</a><a href="#produits">Parapharmacie</a><a href="#infos">Horaires</a></nav>
+    <a href="tel:+22899315092" class="call">📞 Appeler</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero__in">
+    <div>
+      <div class="status"><span class="dot" id="dot"></span><span id="statusText">…</span></div>
+      <h1>Votre santé, <span>notre priorité</span> au cœur de Lomé</h1>
+      <p>Des pharmaciens à votre écoute, des médicaments disponibles et des conseils fiables. Envoyez votre ordonnance sur WhatsApp et récupérez-la sans attendre.</p>
+      <div class="btns">
+        <a href="#ordonnance" class="btn btn--wa">📄 Envoyer mon ordonnance</a>
+        <a href="#infos" class="btn btn--white">📍 Nous trouver</a>
+      </div>
+    </div>
+    <img src="https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=1000&q=70" alt="Comptoir de la pharmacie">
+  </div>
+</section>
+
+<section id="services">
+  <div class="container">
+    <h2 class="title">Nos services</h2>
+    <p class="sub">Une équipe qualifiée pour vous accompagner au quotidien.</p>
+    <div class="services">
+      <div class="service"><div class="ico">💊</div><h3>Médicaments</h3><p>Large choix de médicaments, avec ou sans ordonnance, et génériques à prix accessibles.</p></div>
+      <div class="service"><div class="ico">📲</div><h3>Ordonnance WhatsApp</h3><p>Envoyez la photo de votre ordonnance, on prépare votre commande avant votre arrivée.</p></div>
+      <div class="service"><div class="ico">🩺</div><h3>Tension et glycémie</h3><p>Prise de tension et test de glycémie rapides, sur place.</p></div>
+      <div class="service"><div class="ico">👶</div><h3>Mère et bébé</h3><p>Laits infantiles, couches, soins et conseils pour les mamans.</p></div>
+      <div class="service"><div class="ico">🧴</div><h3>Parapharmacie</h3><p>Soins de la peau, hygiène, vitamines et compléments alimentaires.</p></div>
+      <div class="service"><div class="ico">🛵</div><h3>Livraison</h3><p>Livraison possible à domicile dans plusieurs quartiers de Lomé.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="ordonnance">
+  <div class="container ordo">
+    <div>
+      <h2>Gagnez du temps avec votre ordonnance</h2>
+      <p style="color:var(--muted)">Plus besoin de faire la queue sans savoir si votre médicament est disponible.</p>
+      <ol>
+        <li><span>Remplissez le formulaire et envoyez-le sur WhatsApp.</span></li>
+        <li><span>Joignez la photo de votre ordonnance dans la conversation.</span></li>
+        <li><span>Nous vérifions la disponibilité et vous répondons rapidement.</span></li>
+        <li><span>Venez récupérer votre commande ou faites-vous livrer.</span></li>
+      </ol>
+    </div>
+    <form id="ordoForm">
+      <h3>Vérifier la disponibilité</h3>
+      <label>Votre nom<input name="nom" required></label>
+      <label>Médicament(s) recherché(s)<textarea name="med" rows="3" placeholder="Ex : Paracétamol 500 mg, ou « voir ordonnance en photo »" required></textarea></label>
+      <label>Je souhaite
+        <select name="mode"><option>Récupérer à la pharmacie</option><option>Être livré(e) à domicile</option></select>
+      </label>
+      <button class="btn btn--wa" type="submit">Envoyer sur WhatsApp</button>
+      <p class="note">Les conseils donnés ne remplacent pas l'avis de votre médecin.</p>
+    </form>
+  </div>
+</section>
+
+<section id="produits">
+  <div class="container">
+    <h2 class="title">Parapharmacie</h2>
+    <p class="sub">Quelques produits disponibles en boutique. Demandez-nous les prix et la disponibilité.</p>
+    <div class="shelf">
+      <div class="prod"><img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=500&q=70" alt="" loading="lazy"><div><small>Soins</small><h3>Crème hydratante visage</h3><b>4 500 FCFA</b></div></div>
+      <div class="prod"><img src="https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=500&q=70" alt="" loading="lazy"><div><small>Vitamines</small><h3>Vitamine C 1000 mg</h3><b>3 000 FCFA</b></div></div>
+      <div class="prod"><img src="https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=500&q=70" alt="" loading="lazy"><div><small>Hygiène</small><h3>Gel hydroalcoolique</h3><b>1 500 FCFA</b></div></div>
+      <div class="prod"><img src="https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=500&q=70" alt="" loading="lazy"><div><small>Bébé</small><h3>Lait de toilette bébé</h3><b>2 800 FCFA</b></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="infos">
+  <div class="container infos">
+    <div class="card">
+      <h3>🕘 Horaires d'ouverture</h3>
+      <div class="hours" id="hours"></div>
+    </div>
+    <div class="card">
+      <h3>📍 Coordonnées</h3>
+      <ul>
+        <li>Avenue de la Libération, Tokoin, Lomé</li>
+        <li>📞 +228 99 31 50 92</li>
+        <li>💬 WhatsApp : +228 99 31 50 92</li>
+        <li>🅿️ Parking disponible devant la pharmacie</li>
+        <li>💳 Espèces, T-Money, Flooz, assurances acceptées</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="map"><iframe src="https://www.google.com/maps?q=Tokoin%20Lom%C3%A9%20Togo&output=embed" loading="lazy" title="Carte"></iframe></div>
+<footer>© 2026 Pharmacie de la Paix — Site réalisé par <a href="../index.html">WebPro Lomé</a></footer>
+<a class="wa-float" href="https://wa.me/22899315092?text=Bonjour%2C%20j%27ai%20une%20question%20pour%20la%20pharmacie." target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+
+<script>
+  const WA = '22899315092';
+  const DE_GARDE = true; // mettre false quand la pharmacie n'est pas de garde
+
+  // Horaires normaux : [ouverture, fermeture] en heures, null = fermé
+  const DAYS = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+  const HOURS = [[9, 13], [7.5, 21], [7.5, 21], [7.5, 21], [7.5, 21], [7.5, 21], [8, 20]];
+  const fmt = x => `${Math.floor(x)} h${x % 1 ? '30' : ''}`;
+
+  const now = new Date(), today = now.getDay(), h = now.getHours() + now.getMinutes() / 60;
+  document.getElementById('hours').innerHTML = [1, 2, 3, 4, 5, 6, 0].map(i =>
+    `<div class="${i === today ? 'today' : ''}"><span>${DAYS[i]}</span><span>${HOURS[i] ? fmt(HOURS[i][0]) + ' – ' + fmt(HOURS[i][1]) : 'Fermé'}</span></div>`
+  ).join('');
+
+  const slot = HOURS[today];
+  const open = DE_GARDE || (slot && h >= slot[0] && h < slot[1]);
+  document.getElementById('dot').classList.add(open ? 'open' : 'closed');
+  document.getElementById('statusText').textContent = DE_GARDE
+    ? 'Ouvert 24 h/24 (de garde)'
+    : open ? `Ouvert maintenant · jusqu'à ${fmt(slot[1])}` : 'Fermé pour le moment';
+  if (!DE_GARDE) {
+    const g = document.getElementById('garde');
+    g.textContent = 'ℹ️ Consultez la liste des pharmacies de garde de Lomé en dehors de nos horaires';
+    g.classList.add('off');
+  }
+
+  document.getElementById('ordoForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const d = new FormData(e.target);
+    const msg = `💊 *Demande — Pharmacie de la Paix*\n\nNom : ${d.get('nom')}\nMédicament(s) : ${d.get('med')}\nMode : ${d.get('mode')}\n\n(J'envoie la photo de l'ordonnance juste après.)`;
+    window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank');
+  });
+</script>
+</body>
+</html>

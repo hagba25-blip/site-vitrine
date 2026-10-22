@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Horizon Immobilier — Lomé (démo)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #12263f; --blue: #1f5fbf; --gold: #e2a93b; --light: #f4f6fa;
+      --text: #2c3a4d; --muted: #6d7a8c; --border: #e2e7ef; --wa: #25d366;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Manrope', sans-serif; color: var(--text); font-size: 17px; line-height: 1.6; }
+    body.locked { overflow: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+    h1, h2, h3 { color: var(--navy); line-height: 1.2; font-weight: 800; }
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+
+    .demo-bar { background: #111; color: #fff; font-size: 14px; text-align: center; padding: 8px 12px; }
+    .demo-bar a { color: var(--gold); font-weight: 700; text-decoration: underline; }
+
+    header { position: sticky; top: 0; z-index: 50; background: #fff; border-bottom: 1px solid var(--border); }
+    .head { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+    .logo { font-weight: 800; font-size: 22px; color: var(--navy); }
+    .logo span { color: var(--gold); }
+    header nav { display: flex; gap: 26px; font-weight: 600; }
+    header nav a:hover { color: var(--blue); }
+    .btn { white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 22px; border-radius: 10px; font-weight: 700; border: 0; font-size: 16px; transition: transform .2s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn--gold { background: var(--gold); color: var(--navy); }
+    .btn--blue { background: var(--blue); color: #fff; }
+    .btn--wa { background: var(--wa); color: #fff; }
+
+    .hero {
+      background: linear-gradient(rgba(18,38,63,.72), rgba(18,38,63,.8)), url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=70') center/cover;
+      color: #fff; padding: 100px 0 140px; text-align: center;
+    }
+    .hero h1 { color: #fff; font-size: clamp(34px, 5.5vw, 58px); margin-bottom: 16px; }
+    .hero p { font-size: 19px; opacity: .92; max-width: 640px; margin: 0 auto; }
+
+    /* Barre de recherche */
+    .search { background: #fff; border-radius: 16px; box-shadow: 0 20px 50px rgba(18,38,63,.18); padding: 22px; margin-top: -80px; position: relative; display: grid; grid-template-columns: repeat(4, 1fr) auto; gap: 14px; align-items: end; }
+    .search label { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+    .search select { display: block; width: 100%; margin-top: 6px; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 16px; background: var(--light); color: var(--text); }
+
+    section { padding: 80px 0; }
+    .alt { background: var(--light); }
+    .title { font-size: clamp(28px, 4vw, 40px); margin-bottom: 8px; }
+    .sub { color: var(--muted); margin-bottom: 30px; }
+    .count { color: var(--muted); margin-bottom: 20px; font-weight: 600; }
+
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .prop { background: #fff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; cursor: pointer; transition: transform .25s, box-shadow .25s; }
+    .prop:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(18,38,63,.1); }
+    .prop__img { position: relative; height: 220px; }
+    .prop__img img { width: 100%; height: 100%; object-fit: cover; }
+    .prop__deal { position: absolute; top: 14px; left: 14px; padding: 5px 12px; border-radius: 999px; font-size: 13px; font-weight: 800; color: #fff; }
+    .deal-location { background: var(--blue); } .deal-vente { background: #c2410c; }
+    .prop__body { padding: 20px; }
+    .prop__price { font-size: 22px; font-weight: 800; color: var(--blue); }
+    .prop__price small { font-size: 14px; color: var(--muted); font-weight: 600; }
+    .prop h3 { font-size: 18px; margin: 4px 0; }
+    .prop__place { color: var(--muted); font-size: 15px; }
+    .prop__feat { display: flex; gap: 16px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 14px; font-weight: 600; color: var(--text); flex-wrap: wrap; }
+    .empty { grid-column: 1/-1; text-align: center; padding: 50px; color: var(--muted); background: #fff; border-radius: 16px; border: 1px dashed var(--border); }
+
+    .services { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .service { background: #fff; border-radius: 16px; padding: 26px; border: 1px solid var(--border); }
+    .service .ico { font-size: 30px; margin-bottom: 12px; }
+    .service h3 { font-size: 19px; margin-bottom: 6px; }
+    .service p { color: var(--muted); font-size: 15.5px; }
+
+    .cta { background: var(--navy); color: #d6deea; border-radius: 20px; padding: 46px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+    .cta h2 { color: #fff; font-size: clamp(24px, 3.5vw, 34px); margin-bottom: 6px; }
+
+    footer { background: #0b1828; color: #9fb0c6; padding: 26px 20px; text-align: center; font-size: 14px; }
+    footer a { color: #fff; font-weight: 700; }
+
+    /* Fiche détaillée */
+    .modal { position: fixed; inset: 0; background: rgba(10,20,35,.6); display: none; align-items: center; justify-content: center; z-index: 100; padding: 16px; }
+    .modal.show { display: flex; }
+    .modal__box { background: #fff; border-radius: 18px; max-width: 760px; width: 100%; max-height: 92vh; overflow-y: auto; position: relative; }
+    .modal__box > img { width: 100%; height: 300px; object-fit: cover; border-radius: 18px 18px 0 0; }
+    .modal__close { position: absolute; top: 14px; right: 14px; width: 42px; height: 42px; border-radius: 50%; border: 0; background: #fff; font-size: 24px; box-shadow: 0 4px 12px rgba(0,0,0,.2); }
+    .modal__content { padding: 28px; }
+    .modal__content p { color: var(--muted); margin: 12px 0 18px; }
+    .modal form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); }
+    .modal form h4 { grid-column: 1/-1; color: var(--navy); font-size: 18px; }
+    .modal input { padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 16px; width: 100%; }
+    .modal form .btn { grid-column: 1/-1; }
+
+    .wa-float { position: fixed; right: 18px; bottom: 18px; width: 58px; height: 58px; border-radius: 50%; background: var(--wa); color: #fff; display: grid; place-items: center; font-size: 28px; box-shadow: 0 8px 22px rgba(37,211,102,.45); z-index: 60; }
+
+    @media (max-width: 960px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+      .services { grid-template-columns: 1fr 1fr; }
+      .search { grid-template-columns: 1fr 1fr; }
+      .search .btn { grid-column: 1/-1; }
+    }
+    @media (max-width: 640px) {
+      header nav { display: none; }
+      .logo { font-size: 18px; }
+      .modal form .btn { white-space: normal; }
+      .hero { padding: 70px 0 120px; }
+      .grid, .services { grid-template-columns: 1fr; }
+      .search { grid-template-columns: 1fr; }
+      section { padding: 60px 0; }
+      .cta { padding: 28px; }
+      .cta .btn { width: 100%; }
+      .modal form { grid-template-columns: 1fr; }
+      .modal__box > img { height: 220px; }
+      .modal__content { padding: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="demo-bar">🎨 Site de démonstration. <a href="../index.html">Je veux un site comme celui-ci</a></div>
+
+<header>
+  <div class="container head">
+    <a href="#" class="logo">Horizon <span>Immobilier</span></a>
+    <nav><a href="#biens">Nos biens</a><a href="#services">Services</a><a href="#contact">Contact</a></nav>
+    <a href="#contact" class="btn btn--gold" style="padding:10px 18px;font-size:15px">Confier un bien</a>
+  </div>
+</header>
+
+<section class="hero" style="padding-bottom:140px">
+  <div class="container">
+    <h1>Trouvez votre maison, votre appartement ou votre terrain à Lomé</h1>
+    <p>Location et vente de biens vérifiés dans tous les quartiers de Lomé. Visites organisées rapidement, accompagnement jusqu'à la signature.</p>
+  </div>
+</section>
+
+<div class="container">
+  <div class="search">
+    <label>Transaction<select id="fDeal"><option value="">Tout</option><option value="location">Location</option><option value="vente">Vente</option></select></label>
+    <label>Type de bien<select id="fType"><option value="">Tout</option><option>Maison</option><option>Appartement</option><option>Villa</option><option>Terrain</option><option>Bureau</option></select></label>
+    <label>Quartier<select id="fPlace"><option value="">Tous</option></select></label>
+    <label>Budget max<select id="fBudget"><option value="">Sans limite</option><option value="100000">100 000 F / mois</option><option value="250000">250 000 F / mois</option><option value="15000000">15 millions F</option><option value="50000000">50 millions F</option></select></label>
+    <button class="btn btn--blue" id="resetBtn" type="button">Réinitialiser</button>
+  </div>
+</div>
+
+<section id="biens">
+  <div class="container">
+    <h2 class="title">Nos biens disponibles</h2>
+    <p class="count" id="count"></p>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section class="alt" id="services">
+  <div class="container">
+    <h2 class="title">Nos services</h2>
+    <p class="sub">Un accompagnement complet, que vous cherchiez un logement ou que vous soyez propriétaire.</p>
+    <div class="services">
+      <div class="service"><div class="ico">🔑</div><h3>Location</h3><p>Maisons, appartements et bureaux vérifiés, adaptés à votre budget.</p></div>
+      <div class="service"><div class="ico">🏡</div><h3>Vente</h3><p>Achat de villas et de terrains avec documents contrôlés.</p></div>
+      <div class="service"><div class="ico">📋</div><h3>Gestion locative</h3><p>Nous gérons vos locataires et vos loyers à votre place.</p></div>
+      <div class="service"><div class="ico">⚖️</div><h3>Conseil</h3><p>Aide pour les titres fonciers et les démarches administratives.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <div class="cta">
+      <div>
+        <h2>Vous êtes propriétaire ?</h2>
+        <p>Confiez-nous votre bien : nous trouvons des locataires ou des acheteurs sérieux.</p>
+        <p style="margin-top:8px">📍 Hédzranawoé, Lomé · 📞 +228 99 31 50 92</p>
+      </div>
+      <a class="btn btn--gold" href="https://wa.me/22899315092?text=Bonjour%2C%20je%20souhaite%20confier%20un%20bien%20%C3%A0%20Horizon%20Immobilier." target="_blank" rel="noopener">Confier mon bien sur WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Horizon Immobilier — Site réalisé par <a href="../index.html">WebPro Lomé</a></footer>
+
+<div class="modal" id="modal">
+  <div class="modal__box">
+    <button class="modal__close" id="closeModal" aria-label="Fermer">×</button>
+    <img id="mImg" alt="">
+    <div class="modal__content">
+      <div class="prop__price" id="mPrice"></div>
+      <h3 id="mTitle" style="font-size:24px;margin-top:4px"></h3>
+      <div class="prop__place" id="mPlace"></div>
+      <div class="prop__feat" id="mFeat"></div>
+      <p id="mDesc"></p>
+      <form id="visitForm">
+        <h4>Demander une visite</h4>
+        <input name="nom" placeholder="Votre nom" required>
+        <input name="date" type="date" required id="visitDate">
+        <button class="btn btn--wa" type="submit">Envoyer ma demande sur WhatsApp</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<a class="wa-float" href="https://wa.me/22899315092?text=Bonjour%2C%20je%20cherche%20un%20bien%20%C3%A0%20Lom%C3%A9." target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+
+<script>
+  const WA = '22899315092';
+
+  // ===== Liste des biens : modifiez ici =====
+  const PROPS = [
+    { id: 1, deal: 'location', type: 'Appartement', title: 'Appartement 3 pièces meublé', place: 'Agoè', price: 150000, ch: 2, sdb: 1, m2: 90,  img: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=900&q=70', desc: 'Appartement lumineux et meublé, au 1er étage d\'un immeuble sécurisé. Eau et électricité individuelles, parking.' },
+    { id: 2, deal: 'location', type: 'Maison',      title: 'Chambre-salon moderne',       place: 'Adidogomé', price: 60000,  ch: 1, sdb: 1, m2: 40,  img: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=900&q=70', desc: 'Chambre-salon carrelée avec douche interne, dans une cour calme. Proche des transports.' },
+    { id: 3, deal: 'vente',    type: 'Villa',       title: 'Villa 5 pièces avec piscine', place: 'Baguida', price: 85000000, ch: 4, sdb: 3, m2: 400, img: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=900&q=70', desc: 'Belle villa sur 600 m² de terrain, piscine, jardin et dépendance. Titre foncier disponible.' },
+    { id: 4, deal: 'vente',    type: 'Terrain',     title: 'Terrain d\'un lot (600 m²)',  place: 'Avédji', price: 12000000, ch: 0, sdb: 0, m2: 600, img: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=900&q=70', desc: 'Terrain plat et viabilisé, quartier en plein développement. Documents vérifiés.' },
+    { id: 5, deal: 'location', type: 'Villa',       title: 'Villa duplex 4 chambres',     place: 'Hédzranawoé', price: 450000, ch: 4, sdb: 3, m2: 250, img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=70', desc: 'Grande villa duplex avec garage pour 2 voitures, groupe électrogène et gardien.' },
+    { id: 6, deal: 'location', type: 'Bureau',      title: 'Espace de bureau 120 m²',     place: 'Tokoin', price: 300000, ch: 0, sdb: 1, m2: 120, img: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=70', desc: 'Bureaux climatisés sur un grand axe, idéal pour une entreprise ou une ONG.' },
+    { id: 7, deal: 'vente',    type: 'Maison',      title: 'Maison 4 pièces',             place: 'Agoè', price: 32000000, ch: 3, sdb: 2, m2: 180, img: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=900&q=70', desc: 'Maison familiale sur un demi-lot, cour carrelée, forage. Libre immédiatement.' },
+    { id: 8, deal: 'location', type: 'Appartement', title: 'Studio meublé',               place: 'Bè', price: 90000, ch: 1, sdb: 1, m2: 35, img: 'https://images.unsplash.com/photo-1554995207-c18c203602cb?w=900&q=70', desc: 'Studio meublé et climatisé, idéal pour une personne seule ou un séjour.' },
+    { id: 9, deal: 'vente',    type: 'Terrain',     title: 'Terrain de 2 lots',           place: 'Baguida', price: 28000000, ch: 0, sdb: 0, m2: 1200, img: 'https://images.unsplash.com/photo-1628624747186-a941c476b7ef?w=900&q=70', desc: 'Deux lots côte à côte, proche de la route nationale. Idéal pour un projet immobilier.' },
+  ];
+
+  const fcfa = n => n >= 1000000
+    ? (n / 1000000).toLocaleString('fr-FR') + ' millions F'
+    : n.toLocaleString('fr-FR').replace(/ | /g, ' ') + ' F';
+  const priceLabel = p => fcfa(p.price) + (p.deal === 'location' ? ' <small>/ mois</small>' : '');
+  const feats = p => [
+    p.ch ? `🛏️ ${p.ch} chambre${p.ch > 1 ? 's' : ''}` : '',
+    p.sdb ? `🚿 ${p.sdb} douche${p.sdb > 1 ? 's' : ''}` : '',
+    `📐 ${p.m2} m²`,
+  ].filter(Boolean).map(f => `<span>${f}</span>`).join('');
+
+  // Quartiers dans le filtre
+  const fPlace = document.getElementById('fPlace');
+  [...new Set(PROPS.map(p => p.place))].sort().forEach(q => fPlace.insertAdjacentHTML('beforeend', `<option>${q}</option>`));
+
+  const filters = ['fDeal', 'fType', 'fPlace', 'fBudget'].map(id => document.getElementById(id));
+  function render() {
+    const [deal, type, place, budget] = filters.map(f => f.value);
+    const list = PROPS.filter(p =>
+      (!deal || p.deal === deal) && (!type || p.type === type) && (!place || p.place === place) &&
+      (!budget || p.price <= +budget));
+    document.getElementById('count').textContent = `${list.length} bien${list.length > 1 ? 's' : ''} trouvé${list.length > 1 ? 's' : ''}`;
+    document.getElementById('grid').innerHTML = list.length ? list.map(p => `
+      <article class="prop" data-id="${p.id}">
+        <div class="prop__img"><img src="${p.img}" alt="${p.title}" loading="lazy"><span class="prop__deal deal-${p.deal}">${p.deal === 'location' ? 'À louer' : 'À vendre'}</span></div>
+        <div class="prop__body">
+          <div class="prop__price">${priceLabel(p)}</div>
+          <h3>${p.title}</h3>
+          <div class="prop__place">📍 ${p.place}, Lomé</div>
+          <div class="prop__feat">${feats(p)}</div>
+        </div>
+      </article>`).join('')
+      : '<div class="empty">Aucun bien ne correspond. Écrivez-nous sur WhatsApp : nous avons d\'autres biens non publiés.</div>';
+  }
+  filters.forEach(f => f.addEventListener('change', render));
+  document.getElementById('resetBtn').onclick = () => { filters.forEach(f => f.value = ''); render(); };
+  render();
+
+  // Fiche détaillée
+  const modal = document.getElementById('modal');
+  let current = null;
+  document.getElementById('grid').addEventListener('click', e => {
+    const card = e.target.closest('.prop'); if (!card) return;
+    current = PROPS.find(p => p.id === +card.dataset.id);
+    document.getElementById('mImg').src = current.img;
+    document.getElementById('mPrice').innerHTML = priceLabel(current);
+    document.getElementById('mTitle').textContent = current.title;
+    document.getElementById('mPlace').textContent = `📍 ${current.place}, Lomé · ${current.deal === 'location' ? 'Location' : 'Vente'}`;
+    document.getElementById('mFeat').innerHTML = feats(current);
+    document.getElementById('mDesc').textContent = current.desc;
+    modal.classList.add('show'); document.body.classList.add('locked');
+  });
+  const close = () => { modal.classList.remove('show'); document.body.classList.remove('locked'); };
+  document.getElementById('closeModal').onclick = close;
+  modal.onclick = e => { if (e.target === modal) close(); };
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+  const vd = document.getElementById('visitDate');
+  vd.min = vd.value = new Date().toISOString().split('T')[0];
+
+  document.getElementById('visitForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const d = new FormData(e.target);
+    const date = new Date(d.get('date') + 'T00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+    const msg = `🏠 *Demande de visite — Horizon Immobilier*\n\nBien : ${current.title} (réf. ${current.id})\nQuartier : ${current.place}\nPrix : ${fcfa(current.price)}${current.deal === 'location' ? ' / mois' : ''}\n\nNom : ${d.get('nom')}\nDate souhaitée : ${date}`;
+    window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank');
+  });
+</script>
+</body>
+</html>

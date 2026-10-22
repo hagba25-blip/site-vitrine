@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Belle Nana Beauty — Salon de coiffure à Lomé (démo)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --plum: #5b1f45; --plum-dark: #3e1430; --rose: #f4c6d6; --blush: #fdf2f6; --gold: #c99a3e;
+      --text: #3a2a33; --muted: #8a7682; --border: #f0dde6; --wa: #25d366;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; color: var(--text); font-size: 17px; line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+    h1, h2, h3 { font-family: 'Bodoni Moda', serif; color: var(--plum-dark); line-height: 1.15; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+    .demo-bar { background: #111; color: #fff; font-size: 14px; text-align: center; padding: 8px 12px; }
+    .demo-bar a { color: var(--rose); font-weight: 600; text-decoration: underline; }
+
+    header { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+    .head { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+    .logo { font-family: 'Bodoni Moda', serif; font-size: 24px; font-weight: 700; color: var(--plum); }
+    header nav { display: flex; gap: 26px; font-weight: 500; }
+    header nav a:hover { color: var(--plum); }
+    .btn { display: inline-block; padding: 14px 28px; border-radius: 999px; font-weight: 600; border: 0; font-size: 16px; transition: transform .2s, background .2s; text-align: center; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn--plum { background: var(--plum); color: #fff; }
+    .btn--plum:hover { background: var(--plum-dark); }
+    .btn--line { border: 1px solid var(--plum); color: var(--plum); }
+    .btn--wa { background: var(--wa); color: #fff; width: 100%; }
+
+    .hero { background: var(--blush); overflow: hidden; }
+    .hero__in { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; min-height: 540px; }
+    .hero small { color: var(--gold); font-weight: 600; letter-spacing: 3px; text-transform: uppercase; font-size: 14px; }
+    .hero h1 { font-size: clamp(38px, 5.5vw, 62px); margin: 12px 0 18px; }
+    .hero h1 em { color: var(--plum); font-style: italic; }
+    .hero p { color: var(--muted); margin-bottom: 28px; max-width: 470px; font-size: 18px; }
+    .hero .btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    .hero__img { position: relative; height: 100%; min-height: 540px; }
+    .hero__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .rating { position: absolute; left: 20px; bottom: 24px; background: #fff; padding: 14px 18px; border-radius: 14px; box-shadow: 0 10px 30px rgba(91,31,69,.15); font-size: 14px; }
+    .rating b { display: block; color: var(--gold); font-size: 18px; letter-spacing: 2px; }
+
+    section { padding: 85px 0; }
+    .title { text-align: center; font-size: clamp(30px, 4.5vw, 44px); margin-bottom: 10px; }
+    .sub { text-align: center; color: var(--muted); max-width: 600px; margin: 0 auto 44px; }
+    .alt { background: var(--blush); }
+
+    /* Prestations */
+    .tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 34px; }
+    .tabs button { border: 1px solid var(--border); background: #fff; padding: 9px 20px; border-radius: 999px; font-weight: 500; color: var(--text); }
+    .tabs button.active { background: var(--plum); border-color: var(--plum); color: #fff; }
+    .prices { max-width: 760px; margin: 0 auto; }
+    .line { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; padding: 16px 0; border-bottom: 1px dashed var(--border); }
+    .line b { font-weight: 600; font-size: 18px; }
+    .line span { color: var(--muted); font-size: 15px; display: block; }
+    .line strong { color: var(--plum); font-size: 18px; white-space: nowrap; }
+
+    /* Galerie */
+    .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .gallery img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 14px; }
+
+    /* Équipe */
+    .team { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; text-align: center; }
+    .team img { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; margin: 0 auto 14px; border: 5px solid #fff; box-shadow: 0 0 0 2px var(--rose); }
+    .team h3 { font-size: 22px; }
+    .team p { color: var(--muted); }
+
+    /* Avis */
+    .reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .review { background: #fff; border-radius: 16px; padding: 26px; border: 1px solid var(--border); }
+    .review .stars { color: var(--gold); letter-spacing: 2px; }
+    .review p { margin: 10px 0 14px; font-style: italic; }
+    .review b { color: var(--plum); }
+    .review small { display: block; margin-top: 10px; color: var(--muted); font-size: 12px; }
+
+    /* Rendez-vous */
+    .rdv { display: grid; grid-template-columns: 1fr 1.1fr; gap: 40px; }
+    .rdv__info { background: var(--plum); color: #f6e3ec; border-radius: 20px; padding: 36px; }
+    .rdv__info h3 { color: #fff; font-size: 28px; margin-bottom: 14px; }
+    .rdv__info li { list-style: none; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.15); }
+    form { background: #fff; border: 1px solid var(--border); border-radius: 20px; padding: 34px; }
+    form h3 { margin-bottom: 18px; font-size: 26px; }
+    form label { display: block; font-weight: 600; font-size: 15px; margin-bottom: 14px; color: var(--plum-dark); }
+    form input, form select, form textarea { display: block; width: 100%; margin-top: 6px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 16px; background: var(--blush); }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .estimate { background: var(--blush); border-radius: 10px; padding: 12px 14px; margin-bottom: 16px; font-weight: 600; color: var(--plum); }
+
+    footer { background: var(--plum-dark); color: #d9bccb; text-align: center; padding: 26px 20px; font-size: 14px; }
+    footer a { color: #fff; font-weight: 600; }
+    .wa-float { position: fixed; right: 18px; bottom: 18px; width: 58px; height: 58px; border-radius: 50%; background: var(--wa); color: #fff; display: grid; place-items: center; font-size: 28px; box-shadow: 0 8px 22px rgba(37,211,102,.45); z-index: 60; }
+
+    @media (max-width: 900px) {
+      .hero__in, .rdv { grid-template-columns: 1fr; }
+      .hero__in { min-height: auto; padding-top: 40px; }
+      .hero__img { min-height: 380px; margin: 0 -20px; }
+      .gallery { grid-template-columns: repeat(2, 1fr); }
+      .reviews { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      header nav { display: none; }
+      section { padding: 60px 0; }
+      .team { grid-template-columns: 1fr; }
+      .hero .btn { width: 100%; }
+      .row { grid-template-columns: 1fr; gap: 0; }
+      form, .rdv__info { padding: 24px; }
+      .line b, .line strong { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="demo-bar">🎨 Site de démonstration. <a href="../index.html">Je veux un site comme celui-ci</a></div>
+
+<header>
+  <div class="container head">
+    <a href="#" class="logo">Belle Nana</a>
+    <nav><a href="#prestations">Prestations</a><a href="#galerie">Réalisations</a><a href="#equipe">Équipe</a><a href="#rdv">Rendez-vous</a></nav>
+    <a href="#rdv" class="btn btn--plum" style="padding:10px 18px;font-size:15px">Réserver</a>
+  </div>
+</header>
+
+<section class="hero" style="padding:0">
+  <div class="container hero__in">
+    <div>
+      <small>Salon de coiffure & beauté · Lomé</small>
+      <h1>Sublimez votre <em>beauté naturelle</em></h1>
+      <p>Tresses, nattes, tissages, perruques, soins et onglerie. Une équipe passionnée qui prend soin de vous dans un cadre chic et climatisé.</p>
+      <div class="btns">
+        <a href="#rdv" class="btn btn--plum">Prendre rendez-vous</a>
+        <a href="#prestations" class="btn btn--line">Voir les prix</a>
+      </div>
+    </div>
+    <div class="hero__img">
+      <img src="https://images.unsplash.com/photo-1595959183082-7b570b7e08e2?w=1000&q=70" alt="Coiffure tressée">
+      <div class="rating"><b>★★★★★</b>Clientes satisfaites depuis 2015</div>
+    </div>
+  </div>
+</section>
+
+<section id="prestations">
+  <div class="container">
+    <h2 class="title">Nos prestations</h2>
+    <p class="sub">Prix indicatifs. Le tarif final dépend de la longueur et du volume. Mèches non incluses, sauf mention.</p>
+    <div class="tabs" id="tabs">
+      <button class="active" data-cat="tresses">Tresses & nattes</button>
+      <button data-cat="tissage">Tissage & perruques</button>
+      <button data-cat="soins">Soins</button>
+      <button data-cat="ongles">Ongles & beauté</button>
+    </div>
+    <div class="prices" id="prices"></div>
+  </div>
+</section>
+
+<section class="alt" id="galerie">
+  <div class="container">
+    <h2 class="title">Nos réalisations</h2>
+    <p class="sub">Quelques coiffures réalisées au salon. Retrouvez-en plus sur notre Instagram.</p>
+    <div class="gallery">
+      <img src="https://images.unsplash.com/photo-1605980776566-0486c3ac7617?w=600&q=70" alt="" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1531123414780-f74242c2b052?w=600&q=70" alt="" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1589156191108-c762ff4b96ab?w=600&q=70" alt="" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1523264766116-1e09b3145b84?w=600&q=70" alt="" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=600&q=70" alt="" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=600&q=70" alt="" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=70" alt="" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=70" alt="" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<section id="equipe">
+  <div class="container">
+    <h2 class="title">Notre équipe</h2>
+    <p class="sub">Des coiffeuses expérimentées, à l'écoute de vos envies.</p>
+    <div class="team">
+      <div><img src="https://images.unsplash.com/photo-1589156280159-27698a70f29e?w=400&q=70" alt="" loading="lazy"><h3>Nana</h3><p>Fondatrice · spécialiste tresses</p></div>
+      <div><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=400&q=70" alt="" loading="lazy"><h3>Akossiwa</h3><p>Tissages et perruques</p></div>
+      <div><img src="https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=400&q=70" alt="" loading="lazy"><h3>Mawuli</h3><p>Onglerie et maquillage</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="container">
+    <h2 class="title">Elles nous font confiance</h2>
+    <p class="sub">Les avis de nos clientes.</p>
+    <div class="reviews">
+      <div class="review"><div class="stars">★★★★★</div><p>« Mes knotless sont magnifiques et ont tenu plus de 6 semaines. Accueil au top ! »</p><b>Afi K.</b><small>Avis d'exemple pour la démonstration</small></div>
+      <div class="review"><div class="stars">★★★★★</div><p>« J'ai réservé sur WhatsApp, aucune attente en arrivant. Très professionnel. »</p><b>Edem A.</b><small>Avis d'exemple pour la démonstration</small></div>
+      <div class="review"><div class="stars">★★★★★</div><p>« Mon installation de perruque était parfaite pour mon mariage. Merci Akossiwa ! »</p><b>Sena D.</b><small>Avis d'exemple pour la démonstration</small></div>
+    </div>
+  </div>
+</section>
+
+<section id="rdv">
+  <div class="container rdv">
+    <div class="rdv__info">
+      <h3>Infos pratiques</h3>
+      <ul>
+        <li>📍 Nyékonakpoè, Lomé</li>
+        <li>📞 +228 99 31 50 92</li>
+        <li>🕘 Mardi – Samedi : 8 h – 20 h</li>
+        <li>🕘 Dimanche : 13 h – 19 h</li>
+        <li>🚫 Fermé le lundi</li>
+        <li>💳 Espèces, T-Money, Flooz</li>
+      </ul>
+    </div>
+    <form id="rdvForm">
+      <h3>Prendre rendez-vous</h3>
+      <label>Votre nom<input name="nom" required></label>
+      <label>Prestation<select name="presta" id="prestaSelect"></select></label>
+      <div class="estimate" id="estimate"></div>
+      <div class="row">
+        <label>Date<input name="date" type="date" required id="dateInput"></label>
+        <label>Heure<input name="heure" type="time" value="09:00" required></label>
+      </div>
+      <label>Précisions (longueur, couleur, photo de modèle…)<textarea name="note" rows="2"></textarea></label>
+      <button class="btn btn--wa" type="submit">Réserver sur WhatsApp</button>
+    </form>
+  </div>
+</section>
+
+<footer>© 2026 Belle Nana Beauty — Site réalisé par <a href="../index.html">WebPro Lomé</a></footer>
+<a class="wa-float" href="https://wa.me/22899315092?text=Bonjour%20Belle%20Nana%2C%20je%20voudrais%20un%20rendez-vous." target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+
+<script>
+  const WA = '22899315092';
+
+  // ===== Prestations et prix : modifiez ici =====
+  const SERVICES = {
+    tresses: [
+      ['Knotless braids', 'Tresses sans nœud, légères', 15000],
+      ['Box braids', 'Tresses classiques, toutes longueurs', 12000],
+      ['Nattes collées', 'Simples ou avec motifs', 5000],
+      ['Fulani braids', 'Nattes et tresses avec perles', 14000],
+      ['Twists', 'Vanilles, Senegalese twists', 10000],
+    ],
+    tissage: [
+      ['Tissage fermé', 'Pose complète avec closure', 10000],
+      ['Pose de perruque', 'Installation lace frontal + coiffage', 8000],
+      ['Confection de perruque', 'À partir de vos mèches', 12000],
+      ['Retouche tissage', 'Contours et resserrage', 4000],
+    ],
+    soins: [
+      ['Shampoing + brushing', 'Lavage, soin et mise en forme', 4000],
+      ['Soin profond à la vapeur', 'Hydratation intense', 6000],
+      ['Défrisage', 'Produits de qualité, protection du cuir chevelu', 5000],
+      ['Coloration', 'Selon la longueur', 8000],
+    ],
+    ongles: [
+      ['Manucure simple', 'Vernis classique', 2500],
+      ['Pose gel / capsules', 'Avec décoration', 8000],
+      ['Pédicure', 'Soin complet des pieds', 5000],
+      ['Maquillage', 'Soirée, cérémonie ou mariage', 10000],
+    ],
+  };
+  const fcfa = n => n.toLocaleString('fr-FR').replace(/ | /g, ' ') + ' F';
+
+  function renderPrices(cat) {
+    document.getElementById('prices').innerHTML = SERVICES[cat].map(([n, d, p]) =>
+      `<div class="line"><div><b>${n}</b><span>${d}</span></div><strong>dès ${fcfa(p)}</strong></div>`).join('');
+  }
+  document.getElementById('tabs').addEventListener('click', e => {
+    if (e.target.tagName !== 'BUTTON') return;
+    document.querySelectorAll('#tabs button').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    renderPrices(e.target.dataset.cat);
+  });
+  renderPrices('tresses');
+
+  // Liste des prestations dans le formulaire
+  const sel = document.getElementById('prestaSelect');
+  const labels = { tresses: 'Tresses & nattes', tissage: 'Tissage & perruques', soins: 'Soins', ongles: 'Ongles & beauté' };
+  Object.entries(SERVICES).forEach(([cat, list]) => {
+    sel.insertAdjacentHTML('beforeend', `<optgroup label="${labels[cat]}">${list.map(([n, , p]) => `<option value="${n}" data-p="${p}">${n}</option>`).join('')}</optgroup>`);
+  });
+  const updateEstimate = () => {
+    const p = +sel.selectedOptions[0].dataset.p;
+    document.getElementById('estimate').textContent = `Prix indicatif : à partir de ${fcfa(p)}`;
+  };
+  sel.addEventListener('change', updateEstimate);
+  updateEstimate();
+
+  // Date minimale = aujourd'hui
+  const di = document.getElementById('dateInput');
+  di.min = di.value = new Date().toISOString().split('T')[0];
+
+  document.getElementById('rdvForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const d = new FormData(e.target);
+    const day = new Date(d.get('date') + 'T00:00');
+    if (day.getDay() === 1) { alert('Le salon est fermé le lundi. Merci de choisir un autre jour.'); return; }
+    const date = day.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+    let msg = `💇🏾‍♀️ *Rendez-vous — Belle Nana Beauty*\n\nNom : ${d.get('nom')}\nPrestation : ${d.get('presta')}\nDate : ${date} à ${d.get('heure')}`;
+    if (d.get('note')) msg += `\nPrécisions : ${d.get('note')}`;
+    window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank');
+  });
+</script>
+</body>
+</html>
