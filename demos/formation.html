@@ -52,6 +52,51 @@
     header nav a:hover { color: var(--blue); }
     .head .btn { padding: 11px 18px; font-size: 15px; }
 
+    /* ---------- Bouton menu animé ---------- */
+    .burger { display: none; position: relative; width: 46px; height: 46px; border-radius: 14px; background: var(--navy); flex-shrink: 0; transition: background .3s, transform .2s; }
+    .burger:active { transform: scale(.92); }
+    .burger span { position: absolute; left: 13px; width: 20px; height: 2.5px; border-radius: 3px; background: #fff; transition: transform .4s cubic-bezier(.68,-.6,.32,1.6), opacity .2s, width .3s, top .3s; }
+    .burger span:nth-child(1) { top: 15px; }
+    .burger span:nth-child(2) { top: 22px; width: 14px; background: var(--amber); }
+    .burger span:nth-child(3) { top: 29px; }
+    .burger.open { background: var(--amber); }
+    .burger.open span { background: var(--navy); }
+    .burger.open span:nth-child(1) { top: 22px; transform: rotate(45deg); }
+    .burger.open span:nth-child(2) { opacity: 0; transform: translateX(-10px); }
+    .burger.open span:nth-child(3) { top: 22px; transform: rotate(-45deg); }
+
+    /* ---------- Menu plein écran ---------- */
+    .mmenu { position: fixed; inset: 0; z-index: 79; overflow-y: auto; visibility: hidden;
+      background: radial-gradient(700px 400px at 100% 0%, #1f4aa8 0%, transparent 60%), radial-gradient(500px 400px at 0% 100%, #3b2a7a 0%, transparent 60%), var(--navy);
+      clip-path: circle(0 at var(--cx, calc(100% - 43px)) var(--cy, 95px)); transition: clip-path .6s cubic-bezier(.77,0,.18,1), visibility 0s .6s; }
+    .mmenu.open { visibility: visible; clip-path: circle(150% at var(--cx, calc(100% - 43px)) var(--cy, 95px)); transition: clip-path .7s cubic-bezier(.77,0,.18,1), visibility 0s; }
+    .mmenu__in { padding: 150px 20px 40px; max-width: 520px; margin: 0 auto; }
+    .mmenu__label { color: #ffc46b; font-size: 12.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+    .mlink { display: flex; align-items: center; gap: 14px; padding: 14px; margin-bottom: 8px; border-radius: 16px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); color: #fff; }
+    .mlink:active { background: rgba(255,255,255,.12); }
+    .mlink__ico { width: 46px; height: 46px; border-radius: 13px; background: rgba(255,159,28,.15); display: grid; place-items: center; font-size: 21px; flex-shrink: 0; }
+    .mlink b { display: block; font-family: 'Sora'; font-size: 17px; }
+    .mlink small { color: #9fb0cc; font-size: 13px; }
+    .mlink i { margin-left: auto; font-style: normal; color: var(--amber); font-size: 20px; transition: transform .25s; }
+    .mlink:hover i { transform: translateX(4px); }
+    .mmenu__cta { display: grid; gap: 10px; margin-top: 20px; }
+    .mmenu__info { text-align: center; color: #9fb0cc; font-size: 14px; margin-top: 20px; }
+    /* Apparition des liens un par un */
+    .mmenu .mlink, .mmenu .mlink-btn, .mmenu__label, .mmenu__info { opacity: 0; transform: translateY(18px); transition: opacity .4s, transform .5s cubic-bezier(.2,.8,.2,1); }
+    .mmenu.open .mlink, .mmenu.open .mlink-btn, .mmenu.open .mmenu__label, .mmenu.open .mmenu__info { opacity: 1; transform: none; }
+    .mmenu.open .mmenu__label { transition-delay: .2s; }
+    .mmenu.open .mlink:nth-of-type(1) { transition-delay: .25s; }
+    .mmenu.open .mlink:nth-of-type(2) { transition-delay: .31s; }
+    .mmenu.open .mlink:nth-of-type(3) { transition-delay: .37s; }
+    .mmenu.open .mlink:nth-of-type(4) { transition-delay: .43s; }
+    .mmenu.open .mlink:nth-of-type(5) { transition-delay: .49s; }
+    .mmenu.open .mlink-btn:nth-child(1) { transition-delay: .56s; }
+    .mmenu.open .mlink-btn:nth-child(2) { transition-delay: .62s; }
+    .mmenu.open .mmenu__info { transition-delay: .68s; }
+    body.menu-open .mbar { transform: translateY(110%); }
+    .mbar { transition: transform .3s; }
+    body.menu-open header { background: #fff; }
+
     /* ---------- Accueil ---------- */
     .hero { position: relative; background: radial-gradient(1200px 500px at 85% -10%, #1f4aa8 0%, transparent 60%), radial-gradient(800px 400px at -10% 110%, #3b2a7a 0%, transparent 55%), var(--navy); color: #fff; overflow: hidden; }
     .hero::after { content: ''; position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,.07) 1px, transparent 1px); background-size: 26px 26px; pointer-events: none; }
@@ -240,6 +285,7 @@
     }
     @media (max-width: 860px) {
       header nav { display: none; }
+      .burger { display: block; }
       .hero__in { grid-template-columns: 1fr; padding: 50px 20px 100px; gap: 36px; }
       .hero__photo { height: 340px; }
       .why, .enroll__in { grid-template-columns: minmax(0, 1fr); gap: 36px; }
@@ -295,8 +341,28 @@
       <a href="#faq">FAQ</a>
     </nav>
     <a href="#inscription" class="btn btn--amber">S'inscrire</a>
+    <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mmenu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
+
+<!-- Menu mobile plein écran -->
+<nav class="mmenu" id="mmenu" aria-hidden="true">
+  <div class="mmenu__in">
+    <p class="mmenu__label">Menu</p>
+    <a href="#formations" class="mlink"><span class="mlink__ico">📚</span><span><b>Nos formations</b><small>9 formations certifiantes</small></span><i>→</i></a>
+    <a href="#pourquoi" class="mlink"><span class="mlink__ico">⭐</span><span><b>Pourquoi nous</b><small>Formateurs, salles, emploi</small></span><i>→</i></a>
+    <a href="#sessions" class="mlink"><span class="mlink__ico">📅</span><span><b>Prochaines rentrées</b><small>Places limitées</small></span><i>→</i></a>
+    <a href="#faq" class="mlink"><span class="mlink__ico">💬</span><span><b>Questions fréquentes</b><small>Tout savoir avant de s'inscrire</small></span><i>→</i></a>
+    <a href="#inscription" class="mlink"><span class="mlink__ico">📝</span><span><b>Inscription</b><small>En moins d'une minute</small></span><i>→</i></a>
+    <div class="mmenu__cta">
+      <a href="#inscription" class="btn btn--amber btn--full mlink-btn">Réserver ma place</a>
+      <a href="https://wa.me/22899315092?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20vos%20formations." target="_blank" rel="noopener" class="btn btn--wa btn--full mlink-btn">💬 Écrire sur WhatsApp</a>
+    </div>
+    <p class="mmenu__info">📍 Tokoin, Lomé · 📞 +228 99 31 50 92</p>
+  </div>
+</nav>
 
 <!-- ===== ACCUEIL ===== -->
 <section class="hero" style="padding:0">
@@ -693,6 +759,25 @@
   }
   render('all');
   observe(document.querySelectorAll('[data-count], .perk, .session, .step, .review, .faq details'));
+
+  // ===== Menu mobile =====
+  const burger = document.getElementById('burger'), mmenu = document.getElementById('mmenu');
+  function toggleMenu(open) {
+    const r = burger.getBoundingClientRect();
+    mmenu.style.setProperty('--cx', (r.left + r.width / 2) + 'px');
+    mmenu.style.setProperty('--cy', (r.top + r.height / 2) + 'px');
+    burger.classList.toggle('open', open);
+    mmenu.classList.toggle('open', open);
+    document.body.classList.toggle('menu-open', open);
+    document.body.classList.toggle('locked', open);
+    burger.setAttribute('aria-expanded', open);
+    burger.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+    mmenu.setAttribute('aria-hidden', !open);
+  }
+  burger.addEventListener('click', () => toggleMenu(!mmenu.classList.contains('open')));
+  mmenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+  addEventListener('keydown', e => { if (e.key === 'Escape') toggleMenu(false); });
+  addEventListener('resize', () => { if (innerWidth > 860) toggleMenu(false); });
 
   // En-tête au défilement
   const header = document.getElementById('header');
