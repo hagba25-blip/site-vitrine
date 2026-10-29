@@ -2,289 +2,1063 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Horizon Immobilier — Lomé (démo)</title>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Horizon Immobilier — Maisons, villas, chambres et terrains à Lomé (démo)</title>
+  <meta name="description" content="Location et vente de villas, maisons, appartements, chambres et terrains à Lomé. Biens vérifiés, visites rapides.">
+  <meta name="theme-color" content="#11161d">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --navy: #12263f; --blue: #1f5fbf; --gold: #e2a93b; --light: #f4f6fa;
-      --text: #2c3a4d; --muted: #6d7a8c; --border: #e2e7ef; --wa: #25d366;
+      --ink: #11161d; --ink-2: #1c2430; --gold: #c9a45c; --gold-2: #e2c88f; --ivory: #faf7f1; --sand: #f2ece1;
+      --text: #2a2f37; --muted: #6f7681; --line: #e8e2d6; --white: #fff; --wa: #25d366; --rent: #2f6f5e; --sale: #9a5b2b;
+      --radius: 20px; --shadow: 0 20px 50px rgba(17, 22, 29, .12);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Manrope', sans-serif; color: var(--text); font-size: 17px; line-height: 1.6; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body { font-family: 'Inter', system-ui, sans-serif; color: var(--text); background: var(--ivory); font-size: 16px; line-height: 1.6; }
     body.locked { overflow: hidden; }
     a { color: inherit; text-decoration: none; }
-    button { font-family: inherit; cursor: pointer; }
-    h1, h2, h3 { color: var(--navy); line-height: 1.2; font-weight: 800; }
-    .container { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+    button { font-family: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    h1, h2, h3 { font-family: 'Cormorant Garamond', Georgia, serif; color: var(--ink); line-height: 1.1; font-weight: 600; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    svg.i { width: 18px; height: 18px; flex-shrink: 0; }
 
-    .demo-bar { background: #111; color: #fff; font-size: 14px; text-align: center; padding: 8px 12px; }
-    .demo-bar a { color: var(--gold); font-weight: 700; text-decoration: underline; }
+    .demo-bar { background: #000; color: #fff; font-size: 13.5px; text-align: center; padding: 8px 12px; }
+    .demo-bar a { color: var(--gold-2); font-weight: 700; text-decoration: underline; }
 
-    header { position: sticky; top: 0; z-index: 50; background: #fff; border-bottom: 1px solid var(--border); }
-    .head { display: flex; align-items: center; justify-content: space-between; height: 72px; }
-    .logo { font-weight: 800; font-size: 22px; color: var(--navy); }
-    .logo span { color: var(--gold); }
-    header nav { display: flex; gap: 26px; font-weight: 600; }
-    header nav a:hover { color: var(--blue); }
-    .btn { white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 22px; border-radius: 10px; font-weight: 700; border: 0; font-size: 16px; transition: transform .2s; }
-    .btn:hover { transform: translateY(-2px); }
-    .btn--gold { background: var(--gold); color: var(--navy); }
-    .btn--blue { background: var(--blue); color: #fff; }
+    /* ---------- Boutons ---------- */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 15.5px; transition: transform .2s, background .2s, box-shadow .2s; white-space: nowrap; }
+    .btn:active { transform: scale(.97); }
+    .btn--gold { background: var(--gold); color: var(--ink); box-shadow: 0 10px 24px rgba(201,164,92,.35); }
+    .btn--gold:hover { background: var(--gold-2); }
+    .btn--ink { background: var(--ink); color: #fff; }
+    .btn--line { border: 1px solid rgba(255,255,255,.35); color: #fff; }
     .btn--wa { background: var(--wa); color: #fff; }
+    .btn--wa:hover { background: #1ebe5b; }
+    .btn--share { background: var(--sand); color: var(--ink); border: 1px solid var(--line); }
+    .btn--share:hover { background: #ebe3d4; }
+    .btn--full { width: 100%; }
 
-    .hero {
-      background: linear-gradient(rgba(18,38,63,.72), rgba(18,38,63,.8)), url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=70') center/cover;
-      color: #fff; padding: 100px 0 140px; text-align: center;
-    }
-    .hero h1 { color: #fff; font-size: clamp(34px, 5.5vw, 58px); margin-bottom: 16px; }
-    .hero p { font-size: 19px; opacity: .92; max-width: 640px; margin: 0 auto; }
+    /* ---------- En-tête ---------- */
+    header { position: sticky; top: 0; z-index: 80; background: rgba(17,22,29,.94); backdrop-filter: blur(14px); color: #fff; }
+    .head { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
+    .logo { display: flex; align-items: center; gap: 12px; }
+    .logo__mark { width: 42px; height: 42px; border: 1.5px solid var(--gold); border-radius: 50%; display: grid; place-items: center; color: var(--gold); font-family: 'Cormorant Garamond'; font-size: 22px; font-weight: 700; flex-shrink: 0; }
+    .logo b { font-family: 'Cormorant Garamond'; font-size: 23px; letter-spacing: .5px; display: block; line-height: 1; }
+    .logo small { color: var(--gold-2); font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; }
+    header nav { display: flex; gap: 30px; font-size: 15px; font-weight: 500; color: #d7dbe1; }
+    header nav a:hover { color: var(--gold-2); }
+    .head__actions { display: flex; align-items: center; gap: 10px; }
+    .head__actions .btn { padding: 11px 18px; font-size: 14.5px; }
+    .fav-btn { position: relative; width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(255,255,255,.18); display: grid; place-items: center; color: #fff; }
+    .fav-btn span { position: absolute; top: -6px; right: -6px; background: var(--gold); color: var(--ink); font-size: 11px; font-weight: 700; min-width: 20px; height: 20px; border-radius: 999px; display: grid; place-items: center; padding: 0 5px; }
 
-    /* Barre de recherche */
-    .search { background: #fff; border-radius: 16px; box-shadow: 0 20px 50px rgba(18,38,63,.18); padding: 22px; margin-top: -80px; position: relative; display: grid; grid-template-columns: repeat(4, 1fr) auto; gap: 14px; align-items: end; }
-    .search label { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
-    .search select { display: block; width: 100%; margin-top: 6px; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 16px; background: var(--light); color: var(--text); }
+    .burger { display: none; position: relative; width: 46px; height: 46px; border-radius: 12px; border: 1px solid rgba(255,255,255,.18); transition: background .3s; }
+    .burger span { position: absolute; left: 13px; width: 20px; height: 2px; border-radius: 2px; background: #fff; transition: transform .45s cubic-bezier(.68,-.6,.32,1.6), opacity .2s, top .3s; }
+    .burger span:nth-child(1) { top: 16px; } .burger span:nth-child(2) { top: 22px; width: 13px; background: var(--gold); } .burger span:nth-child(3) { top: 28px; }
+    .burger.open { background: var(--gold); border-color: var(--gold); }
+    .burger.open span { background: var(--ink); }
+    .burger.open span:nth-child(1) { top: 22px; transform: rotate(45deg); }
+    .burger.open span:nth-child(2) { opacity: 0; transform: translateX(-8px); }
+    .burger.open span:nth-child(3) { top: 22px; transform: rotate(-45deg); }
 
-    section { padding: 80px 0; }
-    .alt { background: var(--light); }
-    .title { font-size: clamp(28px, 4vw, 40px); margin-bottom: 8px; }
-    .sub { color: var(--muted); margin-bottom: 30px; }
-    .count { color: var(--muted); margin-bottom: 20px; font-weight: 600; }
+    .mmenu { position: fixed; inset: 0; z-index: 79; overflow-y: auto; visibility: hidden; background: radial-gradient(600px 400px at 100% 0%, #2a3445 0%, transparent 60%), var(--ink);
+      clip-path: circle(0 at var(--cx, calc(100% - 43px)) var(--cy, 90px)); transition: clip-path .6s cubic-bezier(.77,0,.18,1), visibility 0s .6s; }
+    .mmenu.open { visibility: visible; clip-path: circle(150% at var(--cx, calc(100% - 43px)) var(--cy, 90px)); transition: clip-path .7s cubic-bezier(.77,0,.18,1), visibility 0s; }
+    .mmenu__in { padding: 140px 22px 40px; max-width: 520px; margin: 0 auto; }
+    .mmenu__label { color: var(--gold); font-size: 12px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; }
+    .mlink { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,.08); color: #fff; font-family: 'Cormorant Garamond'; font-size: 30px; font-weight: 600; }
+    .mlink i { font-style: normal; color: var(--gold); font-size: 22px; font-family: 'Inter'; }
+    .mmenu__cta { display: grid; gap: 10px; margin-top: 26px; }
+    .mmenu__info { color: #9aa3b0; font-size: 14px; text-align: center; margin-top: 22px; }
+    .mmenu .mlink, .mmenu .mmenu__cta, .mmenu__label, .mmenu__info { opacity: 0; transform: translateY(16px); transition: opacity .4s, transform .5s cubic-bezier(.2,.8,.2,1); }
+    .mmenu.open .mlink, .mmenu.open .mmenu__cta, .mmenu.open .mmenu__label, .mmenu.open .mmenu__info { opacity: 1; transform: none; }
+    .mmenu.open .mmenu__label { transition-delay: .2s; }
+    .mmenu.open .mlink:nth-of-type(1) { transition-delay: .26s; } .mmenu.open .mlink:nth-of-type(2) { transition-delay: .32s; }
+    .mmenu.open .mlink:nth-of-type(3) { transition-delay: .38s; } .mmenu.open .mlink:nth-of-type(4) { transition-delay: .44s; }
+    .mmenu.open .mlink:nth-of-type(5) { transition-delay: .5s; } .mmenu.open .mlink:nth-of-type(6) { transition-delay: .54s; }
+    .mmenu.open .mmenu__cta { transition-delay: .56s; } .mmenu.open .mmenu__info { transition-delay: .62s; }
 
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    .prop { background: #fff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; cursor: pointer; transition: transform .25s, box-shadow .25s; }
-    .prop:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(18,38,63,.1); }
-    .prop__img { position: relative; height: 220px; }
-    .prop__img img { width: 100%; height: 100%; object-fit: cover; }
-    .prop__deal { position: absolute; top: 14px; left: 14px; padding: 5px 12px; border-radius: 999px; font-size: 13px; font-weight: 800; color: #fff; }
-    .deal-location { background: var(--blue); } .deal-vente { background: #c2410c; }
-    .prop__body { padding: 20px; }
-    .prop__price { font-size: 22px; font-weight: 800; color: var(--blue); }
-    .prop__price small { font-size: 14px; color: var(--muted); font-weight: 600; }
-    .prop h3 { font-size: 18px; margin: 4px 0; }
-    .prop__place { color: var(--muted); font-size: 15px; }
-    .prop__feat { display: flex; gap: 16px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 14px; font-weight: 600; color: var(--text); flex-wrap: wrap; }
-    .empty { grid-column: 1/-1; text-align: center; padding: 50px; color: var(--muted); background: #fff; border-radius: 16px; border: 1px dashed var(--border); }
+    /* ---------- Accueil ---------- */
+    .hero { position: relative; min-height: 640px; display: flex; align-items: center; color: #fff; overflow: hidden; background: var(--ink-2); }
+    .hero__bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1800&q=70') center/cover; transform: scale(1.06); animation: zoom 18s ease-out forwards; }
+    @keyframes zoom { to { transform: scale(1); } }
+    .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(17,22,29,.55) 0%, rgba(17,22,29,.45) 40%, rgba(17,22,29,.88) 100%); }
+    .hero__in { position: relative; z-index: 1; padding: 90px 20px 120px; width: 100%; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; color: var(--gold-2); font-size: 12.5px; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; margin-bottom: 18px; }
+    .eyebrow::before { content: ''; width: 34px; height: 1px; background: var(--gold); }
+    .hero h1 { color: #fff; font-size: clamp(42px, 7.2vw, 84px); font-weight: 600; max-width: 820px; margin-bottom: 18px; }
+    .hero h1 em { color: var(--gold-2); font-style: italic; }
+    .hero p { color: #dfe3e8; font-size: 18px; max-width: 560px; margin-bottom: 34px; }
 
-    .services { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-    .service { background: #fff; border-radius: 16px; padding: 26px; border: 1px solid var(--border); }
-    .service .ico { font-size: 30px; margin-bottom: 12px; }
-    .service h3 { font-size: 19px; margin-bottom: 6px; }
-    .service p { color: var(--muted); font-size: 15.5px; }
+    .search { background: rgba(255,255,255,.98); color: var(--text); border-radius: 18px; padding: 10px; display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr auto; gap: 6px; max-width: 960px; box-shadow: 0 30px 60px rgba(0,0,0,.3); }
+    .search__f { padding: 8px 14px; border-right: 1px solid var(--line); min-width: 0; }
+    .search__f:nth-last-child(2) { border-right: 0; }
+    .search__f label { display: block; font-size: 11.5px; font-weight: 700; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+    .search__f input, .search__f select { width: 100%; border: 0; background: transparent; font-family: inherit; font-size: 15.5px; color: var(--ink); padding: 4px 0; font-weight: 500; outline: none; }
+    .search .btn { border-radius: 12px; padding: 0 28px; }
 
-    .cta { background: var(--navy); color: #d6deea; border-radius: 20px; padding: 46px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
-    .cta h2 { color: #fff; font-size: clamp(24px, 3.5vw, 34px); margin-bottom: 6px; }
+    /* ---------- Chiffres ---------- */
+    .stats { background: var(--ink); color: #fff; }
+    .stats__in { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .stat { padding: 30px 16px; text-align: center; border-right: 1px solid rgba(255,255,255,.08); }
+    .stat:last-child { border-right: 0; }
+    .stat b { display: block; font-family: 'Cormorant Garamond'; font-size: 40px; color: var(--gold-2); line-height: 1; }
+    .stat span { color: #a9b1bc; font-size: 14px; }
 
-    footer { background: #0b1828; color: #9fb0c6; padding: 26px 20px; text-align: center; font-size: 14px; }
-    footer a { color: #fff; font-weight: 700; }
+    section { padding: 90px 0; }
+    .sec-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: 36px; flex-wrap: wrap; }
+    .sec-head h2 { font-size: clamp(34px, 5vw, 52px); }
+    .sec-head p { color: var(--muted); max-width: 460px; }
+    .eyebrow--dark { color: var(--sale); }
+    .eyebrow--dark::before { background: var(--sale); }
 
-    /* Fiche détaillée */
-    .modal { position: fixed; inset: 0; background: rgba(10,20,35,.6); display: none; align-items: center; justify-content: center; z-index: 100; padding: 16px; }
-    .modal.show { display: flex; }
-    .modal__box { background: #fff; border-radius: 18px; max-width: 760px; width: 100%; max-height: 92vh; overflow-y: auto; position: relative; }
-    .modal__box > img { width: 100%; height: 300px; object-fit: cover; border-radius: 18px 18px 0 0; }
-    .modal__close { position: absolute; top: 14px; right: 14px; width: 42px; height: 42px; border-radius: 50%; border: 0; background: #fff; font-size: 24px; box-shadow: 0 4px 12px rgba(0,0,0,.2); }
-    .modal__content { padding: 28px; }
-    .modal__content p { color: var(--muted); margin: 12px 0 18px; }
-    .modal form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); }
-    .modal form h4 { grid-column: 1/-1; color: var(--navy); font-size: 18px; }
-    .modal input { padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 16px; width: 100%; }
-    .modal form .btn { grid-column: 1/-1; }
+    /* ---------- Catégories ---------- */
+    .cats { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+    .cat { position: relative; height: 190px; border-radius: 18px; overflow: hidden; color: #fff; text-align: left; background: var(--ink-2); }
+    .cat img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .6s; }
+    .cat::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(17,22,29,.85)); }
+    .cat:hover img { transform: scale(1.08); }
+    .cat div { position: absolute; left: 16px; bottom: 14px; z-index: 1; }
+    .cat b { font-family: 'Cormorant Garamond'; font-size: 24px; display: block; line-height: 1.1; }
+    .cat span { font-size: 13px; color: var(--gold-2); }
 
-    .wa-float { position: fixed; right: 18px; bottom: 18px; width: 58px; height: 58px; border-radius: 50%; background: var(--wa); color: #fff; display: grid; place-items: center; font-size: 28px; box-shadow: 0 8px 22px rgba(37,211,102,.45); z-index: 60; }
+    /* ---------- Barre d'outils ---------- */
+    .toolbar { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; }
+    .seg { display: inline-flex; background: var(--sand); border-radius: 12px; padding: 4px; }
+    .seg button { padding: 9px 18px; border-radius: 9px; font-weight: 600; font-size: 14.5px; color: var(--muted); transition: .2s; }
+    .seg button.active { background: var(--white); color: var(--ink); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+    .chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 0 6px; }
+    .chips::-webkit-scrollbar { display: none; }
+    .chip { flex-shrink: 0; padding: 9px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--white); font-weight: 600; font-size: 14px; color: var(--text); transition: .2s; }
+    .chip.active { background: var(--ink); border-color: var(--ink); color: #fff; }
+    .sort { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 14.5px; }
+    .sort select { padding: 9px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--white); font-family: inherit; font-size: 14.5px; color: var(--ink); }
+    .count { color: var(--muted); font-size: 14.5px; margin: 6px 0 22px; }
+    .count b { color: var(--ink); }
 
-    @media (max-width: 960px) {
-      .grid { grid-template-columns: 1fr 1fr; }
-      .services { grid-template-columns: 1fr 1fr; }
+    /* ---------- Cartes des biens ---------- */
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+    .card { background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: 0 2px 0 var(--line), 0 10px 30px rgba(17,22,29,.05); display: flex; flex-direction: column; transition: transform .3s, box-shadow .3s; animation: rise .5s ease both; }
+    .card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+    @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+    .card__media { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--sand); cursor: pointer; }
+    .card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s; }
+    .card:hover .card__media img { transform: scale(1.06); }
+    .card__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.25) 0%, transparent 30%, transparent 60%, rgba(0,0,0,.55) 100%); pointer-events: none; }
+    .tags { position: absolute; top: 14px; left: 14px; display: flex; gap: 6px; z-index: 1; flex-wrap: wrap; }
+    .tag { padding: 5px 11px; border-radius: 999px; font-size: 12px; font-weight: 700; color: #fff; backdrop-filter: blur(6px); }
+    .tag--rent { background: rgba(47,111,94,.92); } .tag--sale { background: rgba(154,91,43,.92); }
+    .tag--hot { background: rgba(201,164,92,.95); color: var(--ink); }
+    .heart { position: absolute; top: 12px; right: 12px; z-index: 2; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.92); display: grid; place-items: center; color: var(--ink); transition: transform .2s; }
+    .heart:active { transform: scale(.85); }
+    .heart.on { color: #d6455d; }
+    .heart.on svg { fill: currentColor; }
+    .card__price { position: absolute; left: 16px; bottom: 12px; z-index: 1; color: #fff; font-family: 'Cormorant Garamond'; font-size: 28px; font-weight: 700; line-height: 1; text-shadow: 0 2px 12px rgba(0,0,0,.4); }
+    .card__price small { font-family: 'Inter'; font-size: 13px; font-weight: 500; opacity: .9; }
+    .card__photos { position: absolute; right: 14px; bottom: 14px; z-index: 1; color: #fff; font-size: 12.5px; font-weight: 600; background: rgba(0,0,0,.45); padding: 4px 9px; border-radius: 8px; }
+    .card__body { padding: 18px 20px 20px; display: flex; flex-direction: column; flex: 1; }
+    .card__type { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); }
+    .card h3 { font-size: 25px; margin: 4px 0 4px; cursor: pointer; }
+    .card h3:hover { color: var(--sale); }
+    .card__place { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 14.5px; }
+    .feats { display: flex; flex-wrap: wrap; gap: 14px; padding: 14px 0; margin: 14px 0 16px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-size: 14px; font-weight: 600; color: var(--text); }
+    .feats span { display: inline-flex; align-items: center; gap: 6px; }
+    .feats svg { color: var(--gold); width: 17px; height: 17px; }
+    .card__actions { margin-top: auto; display: grid; grid-template-columns: 1.35fr 1fr; gap: 10px; }
+    .card__actions .btn { padding: 12px 10px; font-size: 14.5px; }
+    .empty { grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: var(--white); border-radius: var(--radius); border: 1px dashed var(--line); color: var(--muted); }
+    .empty b { display: block; font-family: 'Cormorant Garamond'; font-size: 28px; color: var(--ink); margin-bottom: 6px; }
+    .more { text-align: center; margin-top: 36px; }
+
+    /* ---------- Faire une demande ---------- */
+    .req > * { min-width: 0; }
+    .req { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); border-radius: 28px; overflow: hidden; box-shadow: var(--shadow); background: var(--white); }
+    .req__side { position: relative; padding: 46px 40px; color: #d5dae1; background: radial-gradient(500px 300px at 0% 0%, #2a3445 0%, transparent 70%), var(--ink); overflow: hidden; }
+    .req__side::after { content: ''; position: absolute; right: -80px; bottom: -80px; width: 260px; height: 260px; border: 1px solid rgba(201,164,92,.25); border-radius: 50%; box-shadow: 0 0 0 40px rgba(201,164,92,.05), 0 0 0 80px rgba(201,164,92,.03); }
+    .req__side h2 { color: #fff; font-size: clamp(34px, 4.4vw, 48px); margin-bottom: 14px; }
+    .req__side > p { margin-bottom: 28px; }
+    .req__steps { list-style: none; position: relative; z-index: 1; }
+    .req__steps li { display: flex; gap: 14px; padding: 12px 0; }
+    .req__steps b { flex: 0 0 36px; height: 36px; border-radius: 50%; border: 1px solid var(--gold); color: var(--gold-2); display: grid; place-items: center; font-family: 'Cormorant Garamond'; font-size: 19px; }
+    .req__steps strong { display: block; color: #fff; font-weight: 600; }
+    .req__steps span { font-size: 14px; color: #9aa3b0; }
+    .summary { position: relative; z-index: 1; margin-top: 26px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 18px; padding: 18px 20px; }
+    .summary p { color: var(--gold-2); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+    .summary div { color: #fff; font-family: 'Cormorant Garamond'; font-size: 22px; line-height: 1.3; min-height: 58px; }
+    .summary div em { color: var(--gold-2); font-style: normal; }
+
+    .req form { padding: 40px; }
+    .q { margin-bottom: 24px; }
+    .q > label, .q > .q__l { display: flex; justify-content: space-between; align-items: baseline; font-weight: 700; font-size: 14.5px; color: var(--ink); margin-bottom: 10px; }
+    .q__l small { font-weight: 500; color: var(--muted); font-size: 13px; }
+    .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+    .opts input { position: absolute; opacity: 0; pointer-events: none; }
+    .opts label { display: inline-flex; align-items: center; gap: 8px; padding: 11px 16px; border: 1.5px solid var(--line); border-radius: 12px; font-weight: 600; font-size: 14.5px; cursor: pointer; background: var(--ivory); color: var(--text); transition: .2s; user-select: none; }
+    .opts label:hover { border-color: var(--gold); }
+    .opts input:checked + label { background: var(--ink); border-color: var(--ink); color: #fff; box-shadow: 0 8px 18px rgba(17,22,29,.18); }
+    .opts input:focus-visible + label { outline: 2px solid var(--gold); outline-offset: 2px; }
+    .opts--big { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .opts--big label { flex-direction: column; justify-content: center; padding: 14px 8px; text-align: center; gap: 4px; }
+    .opts--big label b { font-size: 22px; line-height: 1; }
+    .opts--types { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .opts--types label { justify-content: center; }
+    .opts--round label { width: 48px; height: 48px; padding: 0; justify-content: center; border-radius: 50%; }
+    .opts--round label.wide { width: auto; padding: 0 16px; border-radius: 999px; }
+    .budget { background: var(--ivory); border: 1.5px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+    .budget__val { font-family: 'Cormorant Garamond'; font-size: 30px; font-weight: 700; color: var(--ink); line-height: 1; margin-bottom: 12px; }
+    .budget__val small { font-family: 'Inter'; font-size: 13.5px; color: var(--muted); font-weight: 500; }
+    input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 6px; background: linear-gradient(90deg, var(--gold) var(--p, 30%), var(--line) var(--p, 30%)); outline: none; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 3px solid var(--gold); box-shadow: 0 4px 12px rgba(0,0,0,.18); cursor: grab; }
+    input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: #fff; border: 3px solid var(--gold); cursor: grab; }
+    .budget__ends { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--muted); margin-top: 8px; }
+    .two-f { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .inp { width: 100%; padding: 14px 15px; border: 1.5px solid var(--line); border-radius: 12px; font-family: inherit; font-size: 16px; background: var(--ivory); color: var(--ink); transition: border-color .2s, background .2s; min-width: 0; }
+    .inp:focus { outline: none; border-color: var(--gold); background: #fff; }
+    textarea.inp { resize: vertical; min-height: 96px; }
+    .req__send { width: 100%; padding: 17px; font-size: 16.5px; border-radius: 14px; }
+    .req__note { text-align: center; color: var(--muted); font-size: 13px; margin-top: 12px; }
+    .hidden-q { display: none; }
+
+    /* ---------- Services ---------- */
+    .dark { background: var(--ink); color: #c9ced6; }
+    .dark h2 { color: #fff; }
+    .services { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,.08); border-radius: var(--radius); overflow: hidden; }
+    .service { background: var(--ink); padding: 34px 28px; }
+    .service .num { font-family: 'Cormorant Garamond'; color: var(--gold); font-size: 20px; }
+    .service h3 { color: #fff; font-size: 27px; margin: 10px 0 8px; }
+    .service p { font-size: 15px; color: #a9b1bc; }
+
+    /* ---------- Témoignages ---------- */
+    .reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .review { background: var(--white); border-radius: var(--radius); padding: 30px; border: 1px solid var(--line); }
+    .review q { display: block; font-family: 'Cormorant Garamond'; font-size: 23px; line-height: 1.35; color: var(--ink); margin: 10px 0 18px; quotes: '«\00a0' '\00a0»'; }
+    .stars { color: var(--gold); letter-spacing: 2px; }
+    .review b { display: block; color: var(--ink); }
+    .review span { color: var(--muted); font-size: 14px; }
+    .demo-note { text-align: center; color: var(--muted); font-size: 13px; margin-top: 16px; }
+
+    /* ---------- Propriétaires ---------- */
+    .owner { display: grid; grid-template-columns: 1fr 1fr; border-radius: 26px; overflow: hidden; background: var(--ink); }
+    .owner img { width: 100%; height: 100%; min-height: 340px; object-fit: cover; background: var(--ink-2); }
+    .owner div { padding: 52px 46px; color: #c9ced6; display: flex; flex-direction: column; justify-content: center; }
+    .owner h2 { color: #fff; font-size: clamp(34px, 4.6vw, 48px); margin-bottom: 14px; }
+    .owner ul { list-style: none; margin: 18px 0 28px; }
+    .owner li { padding: 6px 0; } .owner li::before { content: '✦  '; color: var(--gold); }
+
+    /* ---------- Contact ---------- */
+    .contact { display: grid; grid-template-columns: 1fr 1.2fr; gap: 30px; align-items: stretch; }
+    .contact__box { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 34px; }
+    .contact__box h3 { font-size: 32px; margin-bottom: 14px; }
+    .contact__box li { list-style: none; display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+    .contact__box li:last-of-type { border-bottom: 0; }
+    .contact iframe { width: 100%; height: 100%; min-height: 360px; border: 0; border-radius: var(--radius); }
+
+    footer { background: var(--ink); color: #8b94a1; padding: 34px 0; font-size: 14px; }
+    .foot { display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+    footer a { color: #fff; font-weight: 600; }
+
+    .wa-float { position: fixed; right: 20px; bottom: 22px; z-index: 70; width: 60px; height: 60px; border-radius: 50%; background: var(--wa); color: #fff; display: grid; place-items: center; box-shadow: 0 10px 26px rgba(37,211,102,.45); }
+    .wa-float svg { width: 30px; height: 30px; }
+
+    /* ---------- Fiche détaillée ---------- */
+    .modal { position: fixed; inset: 0; z-index: 100; background: rgba(10,13,18,.7); display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .25s; }
+    .modal.show { opacity: 1; pointer-events: auto; }
+    .sheet { position: relative; background: var(--ivory); width: 100%; max-width: 820px; max-height: 94vh; overflow-y: auto; border-radius: 26px 26px 0 0; transform: translateY(50px); transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+    .modal.show .sheet { transform: none; }
+    @media (min-width: 760px) { .modal { align-items: center; padding: 24px; } .sheet { border-radius: 26px; } }
+    .gallery { position: relative; }
+    .slides { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+    .slides::-webkit-scrollbar { display: none; }
+    .slides img { flex: 0 0 100%; width: 100%; height: 360px; object-fit: cover; scroll-snap-align: start; background: var(--sand); }
+    .dots { position: absolute; bottom: 14px; left: 0; right: 0; display: flex; justify-content: center; gap: 6px; }
+    .dots i { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.55); transition: .2s; }
+    .dots i.on { background: #fff; width: 22px; border-radius: 4px; }
+    .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 42px; height: 42px; border-radius: 50%; background: rgba(255,255,255,.9); color: var(--ink); font-size: 20px; display: grid; place-items: center; }
+    .nav-arrow--l { left: 14px; } .nav-arrow--r { right: 14px; }
+    .x { position: absolute; top: 14px; right: 14px; z-index: 3; width: 42px; height: 42px; border-radius: 50%; background: #fff; font-size: 22px; box-shadow: 0 4px 14px rgba(0,0,0,.25); display: grid; place-items: center; }
+    .sheet__body { padding: 26px 28px 10px; }
+    .sheet__price { font-family: 'Cormorant Garamond'; font-size: 38px; font-weight: 700; color: var(--ink); line-height: 1; }
+    .sheet__price small { font-family: 'Inter'; font-size: 15px; color: var(--muted); font-weight: 500; }
+    .sheet h3 { font-size: 32px; margin: 8px 0 6px; }
+    .sheet .feats { margin: 16px 0; }
+    .sheet p.desc { color: var(--text); margin-bottom: 18px; }
+    .amen { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+    .amen span { background: var(--white); border: 1px solid var(--line); padding: 7px 12px; border-radius: 999px; font-size: 13.5px; font-weight: 500; }
+    .sheet h4 { font-family: 'Cormorant Garamond'; font-size: 24px; color: var(--ink); margin: 6px 0 10px; }
+    .visit { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+    .visit input { padding: 13px 14px; border: 1px solid var(--line); border-radius: 12px; font-family: inherit; font-size: 16px; background: var(--white); width: 100%; min-width: 0; }
+    .ref { color: var(--muted); font-size: 13px; }
+    .sheet__foot { position: sticky; bottom: 0; background: rgba(250,247,241,.97); backdrop-filter: blur(8px); border-top: 1px solid var(--line); padding: 14px 28px calc(14px + env(safe-area-inset-bottom)); display: grid; grid-template-columns: 1.35fr 1fr; gap: 10px; }
+
+    /* ---------- Fenêtre de partage ---------- */
+    .share { position: fixed; inset: 0; z-index: 120; background: rgba(10,13,18,.6); display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .2s; }
+    .share.show { opacity: 1; pointer-events: auto; }
+    .share__box { background: var(--white); width: 100%; max-width: 480px; border-radius: 24px 24px 0 0; padding: 22px 22px calc(22px + env(safe-area-inset-bottom)); transform: translateY(40px); transition: transform .3s cubic-bezier(.2,.8,.2,1); }
+    .share.show .share__box { transform: none; }
+    @media (min-width: 560px) { .share { align-items: center; } .share__box { border-radius: 24px; } }
+    .share__grip { width: 44px; height: 5px; border-radius: 3px; background: var(--line); margin: 0 auto 16px; }
+    .share__head { display: flex; gap: 14px; align-items: center; margin-bottom: 20px; }
+    .share__head img { width: 64px; height: 64px; border-radius: 14px; object-fit: cover; background: var(--sand); flex-shrink: 0; }
+    .share__head b { display: block; font-family: 'Cormorant Garamond'; font-size: 22px; color: var(--ink); line-height: 1.15; }
+    .share__head span { color: var(--muted); font-size: 14px; }
+    .share__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px 8px; margin-bottom: 18px; }
+    .share__grid a, .share__grid button { display: flex; flex-direction: column; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 600; color: var(--text); }
+    .share__ico { width: 56px; height: 56px; border-radius: 18px; display: grid; place-items: center; color: #fff; transition: transform .2s; }
+    .share__grid a:active .share__ico, .share__grid button:active .share__ico { transform: scale(.9); }
+    .share__ico svg { width: 26px; height: 26px; }
+    .copy { display: flex; gap: 8px; background: var(--sand); border-radius: 12px; padding: 6px 6px 6px 14px; align-items: center; }
+    .copy input { flex: 1; min-width: 0; border: 0; background: transparent; font-family: inherit; font-size: 14px; color: var(--muted); outline: none; }
+    .copy button { background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 9px; font-weight: 600; font-size: 14px; white-space: nowrap; }
+
+    .toast { position: fixed; left: 50%; top: 20px; z-index: 130; transform: translate(-50%, -120px); background: var(--ink); color: #fff; padding: 12px 20px; border-radius: 999px; font-size: 14.5px; font-weight: 500; transition: transform .35s cubic-bezier(.2,.8,.2,1); box-shadow: var(--shadow); white-space: nowrap; }
+    .toast.show { transform: translate(-50%, 0); }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 1080px) {
+      .cats { grid-template-columns: repeat(3, 1fr); }
+      .grid, .reviews { grid-template-columns: repeat(2, 1fr); }
+      .services { grid-template-columns: repeat(2, 1fr); }
       .search { grid-template-columns: 1fr 1fr; }
-      .search .btn { grid-column: 1/-1; }
+      .search__f { border-right: 0; border-bottom: 1px solid var(--line); }
+      .search .btn { grid-column: 1 / -1; padding: 14px; }
     }
-    @media (max-width: 640px) {
-      header nav { display: none; }
-      .logo { font-size: 18px; }
-      .modal form .btn { white-space: normal; }
-      .hero { padding: 70px 0 120px; }
-      .grid, .services { grid-template-columns: 1fr; }
-      .search { grid-template-columns: 1fr; }
-      section { padding: 60px 0; }
-      .cta { padding: 28px; }
-      .cta .btn { width: 100%; }
-      .modal form { grid-template-columns: 1fr; }
-      .modal__box > img { height: 220px; }
-      .modal__content { padding: 22px; }
+    @media (max-width: 860px) {
+      header nav, .head__actions .btn { display: none; }
+      .burger { display: block; }
+      .owner, .contact { grid-template-columns: 1fr; }
+      .req { grid-template-columns: minmax(0, 1fr); }
+      .req__side { padding: 36px 26px; }
+      .req form { padding: 30px 24px; }
+      .owner img { min-height: 240px; max-height: 280px; }
+      .owner div { padding: 34px 26px; }
+      .wa-float { width: 54px; height: 54px; }
+    }
+    @media (max-width: 620px) {
+      section { padding: 62px 0; }
+      .hero { min-height: 0; }
+      .hero__in { padding: 54px 20px 60px; }
+      .hero p { font-size: 16.5px; margin-bottom: 26px; }
+      .search { grid-template-columns: 1fr; padding: 8px; }
+      .search__f { padding: 10px 12px; }
+      .stats__in { grid-template-columns: 1fr 1fr; }
+      .stat { padding: 22px 10px; border-bottom: 1px solid rgba(255,255,255,.08); }
+      .stat:nth-child(2) { border-right: 0; }
+      .stat b { font-size: 34px; }
+      .cats { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 -20px; padding: 0 20px; gap: 12px; }
+      .cats::-webkit-scrollbar { display: none; }
+      .cat { flex: 0 0 42%; height: 160px; scroll-snap-align: start; }
+      .grid, .reviews, .services { grid-template-columns: 1fr; }
+      .toolbar { flex-direction: column; align-items: stretch; }
+      .seg { display: grid; grid-template-columns: repeat(3, 1fr); }
+      .chips { margin: 0 -20px; padding: 2px 20px 6px; }
+      .sort { justify-content: space-between; }
+      .sort select { flex: 1; }
+      .slides img { height: 270px; }
+      .sheet__body { padding: 22px 20px 6px; }
+      .sheet__foot { padding-left: 20px; padding-right: 20px; }
+      .sheet h3 { font-size: 28px; }
+      .visit { grid-template-columns: 1fr; }
+      .contact__box { padding: 26px 22px; }
+      .owner h2 { font-size: 34px; }
+      .req { border-radius: 22px; }
+      .wa-float { display: none; }
+      .req form { padding: 26px 18px; }
+      .opts--types { grid-template-columns: repeat(2, 1fr); }
+      .opts--big label { font-size: 13px; }
+      .two-f { grid-template-columns: 1fr; gap: 0; }
+      .two-f .q { margin-bottom: 18px; }
+      .req__steps li { padding: 8px 0; }
     }
   </style>
 </head>
 <body>
 
+<!-- Icônes réutilisées -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.04 21.5h-.01a9.4 9.4 0 0 1-4.8-1.31l-.34-.2-3.57.94.95-3.48-.22-.36a9.43 9.43 0 1 1 8 4.41zm8.02-17.45A11.32 11.32 0 0 0 12.04.72 11.33 11.33 0 0 0 2.23 17.7L.62 23.6l6.04-1.58a11.3 11.3 0 0 0 5.37 1.37h.01c6.25 0 11.33-5.08 11.34-11.33 0-3.03-1.18-5.87-3.32-8.01z"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></g></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 21s-7.5-4.6-9.5-9.2C1 8.2 3.2 4.5 7 4.5c2.1 0 3.6 1.1 5 2.8 1.4-1.7 2.9-2.8 5-2.8 3.8 0 6 3.7 4.5 7.3C19.5 16.4 12 21 12 21z"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></g></symbol>
+    <symbol id="i-bed" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18V6M3 13h18v5M21 13a3 3 0 0 0-3-3h-7v3"/><circle cx="7" cy="10.5" r="1.5"/></g></symbol>
+    <symbol id="i-bath" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-3zM6 12V6a2 2 0 0 1 4 0M7 19l-1 2M17 19l1 2"/></g></symbol>
+    <symbol id="i-area" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6"/></g></symbol>
+    <symbol id="i-fb" viewBox="0 0 24 24"><path fill="currentColor" d="M14 8.5V6.8c0-.8.2-1.3 1.4-1.3H17V2.6c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2H8.3v3.2h2.5V22H14v-10.3h2.6l.4-3.2H14z"/></symbol>
+    <symbol id="i-tg" viewBox="0 0 24 24"><path fill="currentColor" d="M21.6 4.2 18.4 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2L6.2 13.2 1.5 11.7c-1-.3-1-1 .2-1.5L20.2 3c.9-.3 1.6.2 1.4 1.2z"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path fill="currentColor" d="M17.8 3h3.1l-6.8 7.7 8 10.3h-6.2l-4.9-6.3L5.4 21H2.3l7.3-8.3L2 3h6.4l4.4 5.8L17.8 3zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></g></symbol>
+    <symbol id="i-sms" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></g></symbol>
+    <symbol id="i-more" viewBox="0 0 24 24"><g fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></g></symbol>
+    <symbol id="i-msg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.4 2 2 6.1 2 11.3c0 2.9 1.4 5.5 3.7 7.2V22l3.4-1.9c.9.3 1.9.4 2.9.4 5.6 0 10-4.1 10-9.3S17.6 2 12 2zm1 12.4-2.6-2.7-5 2.7 5.5-5.8 2.6 2.7 4.9-2.7-5.4 5.8z"/></symbol>
+  </defs>
+</svg>
+
 <div class="demo-bar">🎨 Site de démonstration. <a href="../index.html">Je veux un site comme celui-ci</a></div>
 
 <header>
   <div class="container head">
-    <a href="#" class="logo">Horizon <span>Immobilier</span></a>
-    <nav><a href="#biens">Nos biens</a><a href="#services">Services</a><a href="#contact">Contact</a></nav>
-    <a href="#contact" class="btn btn--gold" style="padding:10px 18px;font-size:15px">Confier un bien</a>
+    <a href="#" class="logo"><span class="logo__mark">H</span><span><b>Horizon</b><small>Immobilier · Lomé</small></span></a>
+    <nav>
+      <a href="#biens">Nos biens</a>
+      <a href="#categories">Catégories</a>
+      <a href="#demande">Faire une demande</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="head__actions">
+      <button class="fav-btn" id="favBtn" aria-label="Mes favoris"><svg class="i"><use href="#i-heart"/></svg><span id="favCount">0</span></button>
+      <a href="#demande" class="btn btn--gold">Faire une demande</a>
+      <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
   </div>
 </header>
 
-<section class="hero" style="padding-bottom:140px">
-  <div class="container">
-    <h1>Trouvez votre maison, votre appartement ou votre terrain à Lomé</h1>
-    <p>Location et vente de biens vérifiés dans tous les quartiers de Lomé. Visites organisées rapidement, accompagnement jusqu'à la signature.</p>
+<nav class="mmenu" id="mmenu" aria-hidden="true">
+  <div class="mmenu__in">
+    <p class="mmenu__label">Menu</p>
+    <a href="#biens" class="mlink">Nos biens <i>→</i></a>
+    <a href="#categories" class="mlink">Catégories <i>→</i></a>
+    <a href="#demande" class="mlink">Faire une demande <i>→</i></a>
+    <a href="#services" class="mlink">Nos services <i>→</i></a>
+    <a href="#proprietaires" class="mlink">Propriétaires <i>→</i></a>
+    <a href="#contact" class="mlink">Contact <i>→</i></a>
+    <div class="mmenu__cta">
+      <a href="#biens" class="btn btn--gold btn--full mclose">Voir tous les biens</a>
+      <a href="https://wa.me/22899315092?text=Bonjour%2C%20je%20cherche%20un%20bien%20%C3%A0%20Lom%C3%A9." target="_blank" rel="noopener" class="btn btn--wa btn--full mclose"><svg class="i"><use href="#i-wa"/></svg>Écrire sur WhatsApp</a>
+    </div>
+    <p class="mmenu__info">Hédzranawoé, Lomé · +228 99 31 50 92</p>
+  </div>
+</nav>
+
+<!-- ===== ACCUEIL ===== -->
+<section class="hero" style="padding:0">
+  <div class="hero__bg"></div>
+  <div class="container hero__in">
+    <span class="eyebrow">Agence immobilière à Lomé</span>
+    <h1>Trouvez le lieu où <em>votre vie</em> prend place.</h1>
+    <p>Villas, maisons, appartements, chambres et terrains vérifiés dans tous les quartiers de Lomé. Visite organisée en 24 h.</p>
+    <form class="search" id="heroSearch">
+      <div class="search__f"><label for="qText">Recherche</label><input id="qText" placeholder="Villa, piscine, Agoè…" autocomplete="off"></div>
+      <div class="search__f"><label for="qType">Type</label><select id="qType"><option value="">Tous les types</option></select></div>
+      <div class="search__f"><label for="qPlace">Quartier</label><select id="qPlace"><option value="">Tous les quartiers</option></select></div>
+      <div class="search__f"><label for="qDeal">Transaction</label><select id="qDeal"><option value="">Location ou vente</option><option value="location">Location</option><option value="vente">Vente</option></select></div>
+      <button class="btn btn--gold" type="submit">Rechercher</button>
+    </form>
   </div>
 </section>
 
-<div class="container">
-  <div class="search">
-    <label>Transaction<select id="fDeal"><option value="">Tout</option><option value="location">Location</option><option value="vente">Vente</option></select></label>
-    <label>Type de bien<select id="fType"><option value="">Tout</option><option>Maison</option><option>Appartement</option><option>Villa</option><option>Terrain</option><option>Bureau</option></select></label>
-    <label>Quartier<select id="fPlace"><option value="">Tous</option></select></label>
-    <label>Budget max<select id="fBudget"><option value="">Sans limite</option><option value="100000">100 000 F / mois</option><option value="250000">250 000 F / mois</option><option value="15000000">15 millions F</option><option value="50000000">50 millions F</option></select></label>
-    <button class="btn btn--blue" id="resetBtn" type="button">Réinitialiser</button>
+<div class="stats">
+  <div class="container stats__in">
+    <div class="stat"><b id="statCount">0</b><span>biens disponibles</span></div>
+    <div class="stat"><b>18</b><span>quartiers couverts</span></div>
+    <div class="stat"><b>24 h</b><span>pour organiser une visite</span></div>
+    <div class="stat"><b>100 %</b><span>documents vérifiés</span></div>
   </div>
 </div>
 
-<section id="biens">
+<!-- ===== CATÉGORIES ===== -->
+<section id="categories">
   <div class="container">
-    <h2 class="title">Nos biens disponibles</h2>
+    <div class="sec-head">
+      <div><span class="eyebrow eyebrow--dark">Explorer</span><h2>Que recherchez-vous ?</h2></div>
+      <p>Touchez une catégorie pour afficher les biens correspondants.</p>
+    </div>
+    <div class="cats" id="cats"></div>
+  </div>
+</section>
+
+<!-- ===== BIENS ===== -->
+<section id="biens" style="padding-top:20px">
+  <div class="container">
+    <div class="sec-head">
+      <div><span class="eyebrow eyebrow--dark">Catalogue</span><h2>Nos biens disponibles</h2></div>
+      <p>Chaque bien a été visité et vérifié par notre équipe. Discutez directement sur WhatsApp ou partagez-le à vos proches.</p>
+    </div>
+    <div class="toolbar">
+      <div class="seg" id="seg">
+        <button class="active" data-deal="">Tous</button>
+        <button data-deal="location">À louer</button>
+        <button data-deal="vente">À vendre</button>
+      </div>
+      <div class="sort"><label for="sortSel">Trier :</label>
+        <select id="sortSel"><option value="">Les plus récents</option><option value="asc">Prix croissant</option><option value="desc">Prix décroissant</option><option value="area">Plus grande surface</option></select>
+      </div>
+    </div>
+    <div class="chips" id="chips"></div>
     <p class="count" id="count"></p>
     <div class="grid" id="grid"></div>
+    <div class="more" id="moreWrap"><button class="btn btn--ink" id="moreBtn">Afficher plus de biens</button></div>
   </div>
 </section>
 
-<section class="alt" id="services">
+<!-- ===== FAIRE UNE DEMANDE ===== -->
+<section id="demande" style="padding-top:20px">
   <div class="container">
-    <h2 class="title">Nos services</h2>
-    <p class="sub">Un accompagnement complet, que vous cherchiez un logement ou que vous soyez propriétaire.</p>
-    <div class="services">
-      <div class="service"><div class="ico">🔑</div><h3>Location</h3><p>Maisons, appartements et bureaux vérifiés, adaptés à votre budget.</p></div>
-      <div class="service"><div class="ico">🏡</div><h3>Vente</h3><p>Achat de villas et de terrains avec documents contrôlés.</p></div>
-      <div class="service"><div class="ico">📋</div><h3>Gestion locative</h3><p>Nous gérons vos locataires et vos loyers à votre place.</p></div>
-      <div class="service"><div class="ico">⚖️</div><h3>Conseil</h3><p>Aide pour les titres fonciers et les démarches administratives.</p></div>
-    </div>
-  </div>
-</section>
-
-<section id="contact">
-  <div class="container">
-    <div class="cta">
-      <div>
-        <h2>Vous êtes propriétaire ?</h2>
-        <p>Confiez-nous votre bien : nous trouvons des locataires ou des acheteurs sérieux.</p>
-        <p style="margin-top:8px">📍 Hédzranawoé, Lomé · 📞 +228 99 31 50 92</p>
+    <div class="req">
+      <div class="req__side">
+        <span class="eyebrow">Recherche personnalisée</span>
+        <h2>Faire une demande</h2>
+        <p>Vous ne trouvez pas le bien idéal ? Dites-nous ce que vous cherchez : nous le trouvons pour vous, y compris parmi nos biens non publiés.</p>
+        <ul class="req__steps">
+          <li><b>1</b><div><strong>Décrivez votre projet</strong><span>En moins d'une minute</span></div></li>
+          <li><b>2</b><div><strong>Nous cherchons pour vous</strong><span>Sélection de biens vérifiés</span></div></li>
+          <li><b>3</b><div><strong>Vous visitez</strong><span>Visite organisée en 24 h</span></div></li>
+        </ul>
+        <div class="summary"><p>Votre demande</p><div id="reqSummary">…</div></div>
       </div>
-      <a class="btn btn--gold" href="https://wa.me/22899315092?text=Bonjour%2C%20je%20souhaite%20confier%20un%20bien%20%C3%A0%20Horizon%20Immobilier." target="_blank" rel="noopener">Confier mon bien sur WhatsApp</a>
-    </div>
-  </div>
-</section>
 
-<footer>© 2026 Horizon Immobilier — Site réalisé par <a href="../index.html">WebPro Lomé</a></footer>
+      <form id="reqForm" novalidate>
+        <div class="q">
+          <span class="q__l">Je souhaite</span>
+          <div class="opts opts--big">
+            <input type="radio" name="projet" id="pj1" value="Louer" checked><label for="pj1"><b>🔑</b>Louer</label>
+            <input type="radio" name="projet" id="pj2" value="Acheter"><label for="pj2"><b>🏡</b>Acheter</label>
+            <input type="radio" name="projet" id="pj3" value="Confier mon bien"><label for="pj3"><b>🤝</b>Confier mon bien</label>
+          </div>
+        </div>
 
-<div class="modal" id="modal">
-  <div class="modal__box">
-    <button class="modal__close" id="closeModal" aria-label="Fermer">×</button>
-    <img id="mImg" alt="">
-    <div class="modal__content">
-      <div class="prop__price" id="mPrice"></div>
-      <h3 id="mTitle" style="font-size:24px;margin-top:4px"></h3>
-      <div class="prop__place" id="mPlace"></div>
-      <div class="prop__feat" id="mFeat"></div>
-      <p id="mDesc"></p>
-      <form id="visitForm">
-        <h4>Demander une visite</h4>
-        <input name="nom" placeholder="Votre nom" required>
-        <input name="date" type="date" required id="visitDate">
-        <button class="btn btn--wa" type="submit">Envoyer ma demande sur WhatsApp</button>
+        <div class="q">
+          <span class="q__l">Type de bien</span>
+          <div class="opts opts--types" id="reqTypes"></div>
+        </div>
+
+        <div class="q" id="qRooms">
+          <span class="q__l">Nombre de chambres <small>minimum</small></span>
+          <div class="opts opts--round">
+            <input type="radio" name="ch" id="c0" value="Peu importe" checked><label for="c0" class="wide">Peu importe</label>
+            <input type="radio" name="ch" id="c1" value="1"><label for="c1">1</label>
+            <input type="radio" name="ch" id="c2" value="2"><label for="c2">2</label>
+            <input type="radio" name="ch" id="c3" value="3"><label for="c3">3</label>
+            <input type="radio" name="ch" id="c4" value="4"><label for="c4">4</label>
+            <input type="radio" name="ch" id="c5" value="5 et plus"><label for="c5">5+</label>
+          </div>
+        </div>
+
+        <div class="q">
+          <label for="reqZone">Ville ou quartier souhaité</label>
+          <input class="inp" id="reqZone" name="zone" list="zones" placeholder="Ex : Agoè, Baguida, Kara, Kpalimé…">
+          <datalist id="zones"></datalist>
+        </div>
+
+        <div class="q" id="qBudget">
+          <span class="q__l" id="budgetLabel">Budget maximum</span>
+          <div class="budget">
+            <div class="budget__val" id="budgetVal"></div>
+            <input type="range" id="budget" name="budget" aria-labelledby="budgetLabel">
+            <div class="budget__ends"><span id="bMin"></span><span id="bMax"></span></div>
+          </div>
+        </div>
+
+        <div class="q">
+          <span class="q__l">Quand ?</span>
+          <div class="opts">
+            <input type="radio" name="quand" id="w1" value="Dès que possible" checked><label for="w1">⚡ Dès que possible</label>
+            <input type="radio" name="quand" id="w2" value="Dans 1 mois"><label for="w2">Dans 1 mois</label>
+            <input type="radio" name="quand" id="w3" value="Dans 3 mois ou plus"><label for="w3">Dans 3 mois +</label>
+          </div>
+        </div>
+
+        <div class="two-f">
+          <div class="q"><label for="reqName">Votre nom</label><input class="inp" id="reqName" name="nom" placeholder="Nom et prénom" autocomplete="name" required></div>
+          <div class="q"><label for="reqTel">Téléphone</label><input class="inp" id="reqTel" name="tel" type="tel" placeholder="+228 …" autocomplete="tel"></div>
+        </div>
+
+        <div class="q">
+          <label for="reqMore">Précisions <small style="font-weight:500;color:var(--muted)">facultatif</small></label>
+          <textarea class="inp" id="reqMore" name="details" placeholder="Superficie, meublé ou non, piscine, dates de séjour…"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn--wa req__send"><svg class="i"><use href="#i-wa"/></svg>Envoyer ma demande sur WhatsApp</button>
+        <p class="req__note">🔒 Gratuit et sans engagement · Réponse rapide de nos agents</p>
       </form>
     </div>
   </div>
+</section>
+
+<!-- ===== SERVICES ===== -->
+<section class="dark" id="services">
+  <div class="container">
+    <div class="sec-head">
+      <div><span class="eyebrow">Nos services</span><h2>Un accompagnement de A à Z</h2></div>
+      <p style="color:#a9b1bc">Que vous cherchiez un logement, un terrain ou que vous soyez propriétaire, nous nous occupons de tout.</p>
+    </div>
+    <div class="services">
+      <div class="service"><span class="num">01</span><h3>Location</h3><p>Chambres, appartements, maisons et villas vérifiés, adaptés à votre budget.</p></div>
+      <div class="service"><span class="num">02</span><h3>Vente</h3><p>Villas, maisons et terrains avec titres fonciers et documents contrôlés.</p></div>
+      <div class="service"><span class="num">03</span><h3>Gestion locative</h3><p>Recherche de locataires, encaissement des loyers et suivi de votre bien.</p></div>
+      <div class="service"><span class="num">04</span><h3>Conseil foncier</h3><p>Accompagnement pour les titres fonciers et les démarches administratives.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TÉMOIGNAGES ===== -->
+<section>
+  <div class="container">
+    <div class="sec-head"><div><span class="eyebrow eyebrow--dark">Témoignages</span><h2>Ils nous ont fait confiance</h2></div></div>
+    <div class="reviews">
+      <div class="review"><span class="stars">★★★★★</span><q>Nous avons trouvé notre appartement à Agoè en une semaine. Visite rapide, agent sérieux.</q><b>Kossi et Afi</b><span>Locataires</span></div>
+      <div class="review"><span class="stars">★★★★★</span><q>Achat de mon terrain en toute sécurité : tous les papiers ont été vérifiés avant la signature.</q><b>Edem M.</b><span>Acheteur, diaspora</span></div>
+      <div class="review"><span class="stars">★★★★★</span><q>Ils gèrent mes deux maisons depuis trois ans. Les loyers arrivent chaque mois, sans souci.</q><b>Mme Ayélé</b><span>Propriétaire</span></div>
+    </div>
+    <p class="demo-note">Témoignages d'exemple pour la démonstration.</p>
+  </div>
+</section>
+
+<!-- ===== PROPRIÉTAIRES ===== -->
+<section id="proprietaires" style="padding-top:0">
+  <div class="container">
+    <div class="owner">
+      <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1000&q=70" alt="Villa moderne" loading="lazy" data-fallback>
+      <div>
+        <span class="eyebrow">Propriétaires</span>
+        <h2>Confiez-nous votre bien</h2>
+        <p>Nous trouvons des locataires ou des acheteurs sérieux, rapidement.</p>
+        <ul><li>Photos professionnelles offertes</li><li>Visibilité sur notre site et nos réseaux</li><li>Locataires vérifiés</li></ul>
+        <a class="btn btn--gold" href="https://wa.me/22899315092?text=Bonjour%2C%20je%20souhaite%20confier%20un%20bien%20%C3%A0%20Horizon%20Immobilier." target="_blank" rel="noopener"><svg class="i"><use href="#i-wa"/></svg>Confier mon bien</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact" style="padding-top:0">
+  <div class="container contact">
+    <div class="contact__box">
+      <span class="eyebrow eyebrow--dark">Contact</span>
+      <h3>Passez nous voir</h3>
+      <ul>
+        <li><svg class="i" style="color:var(--gold)"><use href="#i-pin"/></svg>Hédzranawoé, Lomé, Togo</li>
+        <li>📞 <a href="tel:+22899315092">+228 99 31 50 92</a></li>
+        <li>🕘 Lundi – Samedi : 8 h – 19 h</li>
+        <li>💳 Espèces, T-Money, Flooz, virement</li>
+      </ul>
+      <a class="btn btn--wa btn--full" style="margin-top:18px" href="https://wa.me/22899315092?text=Bonjour%2C%20je%20cherche%20un%20bien%20%C3%A0%20Lom%C3%A9." target="_blank" rel="noopener"><svg class="i"><use href="#i-wa"/></svg>Discuter sur WhatsApp</a>
+    </div>
+    <iframe src="https://www.google.com/maps?q=H%C3%A9dzranawo%C3%A9%20Lom%C3%A9%20Togo&output=embed" loading="lazy" title="Carte"></iframe>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot">
+    <span>© 2026 Horizon Immobilier, Lomé</span>
+    <span>Site réalisé par <a href="../index.html">WebPro Lomé</a></span>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/22899315092?text=Bonjour%2C%20je%20cherche%20un%20bien%20%C3%A0%20Lom%C3%A9." target="_blank" rel="noopener" aria-label="WhatsApp"><svg><use href="#i-wa"/></svg></a>
+
+<!-- Fiche détaillée -->
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+    <button class="x" id="mClose" aria-label="Fermer">×</button>
+    <div class="gallery">
+      <div class="slides" id="slides"></div>
+      <button class="nav-arrow nav-arrow--l" id="prevImg" aria-label="Photo précédente">‹</button>
+      <button class="nav-arrow nav-arrow--r" id="nextImg" aria-label="Photo suivante">›</button>
+      <div class="dots" id="dots"></div>
+    </div>
+    <div class="sheet__body">
+      <div class="tags" style="position:static;margin-bottom:12px" id="mTags"></div>
+      <div class="sheet__price" id="mPrice"></div>
+      <h3 id="mTitle"></h3>
+      <div class="card__place"><svg class="i"><use href="#i-pin"/></svg><span id="mPlace"></span></div>
+      <div class="feats" id="mFeats"></div>
+      <p class="desc" id="mDesc"></p>
+      <div class="amen" id="mAmen"></div>
+      <h4>Demander une visite</h4>
+      <form class="visit" id="visitForm">
+        <input name="nom" placeholder="Votre nom" required>
+        <input name="date" type="date" id="visitDate" required>
+        <button class="btn btn--ink btn--full" style="grid-column:1/-1" type="submit">Envoyer ma demande de visite</button>
+      </form>
+      <p class="ref" id="mRef"></p>
+    </div>
+    <div class="sheet__foot">
+      <a class="btn btn--wa" id="mWa" target="_blank" rel="noopener"><svg class="i"><use href="#i-wa"/></svg>WhatsApp</a>
+      <button class="btn btn--share" id="mShare"><svg class="i"><use href="#i-share"/></svg>Partager</button>
+    </div>
+  </div>
 </div>
 
-<a class="wa-float" href="https://wa.me/22899315092?text=Bonjour%2C%20je%20cherche%20un%20bien%20%C3%A0%20Lom%C3%A9." target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+<!-- Partage -->
+<div class="share" id="share" aria-hidden="true">
+  <div class="share__box" role="dialog" aria-modal="true" aria-label="Partager ce bien">
+    <div class="share__grip"></div>
+    <div class="share__head"><img id="sImg" alt=""><div><b id="sTitle"></b><span id="sSub"></span></div></div>
+    <div class="share__grid">
+      <a id="sWa" target="_blank" rel="noopener"><span class="share__ico" style="background:#25d366"><svg><use href="#i-wa"/></svg></span>WhatsApp</a>
+      <a id="sFb" target="_blank" rel="noopener"><span class="share__ico" style="background:#1877f2"><svg><use href="#i-fb"/></svg></span>Facebook</a>
+      <a id="sMs" target="_blank" rel="noopener"><span class="share__ico" style="background:linear-gradient(135deg,#0695ff,#a334fa,#ff6968)"><svg><use href="#i-msg"/></svg></span>Messenger</a>
+      <a id="sTg" target="_blank" rel="noopener"><span class="share__ico" style="background:#229ed9"><svg><use href="#i-tg"/></svg></span>Telegram</a>
+      <a id="sX" target="_blank" rel="noopener"><span class="share__ico" style="background:#111"><svg><use href="#i-x"/></svg></span>X</a>
+      <a id="sSms"><span class="share__ico" style="background:#34c759"><svg><use href="#i-sms"/></svg></span>SMS</a>
+      <a id="sMail"><span class="share__ico" style="background:#8a6d3b"><svg><use href="#i-mail"/></svg></span>E-mail</a>
+      <button id="sMore" type="button"><span class="share__ico" style="background:#6f7681"><svg><use href="#i-more"/></svg></span>Autres</button>
+    </div>
+    <div class="copy"><input id="sLink" readonly aria-label="Lien du bien"><button id="sCopy" type="button">Copier le lien</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script>
   const WA = '22899315092';
+  const AGENCY = 'Horizon Immobilier';
+
+  // ===== Photos intérieures réutilisées dans les galeries =====
+  const IN = {
+    salon: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&q=70',
+    salon2: 'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=1200&q=70',
+    cuisine: 'https://images.unsplash.com/photo-1484154218962-a197022b5858?w=1200&q=70',
+    chambre: 'https://images.unsplash.com/photo-1540518614846-7eded433c457?w=1200&q=70',
+    chambre2: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=1200&q=70',
+    sdb: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=1200&q=70',
+    piscine: 'https://images.unsplash.com/photo-1576941089067-2de3c901e126?w=1200&q=70',
+    terrain2: 'https://images.unsplash.com/photo-1500076656116-558758c991c1?w=1200&q=70',
+    bureau2: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1200&q=70',
+  };
+  const U = id => `https://images.unsplash.com/${id}?w=1200&q=70`;
 
   // ===== Liste des biens : modifiez ici =====
+  // deal : 'location' (prix par mois) ou 'vente' (prix total)
   const PROPS = [
-    { id: 1, deal: 'location', type: 'Appartement', title: 'Appartement 3 pièces meublé', place: 'Agoè', price: 150000, ch: 2, sdb: 1, m2: 90,  img: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=900&q=70', desc: 'Appartement lumineux et meublé, au 1er étage d\'un immeuble sécurisé. Eau et électricité individuelles, parking.' },
-    { id: 2, deal: 'location', type: 'Maison',      title: 'Chambre-salon moderne',       place: 'Adidogomé', price: 60000,  ch: 1, sdb: 1, m2: 40,  img: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=900&q=70', desc: 'Chambre-salon carrelée avec douche interne, dans une cour calme. Proche des transports.' },
-    { id: 3, deal: 'vente',    type: 'Villa',       title: 'Villa 5 pièces avec piscine', place: 'Baguida', price: 85000000, ch: 4, sdb: 3, m2: 400, img: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=900&q=70', desc: 'Belle villa sur 600 m² de terrain, piscine, jardin et dépendance. Titre foncier disponible.' },
-    { id: 4, deal: 'vente',    type: 'Terrain',     title: 'Terrain d\'un lot (600 m²)',  place: 'Avédji', price: 12000000, ch: 0, sdb: 0, m2: 600, img: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=900&q=70', desc: 'Terrain plat et viabilisé, quartier en plein développement. Documents vérifiés.' },
-    { id: 5, deal: 'location', type: 'Villa',       title: 'Villa duplex 4 chambres',     place: 'Hédzranawoé', price: 450000, ch: 4, sdb: 3, m2: 250, img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=70', desc: 'Grande villa duplex avec garage pour 2 voitures, groupe électrogène et gardien.' },
-    { id: 6, deal: 'location', type: 'Bureau',      title: 'Espace de bureau 120 m²',     place: 'Tokoin', price: 300000, ch: 0, sdb: 1, m2: 120, img: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=70', desc: 'Bureaux climatisés sur un grand axe, idéal pour une entreprise ou une ONG.' },
-    { id: 7, deal: 'vente',    type: 'Maison',      title: 'Maison 4 pièces',             place: 'Agoè', price: 32000000, ch: 3, sdb: 2, m2: 180, img: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=900&q=70', desc: 'Maison familiale sur un demi-lot, cour carrelée, forage. Libre immédiatement.' },
-    { id: 8, deal: 'location', type: 'Appartement', title: 'Studio meublé',               place: 'Bè', price: 90000, ch: 1, sdb: 1, m2: 35, img: 'https://images.unsplash.com/photo-1554995207-c18c203602cb?w=900&q=70', desc: 'Studio meublé et climatisé, idéal pour une personne seule ou un séjour.' },
-    { id: 9, deal: 'vente',    type: 'Terrain',     title: 'Terrain de 2 lots',           place: 'Baguida', price: 28000000, ch: 0, sdb: 0, m2: 1200, img: 'https://images.unsplash.com/photo-1628624747186-a941c476b7ef?w=900&q=70', desc: 'Deux lots côte à côte, proche de la route nationale. Idéal pour un projet immobilier.' },
+    { id: 101, deal: 'vente', type: 'Villa', title: 'Villa contemporaine avec piscine', place: 'Baguida', price: 185000000, ch: 5, sdb: 5, m2: 520, tags: ['Exclusif'], imgs: [U('photo-1613490493576-7fde63acd811'), IN.piscine, IN.salon, IN.chambre, IN.sdb], amen: ['Piscine', 'Titre foncier', 'Garage 3 voitures', 'Groupe électrogène', 'Jardin', 'Gardien'], desc: 'Somptueuse villa sur 900 m² de terrain, à quelques minutes de la plage. Grands volumes lumineux, cuisine équipée, suite parentale avec dressing et piscine à débordement.' },
+    { id: 102, deal: 'location', type: 'Villa', title: 'Villa duplex meublée 4 chambres', place: 'Hédzranawoé', price: 650000, ch: 4, sdb: 4, m2: 300, tags: ['Meublée'], imgs: [U('photo-1600585154340-be6161a56a0c'), IN.salon2, IN.cuisine, IN.chambre2], amen: ['Meublée', 'Climatisation', 'Groupe électrogène', 'Forage', 'Gardien'], desc: 'Villa duplex haut standing, entièrement meublée et climatisée. Idéale pour expatriés, diplomates ou cadres. Quartier calme et sécurisé.' },
+    { id: 103, deal: 'vente', type: 'Maison', title: 'Maison familiale 4 pièces', place: 'Agoè', price: 32000000, ch: 3, sdb: 2, m2: 180, tags: ['Nouveau'], imgs: [U('photo-1568605114967-8130f3a36994'), IN.salon, IN.chambre], amen: ['Titre foncier', 'Forage', 'Cour carrelée', 'Compteur CEET'], desc: 'Belle maison familiale sur un demi-lot, cour carrelée, forage et compteur électrique individuel. Libre immédiatement.' },
+    { id: 104, deal: 'location', type: 'Appartement', title: 'Appartement 3 pièces meublé', place: 'Agoè', price: 150000, ch: 2, sdb: 1, m2: 90, tags: [], imgs: [U('photo-1522708323590-d24dbb6b0267'), IN.cuisine, IN.chambre2], amen: ['Meublé', 'Parking', 'Eau et électricité individuelles'], desc: 'Appartement lumineux au premier étage d\'un immeuble sécurisé. Salon spacieux, cuisine équipée et deux chambres.' },
+    { id: 105, deal: 'location', type: 'Chambre', title: 'Chambre-salon moderne', place: 'Adidogomé', price: 45000, ch: 1, sdb: 1, m2: 32, tags: ['Petit budget'], imgs: [U('photo-1502672260266-1c1ef2d93688'), IN.chambre], amen: ['Douche interne', 'Carrelée', 'Compteur personnel'], desc: 'Chambre-salon carrelée avec douche et toilettes internes, dans une cour calme et propre. Proche des transports.' },
+    { id: 106, deal: 'vente', type: 'Terrain', title: 'Terrain d\'un lot viabilisé', place: 'Avédji', price: 12000000, ch: 0, sdb: 0, m2: 600, tags: [], imgs: [U('photo-1500382017468-9049fed747ef'), IN.terrain2], amen: ['Titre foncier', 'Viabilisé', 'Accès route'], desc: 'Terrain plat et viabilisé dans un quartier en plein développement. Documents vérifiés, idéal pour construire votre maison.' },
+    { id: 107, deal: 'location', type: 'Chambre', title: 'Chambre meublée climatisée', place: 'Tokoin', price: 60000, ch: 1, sdb: 1, m2: 25, tags: ['Meublée'], imgs: [U('photo-1631049307264-da0ec9d70304'), IN.sdb], amen: ['Climatisation', 'Meublée', 'Wi-Fi', 'Eau chaude'], desc: 'Chambre meublée et climatisée avec salle d\'eau privée. Parfaite pour étudiant ou jeune actif. Wi-Fi inclus.' },
+    { id: 108, deal: 'vente', type: 'Villa', title: 'Villa 5 pièces avec jardin', place: 'Lomé 2', price: 95000000, ch: 4, sdb: 3, m2: 380, tags: [], imgs: [U('photo-1512917774080-9991f1c4c750'), IN.salon2, IN.chambre, IN.cuisine], amen: ['Titre foncier', 'Jardin', 'Dépendance', 'Garage'], desc: 'Villa élégante dans un quartier résidentiel recherché, avec grand jardin arboré et dépendance pour le personnel.' },
+    { id: 109, deal: 'location', type: 'Maison', title: 'Maison 3 chambres avec cour', place: 'Kégué', price: 200000, ch: 3, sdb: 2, m2: 160, tags: [], imgs: [U('photo-1570129477492-45c003edd2be'), IN.salon, IN.chambre2], amen: ['Cour privée', 'Forage', 'Parking'], desc: 'Maison indépendante avec grande cour privée, idéale pour une famille. Quartier calme et accessible.' },
+    { id: 110, deal: 'vente', type: 'Terrain', title: 'Terrain de 2 lots en bordure de route', place: 'Baguida', price: 28000000, ch: 0, sdb: 0, m2: 1200, tags: ['Bonne affaire'], imgs: [U('photo-1628624747186-a941c476b7ef'), IN.terrain2], amen: ['Titre foncier', 'Bord de route', 'Proche plage'], desc: 'Deux lots côte à côte en bordure de route, proche de la nationale. Idéal pour un projet immobilier ou commercial.' },
+    { id: 111, deal: 'location', type: 'Appartement', title: 'Studio meublé tout confort', place: 'Bè', price: 90000, ch: 1, sdb: 1, m2: 35, tags: ['Meublé'], imgs: [U('photo-1554995207-c18c203602cb'), IN.cuisine], amen: ['Climatisation', 'Meublé', 'Cuisine équipée'], desc: 'Studio meublé et climatisé, cuisine américaine équipée. Idéal pour une personne seule ou un séjour de quelques mois.' },
+    { id: 112, deal: 'location', type: 'Bureau', title: 'Plateau de bureaux 120 m²', place: 'Tokoin', price: 350000, ch: 0, sdb: 2, m2: 120, tags: [], imgs: [U('photo-1497366216548-37526070297c'), IN.bureau2], amen: ['Climatisation', 'Parking', 'Fibre optique', 'Grand axe'], desc: 'Bureaux climatisés et modulables sur un grand axe, idéal pour une entreprise, un cabinet ou une ONG.' },
+    { id: 113, deal: 'vente', type: 'Maison', title: 'Maison R+1 neuve', place: 'Adidogomé', price: 55000000, ch: 4, sdb: 3, m2: 240, tags: ['Neuve'], imgs: [U('photo-1564013799919-ab600027ffc6'), IN.salon2, IN.chambre, IN.sdb], amen: ['Neuve', 'Titre foncier', 'Terrasse', 'Forage'], desc: 'Maison neuve à étage, finitions soignées, grande terrasse au premier niveau. Prête à habiter.' },
+    { id: 114, deal: 'location', type: 'Chambre', title: 'Entrée-couchée économique', place: 'Agoè', price: 25000, ch: 1, sdb: 0, m2: 16, tags: ['Petit budget'], imgs: [U('photo-1595526114035-0d45ed16cfbf')], amen: ['Douche commune', 'Cour propre'], desc: 'Entrée-couchée propre dans une cour calme, douche commune. Idéale pour un petit budget.' },
+    { id: 115, deal: 'location', type: 'Villa', title: 'Villa basse 3 chambres', place: 'Avépozo', price: 300000, ch: 3, sdb: 2, m2: 220, tags: [], imgs: [U('photo-1580587771525-78b9dba3b914'), IN.salon, IN.chambre2], amen: ['Jardin', 'Garage', 'Gardien', 'Proche plage'], desc: 'Villa basse avec jardin et garage, à proximité de la plage d\'Avépozo. Calme et sécurisée.' },
+    { id: 116, deal: 'vente', type: 'Terrain', title: 'Demi-lot résidentiel', place: 'Légbassito', price: 4500000, ch: 0, sdb: 0, m2: 300, tags: ['Petit budget'], imgs: [U('photo-1464226184884-fa280b87c399'), IN.terrain2], amen: ['Reçu de vente', 'Zone résidentielle'], desc: 'Demi-lot dans une zone résidentielle en développement, accessible à tous les budgets. Paiement échelonné possible.' },
+    { id: 117, deal: 'location', type: 'Appartement', title: 'Appartement 4 pièces standing', place: 'Nyékonakpoè', price: 280000, ch: 3, sdb: 2, m2: 140, tags: ['Standing'], imgs: [U('photo-1560448204-e02f11c3d0e2'), IN.salon2, IN.cuisine, IN.chambre], amen: ['Climatisation', 'Ascenseur', 'Parking', 'Gardien'], desc: 'Appartement de standing dans une résidence sécurisée, proche du centre-ville et des ambassades.' },
+    { id: 118, deal: 'vente', type: 'Villa', title: 'Villa moderne 4 chambres', place: 'Agoè', price: 68000000, ch: 4, sdb: 4, m2: 320, tags: [], imgs: [U('photo-1600047509807-ba8f99d2cdde'), IN.salon, IN.cuisine, IN.chambre2], amen: ['Titre foncier', 'Toutes chambres autonomes', 'Garage', 'Forage'], desc: 'Villa moderne avec quatre chambres autonomes, salon double et garage. Quartier très demandé.' },
+    { id: 119, deal: 'location', type: 'Chambre', title: 'Chambre-salon avec terrasse', place: 'Djidjolé', price: 55000, ch: 1, sdb: 1, m2: 38, tags: [], imgs: [U('photo-1505693416388-ac5ce068fe85'), IN.chambre], amen: ['Terrasse', 'Douche interne', 'Compteur personnel'], desc: 'Chambre-salon lumineuse avec petite terrasse privée, à l\'étage. Douche et toilettes internes.' },
+    { id: 120, deal: 'vente', type: 'Maison', title: 'Maison 3 pièces à finir', place: 'Sagbado', price: 15000000, ch: 2, sdb: 1, m2: 120, tags: ['Bonne affaire'], imgs: [U('photo-1583608205776-bfd35f0d9f83')], amen: ['Reçu de vente', 'Demi-lot', 'Structure solide'], desc: 'Maison en fin de construction sur un demi-lot. Une belle opportunité pour un premier achat.' },
+    { id: 121, deal: 'location', type: 'Bureau', title: 'Local commercial sur grand axe', place: 'Adakpamé', price: 180000, ch: 0, sdb: 1, m2: 70, tags: [], imgs: [U('photo-1497366811353-6870744d04b2'), IN.bureau2], amen: ['Vitrine', 'Grand axe', 'Parking'], desc: 'Local commercial avec vitrine sur un axe très passant. Idéal boutique, pharmacie ou agence.' },
+    { id: 122, deal: 'vente', type: 'Terrain', title: 'Terrain de 3 lots titré', place: 'Kégué', price: 75000000, ch: 0, sdb: 0, m2: 1800, tags: ['Exclusif'], imgs: [U('photo-1500076656116-558758c991c1'), IN.terrain2], amen: ['Titre foncier', 'Viabilisé', 'Clôturé'], desc: 'Grand terrain titré et clôturé de 3 lots, en zone résidentielle. Idéal pour un projet de villas ou d\'immeuble.' },
   ];
 
-  const fcfa = n => n >= 1000000
-    ? (n / 1000000).toLocaleString('fr-FR') + ' millions F'
-    : n.toLocaleString('fr-FR').replace(/ | /g, ' ') + ' F';
-  const priceLabel = p => fcfa(p.price) + (p.deal === 'location' ? ' <small>/ mois</small>' : '');
-  const feats = p => [
-    p.ch ? `🛏️ ${p.ch} chambre${p.ch > 1 ? 's' : ''}` : '',
-    p.sdb ? `🚿 ${p.sdb} douche${p.sdb > 1 ? 's' : ''}` : '',
-    `📐 ${p.m2} m²`,
-  ].filter(Boolean).map(f => `<span>${f}</span>`).join('');
+  // ===== Outils =====
+  const $ = s => document.querySelector(s);
+  const nf = n => n.toLocaleString('fr-FR').replace(/ | /g, ' ');
+  const priceTxt = p => p.price >= 1e6 ? `${nf(+(p.price / 1e6).toFixed(1))} million${p.price >= 2e6 ? 's' : ''} F` : `${nf(p.price)} F`;
+  const priceHtml = p => priceTxt(p) + (p.deal === 'location' ? ' <small>/ mois</small>' : '');
+  const placeTxt = p => `${p.place}, Lomé`;
+  const featsHtml = p => [
+    p.ch ? `<span><svg><use href="#i-bed"/></svg>${p.ch} ch.</span>` : '',
+    p.sdb ? `<span><svg><use href="#i-bath"/></svg>${p.sdb} douche${p.sdb > 1 ? 's' : ''}</span>` : '',
+    `<span><svg><use href="#i-area"/></svg>${nf(p.m2)} m²</span>`,
+  ].join('');
+  const tagsHtml = p => `<span class="tag ${p.deal === 'location' ? 'tag--rent' : 'tag--sale'}">${p.deal === 'location' ? 'À louer' : 'À vendre'}</span>` + p.tags.map(t => `<span class="tag tag--hot">${t}</span>`).join('');
+  const linkOf = p => `${location.origin === 'null' ? location.href.split('#')[0] : location.origin + location.pathname}#bien-${p.id}`;
+  const shareText = p => `🏠 ${p.title} — ${priceTxt(p)}${p.deal === 'location' ? ' / mois' : ''} à ${p.place}, Lomé (${AGENCY})`;
+  const waLink = p => `https://wa.me/${WA}?text=${encodeURIComponent(`Bonjour ${AGENCY} 👋\n\nJe suis intéressé(e) par ce bien :\n🏠 ${p.title}\n📍 ${placeTxt(p)}\n💰 ${priceTxt(p)}${p.deal === 'location' ? ' / mois' : ''}\nRéf. ${p.id}\n\n${linkOf(p)}\n\nEst-il toujours disponible ?`)}`;
 
-  // Quartiers dans le filtre
-  const fPlace = document.getElementById('fPlace');
-  [...new Set(PROPS.map(p => p.place))].sort().forEach(q => fPlace.insertAdjacentHTML('beforeend', `<option>${q}</option>`));
+  // Image de secours si une photo ne charge pas
+  const FALLBACK = 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1c2430"/><stop offset="1" stop-color="#3a3326"/></linearGradient></defs><rect width="400" height="300" fill="url(#g)"/><path d="M140 175l60-50 60 50v55h-120z" fill="none" stroke="#c9a45c" stroke-width="5" stroke-linejoin="round"/><rect x="186" y="195" width="28" height="35" fill="#c9a45c"/></svg>`);
+  document.addEventListener('error', e => {
+    const img = e.target;
+    if (img.tagName === 'IMG' && img.src !== FALLBACK) img.src = FALLBACK;
+  }, true);
 
-  const filters = ['fDeal', 'fType', 'fPlace', 'fBudget'].map(id => document.getElementById(id));
+  // Favoris (mémorisés dans le navigateur quand c'est possible)
+  let favs = [];
+  try { favs = JSON.parse(localStorage.getItem('horizon-favs') || '[]'); } catch (e) { favs = []; }
+  const saveFavs = () => { try { localStorage.setItem('horizon-favs', JSON.stringify(favs)); } catch (e) {} $('#favCount').textContent = favs.length; };
+
+  function toast(msg) {
+    const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+    clearTimeout(toast.timer); toast.timer = setTimeout(() => t.classList.remove('show'), 2200);
+  }
+
+  // ===== Filtres =====
+  const TYPES = ['Villa', 'Maison', 'Appartement', 'Chambre', 'Terrain', 'Bureau'];
+  const TYPE_LABEL = { Villa: 'Villas', Maison: 'Maisons', Appartement: 'Appartements', Chambre: 'Chambres', Terrain: 'Terrains', Bureau: 'Bureaux & locaux' };
+  const TYPE_IMG = { Villa: U('photo-1613490493576-7fde63acd811'), Maison: U('photo-1568605114967-8130f3a36994'), Appartement: U('photo-1522708323590-d24dbb6b0267'), Chambre: IN.chambre, Terrain: U('photo-1500382017468-9049fed747ef'), Bureau: U('photo-1497366216548-37526070297c') };
+  const state = { deal: '', type: '', place: '', q: '', sort: '', favOnly: false, shown: 9 };
+
+  TYPES.forEach(t => $('#qType').insertAdjacentHTML('beforeend', `<option value="${t}">${TYPE_LABEL[t]}</option>`));
+  [...new Set(PROPS.map(p => p.place))].sort().forEach(q => $('#qPlace').insertAdjacentHTML('beforeend', `<option>${q}</option>`));
+  $('#statCount').textContent = PROPS.length;
+
+  $('#cats').innerHTML = TYPES.map(t => `<button class="cat" data-type="${t}"><img src="${TYPE_IMG[t].replace('w=1200', 'w=600')}" alt="" loading="lazy"><div><b>${TYPE_LABEL[t]}</b><span>${PROPS.filter(p => p.type === t).length} biens</span></div></button>`).join('');
+  $('#chips').innerHTML = `<button class="chip active" data-type="">Tout</button>` + TYPES.map(t => `<button class="chip" data-type="${t}">${TYPE_LABEL[t]}</button>`).join('') + `<button class="chip" data-fav="1">♥ Mes favoris</button>`;
+
+  function filtered() {
+    const q = state.q.trim().toLowerCase();
+    let list = PROPS.filter(p =>
+      (!state.deal || p.deal === state.deal) && (!state.type || p.type === state.type) && (!state.place || p.place === state.place) &&
+      (!state.favOnly || favs.includes(p.id)) &&
+      (!q || `${p.title} ${p.place} ${p.type} ${p.amen.join(' ')}`.toLowerCase().includes(q)));
+    if (state.sort === 'asc') list = [...list].sort((a, b) => a.price - b.price);
+    if (state.sort === 'desc') list = [...list].sort((a, b) => b.price - a.price);
+    if (state.sort === 'area') list = [...list].sort((a, b) => b.m2 - a.m2);
+    return list;
+  }
+
   function render() {
-    const [deal, type, place, budget] = filters.map(f => f.value);
-    const list = PROPS.filter(p =>
-      (!deal || p.deal === deal) && (!type || p.type === type) && (!place || p.place === place) &&
-      (!budget || p.price <= +budget));
-    document.getElementById('count').textContent = `${list.length} bien${list.length > 1 ? 's' : ''} trouvé${list.length > 1 ? 's' : ''}`;
-    document.getElementById('grid').innerHTML = list.length ? list.map(p => `
-      <article class="prop" data-id="${p.id}">
-        <div class="prop__img"><img src="${p.img}" alt="${p.title}" loading="lazy"><span class="prop__deal deal-${p.deal}">${p.deal === 'location' ? 'À louer' : 'À vendre'}</span></div>
-        <div class="prop__body">
-          <div class="prop__price">${priceLabel(p)}</div>
-          <h3>${p.title}</h3>
-          <div class="prop__place">📍 ${p.place}, Lomé</div>
-          <div class="prop__feat">${feats(p)}</div>
+    const list = filtered(), shown = list.slice(0, state.shown);
+    $('#count').innerHTML = `<b>${list.length}</b> bien${list.length > 1 ? 's' : ''} trouvé${list.length > 1 ? 's' : ''}`;
+    $('#grid').innerHTML = shown.length ? shown.map((p, i) => `
+      <article class="card" style="animation-delay:${(i % 9) * 50}ms">
+        <div class="card__media" data-open="${p.id}">
+          <img src="${p.imgs[0].replace('w=1200', 'w=800')}" alt="${p.title}" loading="lazy">
+          <div class="tags">${tagsHtml(p)}</div>
+          <div class="card__price">${priceHtml(p)}</div>
+          <span class="card__photos">📷 ${p.imgs.length}</span>
+        </div>
+        <button class="heart ${favs.includes(p.id) ? 'on' : ''}" data-fav="${p.id}" aria-label="Ajouter aux favoris"><svg class="i"><use href="#i-heart"/></svg></button>
+        <div class="card__body">
+          <span class="card__type">${p.type} · Réf. ${p.id}</span>
+          <h3 data-open="${p.id}">${p.title}</h3>
+          <div class="card__place"><svg class="i"><use href="#i-pin"/></svg>${placeTxt(p)}</div>
+          <div class="feats">${featsHtml(p)}</div>
+          <div class="card__actions">
+            <a class="btn btn--wa" href="${waLink(p)}" target="_blank" rel="noopener"><svg class="i"><use href="#i-wa"/></svg>WhatsApp</a>
+            <button class="btn btn--share" data-share="${p.id}"><svg class="i"><use href="#i-share"/></svg>Partager</button>
+          </div>
         </div>
       </article>`).join('')
-      : '<div class="empty">Aucun bien ne correspond. Écrivez-nous sur WhatsApp : nous avons d\'autres biens non publiés.</div>';
+      : `<div class="empty"><b>Aucun bien ne correspond</b>${state.favOnly ? 'Touchez le ♥ d\'un bien pour l\'ajouter à vos favoris.' : 'Faites une demande personnalisée : nous avons d\'autres biens non publiés. <br><a href="#demande" class="btn btn--gold" style="margin-top:14px">Faire une demande</a>'}</div>`;
+    $('#moreWrap').style.display = list.length > state.shown ? '' : 'none';
+    // Le cœur se place sur l'image (la carte est le parent positionné)
+    document.querySelectorAll('.card').forEach(c => c.style.position = 'relative');
   }
-  filters.forEach(f => f.addEventListener('change', render));
-  document.getElementById('resetBtn').onclick = () => { filters.forEach(f => f.value = ''); render(); };
-  render();
 
-  // Fiche détaillée
-  const modal = document.getElementById('modal');
-  let current = null;
-  document.getElementById('grid').addEventListener('click', e => {
-    const card = e.target.closest('.prop'); if (!card) return;
-    current = PROPS.find(p => p.id === +card.dataset.id);
-    document.getElementById('mImg').src = current.img;
-    document.getElementById('mPrice').innerHTML = priceLabel(current);
-    document.getElementById('mTitle').textContent = current.title;
-    document.getElementById('mPlace').textContent = `📍 ${current.place}, Lomé · ${current.deal === 'location' ? 'Location' : 'Vente'}`;
-    document.getElementById('mFeat').innerHTML = feats(current);
-    document.getElementById('mDesc').textContent = current.desc;
-    modal.classList.add('show'); document.body.classList.add('locked');
+  function setType(t, scroll) {
+    state.type = t; state.favOnly = false; state.shown = 9;
+    document.querySelectorAll('#chips .chip').forEach(c => c.classList.toggle('active', !c.dataset.fav && c.dataset.type === t));
+    $('#qType').value = t;
+    render();
+    if (scroll) $('#biens').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  $('#cats').addEventListener('click', e => { const c = e.target.closest('.cat'); if (c) setType(c.dataset.type, true); });
+  $('#chips').addEventListener('click', e => {
+    const c = e.target.closest('.chip'); if (!c) return;
+    if (c.dataset.fav) {
+      state.favOnly = true; state.type = '';
+      document.querySelectorAll('#chips .chip').forEach(x => x.classList.toggle('active', x === c));
+      render();
+    } else setType(c.dataset.type);
   });
-  const close = () => { modal.classList.remove('show'); document.body.classList.remove('locked'); };
-  document.getElementById('closeModal').onclick = close;
-  modal.onclick = e => { if (e.target === modal) close(); };
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+  $('#seg').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    document.querySelectorAll('#seg button').forEach(x => x.classList.toggle('active', x === b));
+    state.deal = b.dataset.deal; $('#qDeal').value = state.deal; state.shown = 9; render();
+  });
+  $('#sortSel').addEventListener('change', e => { state.sort = e.target.value; render(); });
+  $('#moreBtn').addEventListener('click', () => { state.shown += 9; render(); });
+  $('#heroSearch').addEventListener('submit', e => {
+    e.preventDefault();
+    state.q = $('#qText').value; state.place = $('#qPlace').value; state.deal = $('#qDeal').value;
+    document.querySelectorAll('#seg button').forEach(x => x.classList.toggle('active', x.dataset.deal === state.deal));
+    setType($('#qType').value, true);
+  });
+  $('#favBtn').addEventListener('click', () => { $('#chips [data-fav]').click(); $('#biens').scrollIntoView({ behavior: 'smooth' }); });
 
-  const vd = document.getElementById('visitDate');
-  vd.min = vd.value = new Date().toISOString().split('T')[0];
+  // Clics sur les cartes
+  $('#grid').addEventListener('click', e => {
+    const fav = e.target.closest('[data-fav]');
+    if (fav) {
+      const id = +fav.dataset.fav;
+      favs = favs.includes(id) ? favs.filter(x => x !== id) : [...favs, id];
+      saveFavs(); fav.classList.toggle('on');
+      toast(favs.includes(id) ? '♥ Ajouté à vos favoris' : 'Retiré de vos favoris');
+      if (state.favOnly) render();
+      return;
+    }
+    const sh = e.target.closest('[data-share]'); if (sh) return openShare(+sh.dataset.share);
+    const op = e.target.closest('[data-open]'); if (op) openProp(+op.dataset.open);
+  });
 
-  document.getElementById('visitForm').addEventListener('submit', e => {
+  // ===== Fiche détaillée =====
+  const modal = $('#modal'), slides = $('#slides');
+  let current = null;
+  function openProp(id, fromHash) {
+    current = PROPS.find(p => p.id === id); if (!current) return;
+    slides.innerHTML = current.imgs.map(src => `<img src="${src}" alt="${current.title}">`).join('');
+    $('#dots').innerHTML = current.imgs.length > 1 ? current.imgs.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('') : '';
+    document.querySelectorAll('.nav-arrow').forEach(a => a.style.display = current.imgs.length > 1 ? '' : 'none');
+    slides.scrollLeft = 0;
+    $('#mTags').innerHTML = tagsHtml(current);
+    $('#mPrice').innerHTML = priceHtml(current);
+    $('#mTitle').textContent = current.title;
+    $('#mPlace').textContent = placeTxt(current);
+    $('#mFeats').innerHTML = featsHtml(current);
+    $('#mDesc').textContent = current.desc;
+    $('#mAmen').innerHTML = current.amen.map(a => `<span>✓ ${a}</span>`).join('');
+    $('#mRef').textContent = `Référence du bien : ${current.id} · ${current.type}`;
+    $('#mWa').href = waLink(current);
+    modal.classList.add('show'); modal.setAttribute('aria-hidden', 'false'); document.body.classList.add('locked');
+    if (!fromHash) history.replaceState(null, '', `#bien-${id}`);
+  }
+  function closeProp() {
+    modal.classList.remove('show'); modal.setAttribute('aria-hidden', 'true');
+    if (!$('#share').classList.contains('show')) document.body.classList.remove('locked');
+    if (location.hash.startsWith('#bien-')) history.replaceState(null, '', location.pathname + location.search);
+  }
+  $('#mClose').onclick = closeProp;
+  modal.addEventListener('click', e => { if (e.target === modal) closeProp(); });
+  $('#mShare').onclick = () => openShare(current.id);
+  slides.addEventListener('scroll', () => {
+    const i = Math.round(slides.scrollLeft / slides.clientWidth);
+    document.querySelectorAll('#dots i').forEach((d, k) => d.classList.toggle('on', k === i));
+  }, { passive: true });
+  $('#prevImg').onclick = () => slides.scrollBy({ left: -slides.clientWidth, behavior: 'smooth' });
+  $('#nextImg').onclick = () => slides.scrollBy({ left: slides.clientWidth, behavior: 'smooth' });
+
+  const vd = $('#visitDate'); vd.min = vd.value = new Date().toISOString().split('T')[0];
+  $('#visitForm').addEventListener('submit', e => {
     e.preventDefault();
     const d = new FormData(e.target);
     const date = new Date(d.get('date') + 'T00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
-    const msg = `🏠 *Demande de visite — Horizon Immobilier*\n\nBien : ${current.title} (réf. ${current.id})\nQuartier : ${current.place}\nPrix : ${fcfa(current.price)}${current.deal === 'location' ? ' / mois' : ''}\n\nNom : ${d.get('nom')}\nDate souhaitée : ${date}`;
+    const msg = `📅 *Demande de visite — ${AGENCY}*\n\n🏠 ${current.title} (Réf. ${current.id})\n📍 ${placeTxt(current)}\n💰 ${priceTxt(current)}${current.deal === 'location' ? ' / mois' : ''}\n\nNom : ${d.get('nom')}\nDate souhaitée : ${date}`;
     window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank');
   });
+
+  // ===== Partage =====
+  const share = $('#share');
+  function openShare(id) {
+    const p = PROPS.find(x => x.id === id); if (!p) return;
+    const url = linkOf(p), text = shareText(p), eu = encodeURIComponent(url), et = encodeURIComponent(text);
+    $('#sImg').src = p.imgs[0].replace('w=1200', 'w=200');
+    $('#sTitle').textContent = p.title;
+    $('#sSub').textContent = `${priceTxt(p)}${p.deal === 'location' ? ' / mois' : ''} · ${p.place}`;
+    $('#sWa').href = `https://wa.me/?text=${encodeURIComponent(text + '\n👉 ' + url)}`;
+    $('#sFb').href = `https://www.facebook.com/sharer/sharer.php?u=${eu}`;
+    $('#sMs').href = `fb-messenger://share/?link=${eu}`;
+    $('#sTg').href = `https://t.me/share/url?url=${eu}&text=${et}`;
+    $('#sX').href = `https://twitter.com/intent/tweet?url=${eu}&text=${et}`;
+    $('#sSms').href = `sms:?&body=${encodeURIComponent(text + ' ' + url)}`;
+    $('#sMail').href = `mailto:?subject=${encodeURIComponent(p.title + ' — ' + AGENCY)}&body=${encodeURIComponent(text + '\n\n' + url)}`;
+    $('#sLink').value = url;
+    $('#sMore').style.display = navigator.share ? '' : 'none';
+    $('#sMore').onclick = () => navigator.share({ title: p.title, text, url }).catch(() => {});
+    share.classList.add('show'); share.setAttribute('aria-hidden', 'false'); document.body.classList.add('locked');
+  }
+  function closeShare() {
+    share.classList.remove('show'); share.setAttribute('aria-hidden', 'true');
+    if (!modal.classList.contains('show')) document.body.classList.remove('locked');
+  }
+  share.addEventListener('click', e => { if (e.target === share) closeShare(); });
+  share.querySelectorAll('.share__grid a').forEach(a => a.addEventListener('click', () => setTimeout(closeShare, 300)));
+  $('#sCopy').onclick = async () => {
+    const v = $('#sLink').value;
+    try { await navigator.clipboard.writeText(v); }
+    catch (e) { $('#sLink').select(); try { document.execCommand('copy'); } catch (x) {} }
+    toast('🔗 Lien copié !');
+  };
+
+  // ===== Faire une demande =====
+  const reqForm = $('#reqForm'), budget = $('#budget');
+  $('#reqTypes').innerHTML = [['Villa', '🏰'], ['Maison', '🏠'], ['Appartement', '🏢'], ['Chambre', '🛏️'], ['Terrain', '🌳'], ['Bureau', '💼']]
+    .map(([t, e], i) => `<input type="radio" name="type" id="rt${i}" value="${t}" ${i === 1 ? 'checked' : ''}><label for="rt${i}">${e} ${t}</label>`).join('');
+  $('#zones').innerHTML = [...new Set([...PROPS.map(p => p.place), 'Kara', 'Kpalimé', 'Atakpamé', 'Aného', 'Tsévié'])].sort().map(z => `<option value="${z}">`).join('');
+
+  const BUDGET = {
+    Louer:   { min: 20000,   max: 1000000,   step: 5000,   val: 150000,   suffix: ' / mois' },
+    Acheter: { min: 2000000, max: 300000000, step: 500000, val: 30000000, suffix: '' },
+  };
+  const money = n => n >= 1e6 ? `${nf(+(n / 1e6).toFixed(1))} million${n >= 2e6 ? 's' : ''} F` : `${nf(n)} F`;
+  let mode = null;
+  function setBudgetMode() {
+    const projet = reqForm.projet.value, cfg = BUDGET[projet];
+    $('#qBudget').classList.toggle('hidden-q', !cfg);
+    if (!cfg || mode === projet) return;
+    mode = projet;
+    Object.assign(budget, { min: cfg.min, max: cfg.max, step: cfg.step, value: cfg.val });
+    $('#bMin').textContent = money(cfg.min); $('#bMax').textContent = money(cfg.max) + '+';
+    $('#budgetLabel').textContent = projet === 'Louer' ? 'Loyer maximum' : 'Budget maximum';
+  }
+  function budgetTxt() {
+    const cfg = BUDGET[reqForm.projet.value]; if (!cfg) return '';
+    const v = +budget.value;
+    return (v >= cfg.max ? `${money(cfg.max)} et plus` : `jusqu'à ${money(v)}`) + cfg.suffix;
+  }
+  function updateReq() {
+    setBudgetMode();
+    const projet = reqForm.projet.value, type = reqForm.type.value, ch = reqForm.ch.value, zone = $('#reqZone').value.trim();
+    const noRooms = ['Terrain', 'Bureau'].includes(type);
+    $('#qRooms').classList.toggle('hidden-q', noRooms);
+    const cfg = BUDGET[projet];
+    if (cfg) {
+      budget.style.setProperty('--p', ((budget.value - cfg.min) / (cfg.max - cfg.min) * 100) + '%');
+      const v = +budget.value;
+      $('#budgetVal').innerHTML = `${v >= cfg.max ? money(cfg.max) + '+' : money(v)}<small>${cfg.suffix}</small>`;
+    }
+    const verb = { Louer: 'Je cherche à louer', Acheter: 'Je cherche à acheter', 'Confier mon bien': 'Je souhaite confier' }[projet];
+    const art = { Villa: 'une villa', Maison: 'une maison', Appartement: 'un appartement', Chambre: 'une chambre', Terrain: 'un terrain', Bureau: 'un bureau' }[type];
+    let s = `${verb} <em>${art}</em>`;
+    if (!noRooms && ch !== 'Peu importe' && type !== 'Chambre') s += `, <em>${ch} ch.</em> min.`;
+    if (zone) s += ` à <em>${zone}</em>`;
+    if (cfg) s += `, <em>${budgetTxt()}</em>`;
+    $('#reqSummary').innerHTML = s + '.';
+  }
+  reqForm.addEventListener('input', updateReq);
+  reqForm.addEventListener('change', updateReq);
+  updateReq();
+
+  reqForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = $('#reqName');
+    if (!name.value.trim()) { name.focus(); toast('Indiquez votre nom 🙏'); return; }
+    const f = reqForm, type = f.type.value, noRooms = ['Terrain', 'Bureau'].includes(type);
+    let msg = `🏠 *Nouvelle demande — ${AGENCY}*\n\n`;
+    msg += `📌 Projet : ${f.projet.value}\n🏷️ Type : ${type}\n`;
+    if (!noRooms) msg += `🛏️ Chambres : ${f.ch.value}\n`;
+    if ($('#reqZone').value.trim()) msg += `📍 Zone : ${$('#reqZone').value.trim()}\n`;
+    if (BUDGET[f.projet.value]) msg += `💰 Budget : ${budgetTxt()}\n`;
+    msg += `⏱️ Quand : ${f.quand.value}\n\n👤 ${name.value.trim()}`;
+    if ($('#reqTel').value.trim()) msg += `\n📞 ${$('#reqTel').value.trim()}`;
+    if ($('#reqMore').value.trim()) msg += `\n\n📝 ${$('#reqMore').value.trim()}`;
+    window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank');
+  });
+
+  // ===== Menu mobile =====
+  const burger = $('#burger'), mmenu = $('#mmenu');
+  function toggleMenu(open) {
+    const r = burger.getBoundingClientRect();
+    mmenu.style.setProperty('--cx', (r.left + r.width / 2) + 'px');
+    mmenu.style.setProperty('--cy', (r.top + r.height / 2) + 'px');
+    burger.classList.toggle('open', open); mmenu.classList.toggle('open', open);
+    document.body.classList.toggle('locked', open);
+    burger.setAttribute('aria-expanded', open); mmenu.setAttribute('aria-hidden', !open);
+  }
+  burger.addEventListener('click', () => toggleMenu(!mmenu.classList.contains('open')));
+  mmenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+  addEventListener('resize', () => { if (innerWidth > 860 && mmenu.classList.contains('open')) toggleMenu(false); });
+
+  // Échap ferme ce qui est ouvert
+  addEventListener('keydown', e => {
+    if (e.key !== 'Escape') return;
+    if (share.classList.contains('show')) closeShare();
+    else if (modal.classList.contains('show')) closeProp();
+    else if (mmenu.classList.contains('open')) toggleMenu(false);
+  });
+
+  // Lien partagé : ouvre directement le bon bien (ex : immobilier.html#bien-101)
+  function fromHash() {
+    const m = location.hash.match(/^#bien-(\d+)$/);
+    if (m) openProp(+m[1], true);
+  }
+  addEventListener('hashchange', fromHash);
+
+  saveFavs();
+  render();
+  fromHash();
 </script>
 </body>
 </html>
